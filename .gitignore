@@ -1,0 +1,27 @@
+!.idea/
+.idea/*
+!codeStyleSettings.xml
+
+captures/
+
+*.iml
+.gradle
+local.properties
+.DS_Store
+build
+.externalNativeBuild
+.cxx
+
+# Eclipse relicts
+.settings
+bin
+gen
+project.properties
+core/libs/
+/core/src-gen/**/.gitignore
+
+adblogcat.emulator*.log
+release
+
+gitlog.json
+default.txt

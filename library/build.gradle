@@ -1,0 +1,42 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 29
+
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'x86', 'x86_64', 'arm64-v8a', 'armeabi'
+            universalApk true
+        }
+    }
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 29
+        versionCode 1
+        versionName "0.1"
+        renderscriptTargetApi 24
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.12'
+    api project(':openCVLibrary340')
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.exifinterface:exifinterface:1.1.0'
+    implementation 'com.google.android.gms:play-services-basement:17.1.1'
+    implementation 'com.google.android.gms:play-services-vision:19.0.0'
+    implementation 'online.devliving:mobilevision-pipeline:1.0.7'
+}
+
+
