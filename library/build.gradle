@@ -30,7 +30,7 @@ android {
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     api project(':openCVLibrary340')
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.exifinterface:exifinterface:1.1.0'
