@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/grp1" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_simple_scan"
+            android:icon="@drawable/ic_camera_iris"
+            android:title="Simple scan" />
+        <item
+            android:id="@+id/nav_passport"
+            android:icon="@drawable/ic_tag_faces"
+            android:title="Passport scan" />
+        <item
+            android:id="@+id/nav_camera"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Camera" />
+        <item
+            android:id="@+id/nav_image_manipulation"
+            android:icon="@drawable/ic_image_filter_black_white"
+            android:title="upp comming feature" />
+        <item
+            android:id="@+id/nav_color_blob_detection"
+            android:icon="@drawable/ic_palette"
+            android:title="upp comming feature" />
+        <item
+            android:id="@+id/nav_camera_calibration"
+            android:icon="@drawable/ic_camera_callibration"
+            android:title="upp comming feature" />
+        <item
+            android:id="@+id/nav_puzzle15"
+            android:icon="@drawable/ic_puzzle"
+            android:title="upp comming feature" />
+    </group>
+
+</menu>

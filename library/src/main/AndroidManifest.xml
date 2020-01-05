@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="devliving.online.cvscanner">
+    package="info.hannes.cvscanner">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -16,17 +16,17 @@
         android:supportsRtl="true">
 
         <activity
-            android:name=".DocumentScannerActivity"
+            android:name="info.hannes.cvscanner.DocumentScannerActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/CVScannerTheme" />
 
         <activity
-            android:name=".crop.CropImageActivity"
+            android:name="info.hannes.cvscanner.crop.CropImageActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/CVScannerTheme" />
 
         <provider
-            android:name=".util.CVFileProvider"
+            android:name="info.hannes.cvscanner.util.CVFileProvider"
             android:authorities="${applicationId}.cvscanner.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">

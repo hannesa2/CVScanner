@@ -17,7 +17,7 @@ allprojects {
 And following to app level build.gradle
 ```groovy
 dependencies {
-    implementation 'com.github.hannesaa2:CVScanner:-SNAPSHOT'
+    implementation 'com.github.hannesa2:CVScanner:-SNAPSHOT'
 }
  ```
  
