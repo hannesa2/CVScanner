@@ -1,5 +1,8 @@
 package info.hannes.cvscanner;
 
+import android.content.Context;
+import android.os.Vibrator;
+
 import com.google.android.gms.vision.Frame;
 
 import org.opencv.core.Point;
@@ -13,10 +16,15 @@ public class Document {
 
     private Frame image;
     CVProcessor.Quadrilateral detectedQuad;
+    private static final int HAPTIC_FEEDBACK_LENGTH = 30;
 
-    public Document(Frame image, CVProcessor.Quadrilateral detectedQuad) {
+    public Document(Frame image, CVProcessor.Quadrilateral detectedQuad, Vibrator hapticFeedback) {
         this.image = image;
         this.detectedQuad = detectedQuad;
+
+        if (hapticFeedback != null) {
+            hapticFeedback.vibrate(HAPTIC_FEEDBACK_LENGTH);
+        }
     }
 
     public Frame getImage() {

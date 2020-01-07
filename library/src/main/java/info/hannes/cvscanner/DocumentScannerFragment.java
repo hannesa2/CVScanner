@@ -63,7 +63,7 @@ public class DocumentScannerFragment extends BaseFragment implements View.OnTouc
 
     private boolean isPassport = false;
 
-    public static DocumentScannerFragment instantiate(boolean isPassport) {
+    public static DocumentScannerFragment instantiate(boolean isPassport, Context context) {
         DocumentScannerFragment fragment = new DocumentScannerFragment();
         Bundle args = new Bundle();
         args.putBoolean(DocumentScannerActivity.EXTRA_IS_PASSPORT, isPassport);
@@ -210,9 +210,9 @@ public class DocumentScannerFragment extends BaseFragment implements View.OnTouc
     @SuppressLint("InlinedApi")
     private void createCameraSource() {
         if (isPassport) {
-            IDDetector = new PassportDetector(mFrameSizeProvider);
+            IDDetector = new PassportDetector(mFrameSizeProvider, requireContext());
         } else
-            IDDetector = new DocumentDetector();
+            IDDetector = new DocumentDetector(requireContext());
 
         /*
         DocumentTrackerFactory factory = new DocumentTrackerFactory(mGraphicOverlay, this);

@@ -99,7 +99,7 @@ public class DocumentScannerActivity extends AppCompatActivity implements CVScan
 
             fragment = DocumentScannerFragment.instantiate(isScanningPassport, borderColor, bodyColor, torchTintColor, torchTintLightColor);
         } else {
-            fragment = DocumentScannerFragment.instantiate(isScanningPassport);
+            fragment = DocumentScannerFragment.instantiate(isScanningPassport, this);
         }
 
         getSupportFragmentManager().beginTransaction()

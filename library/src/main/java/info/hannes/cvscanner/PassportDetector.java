@@ -1,7 +1,9 @@
 package info.hannes.cvscanner;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Environment;
+import android.os.Vibrator;
 import android.util.SparseArray;
 
 import androidx.annotation.NonNull;
@@ -28,11 +30,13 @@ import online.devliving.mobilevisionpipeline.Util;
 
 public class PassportDetector extends Detector<Document> {
 
+    private final Vibrator mHapticFeedback;
     private Util.FrameSizeProvider frameSizeProvider;
 
-    public PassportDetector(@NonNull Util.FrameSizeProvider sizeProvider) {
+    public PassportDetector(@NonNull Util.FrameSizeProvider sizeProvider, Context context) {
         super();
         this.frameSizeProvider = sizeProvider;
+        mHapticFeedback = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
     }
 
     @Override
@@ -112,7 +116,7 @@ public class PassportDetector extends Detector<Document> {
                 quad.points[i] = shiftPointToOld(quad.points[i], shiftX, shiftY);
             }
 
-            return new Document(frame, quad);
+            return new Document(frame, quad, mHapticFeedback);
         }
 
         return null;

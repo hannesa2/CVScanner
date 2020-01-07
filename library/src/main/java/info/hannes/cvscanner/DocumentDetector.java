@@ -1,5 +1,7 @@
 package info.hannes.cvscanner;
 
+import android.content.Context;
+import android.os.Vibrator;
 import android.util.SparseArray;
 
 import com.google.android.gms.vision.Detector;
@@ -17,8 +19,11 @@ import info.hannes.cvscanner.util.CVProcessor;
 
 public class DocumentDetector extends Detector<Document> {
 
-    public DocumentDetector() {
+    private final Vibrator mHapticFeedback;
+
+    public DocumentDetector(Context context) {
         super();
+        mHapticFeedback = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
     }
 
     @Override
@@ -45,7 +50,7 @@ public class DocumentDetector extends Detector<Document> {
 
             if (quad != null) {
                 quad.points = CVProcessor.getUpscaledPoints(quad.points, CVProcessor.getScaleRatio(imageSize));
-                return new Document(frame, quad);
+                return new Document(frame, quad, mHapticFeedback);
             }
         }
 
