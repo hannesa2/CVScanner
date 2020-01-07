@@ -21,7 +21,7 @@ public class DocumentTracker extends Tracker<Document> {
     public void onNewItem(int i, Document document) {
         mGraphic.setId(i);
 
-        if(mListener != null){
+        if (mListener != null) {
             mListener.onDocumentDetected(document);
         }
     }
@@ -42,7 +42,7 @@ public class DocumentTracker extends Tracker<Document> {
         mOverlay.remove(mGraphic);
     }
 
-    public interface DocumentDetectionListener{
+    public interface DocumentDetectionListener {
         void onDocumentDetected(Document document);
     }
 }

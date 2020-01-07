@@ -23,20 +23,17 @@ import com.google.android.gms.common.GoogleApiAvailability;
 
 
 public class DocumentScannerActivity extends AppCompatActivity implements CVScanner.ImageProcessorCallback {
-    private static final String TAG = "ID-reader";
-
-    // intent request code to handle updating play services if needed.
-    private static final int RC_HANDLE_GMS = 9001;
-
-    // permission request codes need to be < 256
-    private static final int RC_HANDLE_CAMERA_PERM = 2;
-
     // constants used to pass extra data in the intent
     public static final String EXTRA_DOCUMENT_BORDER_COLOR = "border_color";
     public static final String EXTRA_DOCUMENT_BODY_COLOR = "body_color";
     public static final String EXTRA_TORCH_TINT_COLOR = "torch_tint_color";
     public static final String EXTRA_TORCH_TINT_COLOR_LIGHT = "torch_tint_color_light";
     public static final String EXTRA_IS_PASSPORT = "is_passport";
+    private static final String TAG = "ID-reader";
+    // intent request code to handle updating play services if needed.
+    private static final int RC_HANDLE_GMS = 9001;
+    // permission request codes need to be < 256
+    private static final int RC_HANDLE_CAMERA_PERM = 2;
 
     @Override
     public void onCreate(Bundle icicle) {

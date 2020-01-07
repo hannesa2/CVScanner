@@ -30,10 +30,18 @@ import android.view.KeyEvent;
 
 public abstract class ImageViewTouchBase extends androidx.appcompat.widget.AppCompatImageView {
 
+    public static final int TRANSITION_DURATION = 500;
+    static final float SCALE_RATE = 1.25F;
     @SuppressWarnings("unused")
     private static final String TAG = "ImageViewTouchBase";
-    public static final int TRANSITION_DURATION = 500;
+    // The current bitmap being displayed.
+    final protected RotateBitmap mBitmapDisplayed = new RotateBitmap(null);
+    // This is the final matrix which is computed as the concatenation
+    // of the base matrix and the supplementary matrix.
+    private final Matrix mDisplayMatrix = new Matrix();
 
+    // Temporary buffer used for getting the values out of a matrix.
+    private final float[] mMatrixValues = new float[9];
     // This is the base transformation which is used to show the image
     // initially.  The current computation for this shows the image in
     // it's entirety, letterboxing as needed.  One could choose to
@@ -42,31 +50,30 @@ public abstract class ImageViewTouchBase extends androidx.appcompat.widget.AppCo
     // This matrix is recomputed when we go from the thumbnail image to
     // the full size image.
     protected Matrix mBaseMatrix = new Matrix();
-
     // This is the supplementary transformation which reflects what
     // the user has done in terms of zooming and panning.
     //
     // This matrix remains the same when we go from the thumbnail image
     // to the full size image.
     protected Matrix mSuppMatrix = new Matrix();
-
-    // This is the final matrix which is computed as the concatenation
-    // of the base matrix and the supplementary matrix.
-    private final Matrix mDisplayMatrix = new Matrix();
-
-    // Temporary buffer used for getting the values out of a matrix.
-    private final float[] mMatrixValues = new float[9];
-
-    // The current bitmap being displayed.
-    final protected RotateBitmap mBitmapDisplayed = new RotateBitmap(null);
-
+    protected Handler mHandler = new Handler();
     int mThisWidth = -1, mThisHeight = -1;
-
     float mMaxZoom;
     int mLeft;
     int mRight;
     int mTop;
     int mBottom;
+    private Runnable mOnLayoutRunnable = null;
+
+    public ImageViewTouchBase(Context context) {
+        super(context);
+        init();
+    }
+
+    public ImageViewTouchBase(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init();
+    }
 
     @Override
     protected void onLayout(boolean changed, int left, int top,
@@ -99,8 +106,6 @@ public abstract class ImageViewTouchBase extends androidx.appcompat.widget.AppCo
         }
         return super.onKeyDown(keyCode, event);
     }
-
-    protected Handler mHandler = new Handler();
 
     @Override
     public void setImageBitmap(Bitmap bitmap) {
@@ -165,8 +170,6 @@ public abstract class ImageViewTouchBase extends androidx.appcompat.widget.AppCo
             }
         }
     }
-
-    private Runnable mOnLayoutRunnable = null;
 
     // This function changes bitmap, reset base matrix according to the size
     // of the bitmap, and optionally reset the supplementary matrix.
@@ -250,16 +253,6 @@ public abstract class ImageViewTouchBase extends androidx.appcompat.widget.AppCo
         setImageMatrix(getImageViewMatrix());
     }
 
-    public ImageViewTouchBase(Context context) {
-        super(context);
-        init();
-    }
-
-    public ImageViewTouchBase(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
-    }
-
     private void init() {
         setScaleType(ScaleType.MATRIX);
     }
@@ -311,8 +304,6 @@ public abstract class ImageViewTouchBase extends androidx.appcompat.widget.AppCo
         mDisplayMatrix.postConcat(mSuppMatrix);
         return mDisplayMatrix;
     }
-
-    static final float SCALE_RATE = 1.25F;
 
     // Sets the maximum zoom, which is a scale relative to the base matrix. It
     // is calculated to show the image at 400% zoom regardless of screen or

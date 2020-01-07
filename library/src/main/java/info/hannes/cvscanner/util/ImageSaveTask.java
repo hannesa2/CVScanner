@@ -84,13 +84,15 @@ public class ImageSaveTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String path) {
-        if(path!= null) mCallback.onSaved(path);
+        if (path != null) mCallback.onSaved(path);
         else mCallback.onSaveFailed(new Exception("could not save image"));
     }
 
-    public interface SaveCallback{
+    public interface SaveCallback {
         void onSaveTaskStarted();
+
         void onSaved(String savedPath);
+
         void onSaveFailed(Exception error);
     }
 }

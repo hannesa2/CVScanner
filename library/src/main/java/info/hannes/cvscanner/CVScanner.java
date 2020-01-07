@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
+
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
@@ -17,24 +18,20 @@ import info.hannes.cvscanner.util.Util;
 
 public final class CVScanner {
 
-    public interface ImageProcessorCallback{
-        void onImageProcessingFailed(String reason, @Nullable Exception error);
-        void onImageProcessed(String imagePath);
-    }
-
     public static String RESULT_IMAGE_PATH = "result_image_path";
 
-    public static String getFileproviderName(Context context){
+    public static String getFileproviderName(Context context) {
         return context.getPackageName() + ".cvscanner.fileprovider";
     }
 
-    public static @Nullable Uri startCameraIntent(Activity context, int reqCode) throws IOException {
+    public static @Nullable
+    Uri startCameraIntent(Activity context, int reqCode) throws IOException {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(context.getPackageManager()) != null) {
             // Create the File where the photo should go
             Uri photoUri = Util.createTempFile(context,
-                    "IMG_" + System.currentTimeMillis() , ".jpg",
+                    "IMG_" + System.currentTimeMillis(), ".jpg",
                     true);
 
             // Continue only if the File was successfully created
@@ -52,7 +49,7 @@ public final class CVScanner {
         return null;
     }
 
-    public static void startScanner(Activity activity, boolean isPassport, int reqCode){
+    public static void startScanner(Activity activity, boolean isPassport, int reqCode) {
         Intent i = new Intent(activity, DocumentScannerActivity.class);
         i.putExtra(DocumentScannerActivity.EXTRA_IS_PASSPORT, isPassport);
         activity.startActivityForResult(i, reqCode);
@@ -63,27 +60,27 @@ public final class CVScanner {
                                     @ColorRes int docBodyColorRes,
                                     @ColorRes int torchColor,
                                     @ColorRes int torchColorLight
-    ){
+    ) {
         Intent i = new Intent(activity, DocumentScannerActivity.class);
         i.putExtra(DocumentScannerActivity.EXTRA_IS_PASSPORT, isPassport);
         i.putExtra(DocumentScannerActivity.EXTRA_DOCUMENT_BODY_COLOR, docBodyColorRes);
         i.putExtra(DocumentScannerActivity.EXTRA_DOCUMENT_BORDER_COLOR, docBorderColorRes);
         i.putExtra(DocumentScannerActivity.EXTRA_TORCH_TINT_COLOR, torchColor);
         i.putExtra(DocumentScannerActivity.EXTRA_TORCH_TINT_COLOR_LIGHT, torchColorLight);
-        
+
         activity.startActivityForResult(i, reqCode);
     }
 
-    public static void startManualCropper(Activity activity, Uri inputImageUri, int reqCode){
+    public static void startManualCropper(Activity activity, Uri inputImageUri, int reqCode) {
         Intent intent = new Intent(activity, CropImageActivity.class);
 
         intent.putExtra(CropImageActivity.EXTRA_IMAGE_URI, inputImageUri.toString());
         activity.startActivityForResult(intent, reqCode);
     }
 
-    public  static void startManualCropper(Activity activity, Uri imageUri, int reqCode, @ColorRes int buttonTint,
-                                           @ColorRes int buttonTintSecondary, @DrawableRes int rotateLeftIconRes,
-                                           @DrawableRes int rotateRightIconRes, @DrawableRes int saveButtonIconRes){
+    public static void startManualCropper(Activity activity, Uri imageUri, int reqCode, @ColorRes int buttonTint,
+                                          @ColorRes int buttonTintSecondary, @DrawableRes int rotateLeftIconRes,
+                                          @DrawableRes int rotateRightIconRes, @DrawableRes int saveButtonIconRes) {
         Intent intent = new Intent(activity, CropImageActivity.class);
 
         intent.putExtra(CropImageActivity.EXTRA_IMAGE_URI, imageUri.toString());
@@ -94,5 +91,11 @@ public final class CVScanner {
         intent.putExtra(CropImageActivity.EXTRA_SAVE_IMAGE_RES, saveButtonIconRes);
 
         activity.startActivityForResult(intent, reqCode);
+    }
+
+    public interface ImageProcessorCallback {
+        void onImageProcessingFailed(String reason, @Nullable Exception error);
+
+        void onImageProcessed(String imagePath);
     }
 }

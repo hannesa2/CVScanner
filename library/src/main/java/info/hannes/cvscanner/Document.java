@@ -34,7 +34,7 @@ public class Document {
         this.detectedQuad = detectedQuad;
     }
 
-    public int getMaxArea(){
+    public int getMaxArea() {
         Point tl = detectedQuad.points[0];
         Point tr = detectedQuad.points[1];
         Point br = detectedQuad.points[2];

@@ -24,16 +24,16 @@ import android.view.MotionEvent;
 
 
 public class CropImageView extends ImageViewTouchBase {
-    public interface CropImageViewHost{
-        boolean isBusy();
-    }
-
     private HighLightView mCropHighlightView = null;
     private boolean mIsMoving = false;
     private float mLastX, mLastY;
     private int mMotionEdge;
-
     private CropImageViewHost mHost;
+
+    public CropImageView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        if (context instanceof CropImageViewHost) mHost = (CropImageViewHost) context;
+    }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
@@ -42,11 +42,6 @@ public class CropImageView extends ImageViewTouchBase {
             mCropHighlightView.getMatrix().set(getImageMatrix());
             centerBasedOnHighlightView(mCropHighlightView);
         }
-    }
-
-    public CropImageView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        if(context instanceof CropImageViewHost) mHost = (CropImageViewHost) context;
     }
 
     @Override
@@ -148,7 +143,7 @@ public class CropImageView extends ImageViewTouchBase {
 
     @Override
     public void onZoomFinished() {
-        if(mCropHighlightView != null){
+        if (mCropHighlightView != null) {
             ensureVisible(mCropHighlightView);
         }
     }
@@ -205,7 +200,6 @@ public class CropImageView extends ImageViewTouchBase {
         }
     }
 
-
     public void add(HighLightView hv) {
         mCropHighlightView = hv;
         invalidate();
@@ -217,5 +211,9 @@ public class CropImageView extends ImageViewTouchBase {
 
     public void resetMaxZoom() {
         mMaxZoom = maxZoom();
+    }
+
+    public interface CropImageViewHost {
+        boolean isBusy();
     }
 }

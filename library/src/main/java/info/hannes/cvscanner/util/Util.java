@@ -74,7 +74,7 @@ public final class Util {
     }
 
     /**
-     * @param imageName          without extension
+     * @param imageName without extension
      */
     public static String saveImage(Context context, String imageName, @NonNull Mat img, boolean useExternalStorage) throws IOException {
         String imagePath = null;

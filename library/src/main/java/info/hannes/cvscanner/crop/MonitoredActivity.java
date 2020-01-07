@@ -18,8 +18,9 @@
 package info.hannes.cvscanner.crop;
 
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
@@ -28,40 +29,6 @@ public abstract class MonitoredActivity extends AppCompatActivity {
     private static final String LOG_TAG = MonitoredActivity.class.getSimpleName();
 
     private final ArrayList<LifeCycleListener> mListeners = new ArrayList<>();
-
-    public interface LifeCycleListener {
-        void onActivityCreated(MonitoredActivity activity);
-
-        void onActivityDestroyed(MonitoredActivity activity);
-
-        void onActivityPaused(MonitoredActivity activity);
-
-        void onActivityResumed(MonitoredActivity activity);
-
-        void onActivityStarted(MonitoredActivity activity);
-
-        void onActivityStopped(MonitoredActivity activity);
-    }
-
-    public static class LifeCycleAdapter implements LifeCycleListener {
-        public void onActivityCreated(MonitoredActivity activity) {
-        }
-
-        public void onActivityDestroyed(MonitoredActivity activity) {
-        }
-
-        public void onActivityPaused(MonitoredActivity activity) {
-        }
-
-        public void onActivityResumed(MonitoredActivity activity) {
-        }
-
-        public void onActivityStarted(MonitoredActivity activity) {
-        }
-
-        public void onActivityStopped(MonitoredActivity activity) {
-        }
-    }
 
     public synchronized void addLifeCycleListener(LifeCycleListener listener) {
         if (mListeners.contains(listener))
@@ -126,12 +93,46 @@ public abstract class MonitoredActivity extends AppCompatActivity {
     }
 
     @Override
-    protected synchronized  void onStop() {
+    protected synchronized void onStop() {
         super.onStop();
         final ArrayList<LifeCycleListener> lifeCycleListeners = copyListeners();
         for (LifeCycleListener listener : lifeCycleListeners) {
             listener.onActivityStopped(this);
         }
         Log.i(LOG_TAG, "onStop: " + this.getClass());
+    }
+
+    public interface LifeCycleListener {
+        void onActivityCreated(MonitoredActivity activity);
+
+        void onActivityDestroyed(MonitoredActivity activity);
+
+        void onActivityPaused(MonitoredActivity activity);
+
+        void onActivityResumed(MonitoredActivity activity);
+
+        void onActivityStarted(MonitoredActivity activity);
+
+        void onActivityStopped(MonitoredActivity activity);
+    }
+
+    public static class LifeCycleAdapter implements LifeCycleListener {
+        public void onActivityCreated(MonitoredActivity activity) {
+        }
+
+        public void onActivityDestroyed(MonitoredActivity activity) {
+        }
+
+        public void onActivityPaused(MonitoredActivity activity) {
+        }
+
+        public void onActivityResumed(MonitoredActivity activity) {
+        }
+
+        public void onActivityStarted(MonitoredActivity activity) {
+        }
+
+        public void onActivityStopped(MonitoredActivity activity) {
+        }
     }
 }

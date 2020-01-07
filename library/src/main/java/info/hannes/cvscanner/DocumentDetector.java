@@ -20,7 +20,7 @@ public class DocumentDetector extends Detector<Document> {
 
     Context mContext;
 
-    public DocumentDetector(Context context){
+    public DocumentDetector(Context context) {
         super();
         mContext = context;
     }
@@ -28,7 +28,7 @@ public class DocumentDetector extends Detector<Document> {
     @Override
     public SparseArray<Document> detect(Frame frame) {
         SparseArray<Document> detections = new SparseArray<>();
-        if(frame.getBitmap() != null) {
+        if (frame.getBitmap() != null) {
             Document doc = detectDocument(frame);
 
             if (doc != null) detections.append(frame.getMetadata().getId(), doc);
@@ -37,17 +37,17 @@ public class DocumentDetector extends Detector<Document> {
         return detections;
     }
 
-    Document detectDocument(Frame frame){
+    Document detectDocument(Frame frame) {
         Size imageSize = new Size(frame.getMetadata().getWidth(), frame.getMetadata().getHeight());
         Mat src = new Mat();
         Utils.bitmapToMat(frame.getBitmap(), src);
         List<MatOfPoint> contours = CVProcessor.findContours(src);
         src.release();
 
-        if(!contours.isEmpty()){
+        if (!contours.isEmpty()) {
             CVProcessor.Quadrilateral quad = CVProcessor.getQuadrilateral(contours, imageSize);
 
-            if(quad != null){
+            if (quad != null) {
                 quad.points = CVProcessor.getUpscaledPoints(quad.points, CVProcessor.getScaleRatio(imageSize));
                 return new Document(frame, quad);
             }

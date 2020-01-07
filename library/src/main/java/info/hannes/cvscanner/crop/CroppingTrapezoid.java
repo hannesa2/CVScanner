@@ -156,18 +156,18 @@ public class CroppingTrapezoid {
 
     private float capDy(float dy, Rect boundingRect) {
         if ((boundingRect.bottom + dy) >= mImageRect.bottom) {
-            dy = mImageRect.bottom-boundingRect.bottom;
+            dy = mImageRect.bottom - boundingRect.bottom;
         } else if ((boundingRect.top + dy) <= mImageRect.top) {
-            dy = mImageRect.top-boundingRect.top;
+            dy = mImageRect.top - boundingRect.top;
         }
         return dy;
     }
 
     private float capDx(float dx, Rect boundingRect) {
         if ((boundingRect.right + dx) >= mImageRect.right) {
-            dx = mImageRect.right-boundingRect.right;
+            dx = mImageRect.right - boundingRect.right;
         } else if (mImageRect.left >= (boundingRect.left + dx)) {
-            dx = mImageRect.left-boundingRect.left;
+            dx = mImageRect.left - boundingRect.left;
         }
         return dx;
     }

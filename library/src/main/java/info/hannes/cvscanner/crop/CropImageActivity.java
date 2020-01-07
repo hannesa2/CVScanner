@@ -19,12 +19,13 @@ package info.hannes.cvscanner.crop;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import info.hannes.cvscanner.CVScanner;
 import info.hannes.cvscanner.R;
@@ -56,7 +57,7 @@ public class CropImageActivity extends AppCompatActivity implements CVScanner.Im
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
-        if(getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
 
@@ -67,23 +68,22 @@ public class CropImageActivity extends AppCompatActivity implements CVScanner.Im
     protected void onResume() {
         super.onResume();
 
-        if(getSupportFragmentManager().getFragments() == null || getSupportFragmentManager().getFragments().size() == 0){
+        if (getSupportFragmentManager().getFragments() == null || getSupportFragmentManager().getFragments().size() == 0) {
             addCropperFragment();
         }
     }
 
-    void addCropperFragment(){
+    void addCropperFragment() {
         Uri imageUri = null;
         Bundle extras = getIntent().getExtras();
-        if(extras != null){
+        if (extras != null) {
             imageUri = Uri.parse(extras.getString(EXTRA_IMAGE_URI));
         }
 
-        if(imageUri == null) {
+        if (imageUri == null) {
             setResult(RESULT_CANCELED);
             finish();
-        }
-        else {
+        } else {
             int rtlImageResId = extras.getInt(EXTRA_ROTATE_LEFT_IMAGE_RES, R.drawable.ic_rotate_left);
             int rtrImageResId = extras.getInt(EXTRA_ROTATE_RIGHT_IMAGE_RES, R.drawable.ic_rotate_right);
             int saveImageResId = extras.getInt(EXTRA_SAVE_IMAGE_RES, R.drawable.ic_check_circle);
@@ -98,7 +98,7 @@ public class CropImageActivity extends AppCompatActivity implements CVScanner.Im
         }
     }
 
-    void setResultAndExit(String imagePath){
+    void setResultAndExit(String imagePath) {
         Intent data = getIntent();
         data.putExtra(CVScanner.RESULT_IMAGE_PATH, imagePath);
         setResult(RESULT_OK, data);

@@ -25,10 +25,10 @@ import online.devliving.mobilevisionpipeline.Util;
 
 
 public class PassportDetector extends Detector<Document> {
-    Util.FrameSizeProvider frameSizeProvider = null;
     final boolean isMRZBasedDetection = false;
+    Util.FrameSizeProvider frameSizeProvider = null;
 
-    public PassportDetector(Util.FrameSizeProvider sizeProvider){
+    public PassportDetector(Util.FrameSizeProvider sizeProvider) {
         super();
         this.frameSizeProvider = sizeProvider;
     }
@@ -38,7 +38,7 @@ public class PassportDetector extends Detector<Document> {
         SparseArray<Document> detections = new SparseArray<>();
         Document doc = detectDocument(frame);
 
-        if(doc != null) detections.append(frame.getMetadata().getId(), doc);
+        if (doc != null) detections.append(frame.getMetadata().getId(), doc);
 
         return detections;
     }
@@ -50,8 +50,7 @@ public class PassportDetector extends Detector<Document> {
         File file = new File(dir, imageName);
         FileOutputStream fOut;
         try {
-            if(!file.exists())
-            {
+            if (!file.exists()) {
                 file.createNewFile();
             }
             fOut = new FileOutputStream(file);
@@ -68,19 +67,19 @@ public class PassportDetector extends Detector<Document> {
         return null;
     }
 
-    Document detectDocument(Frame frame){
+    Document detectDocument(Frame frame) {
         Size imageSize = new Size(frame.getMetadata().getWidth(), frame.getMetadata().getHeight());
         Mat src = new Mat();
         Utils.bitmapToMat(frame.getBitmap(), src);
 
         int shiftX = 0, shiftY = 0;
 
-        if(frameSizeProvider != null){
+        if (frameSizeProvider != null) {
             int frameWidth = frameSizeProvider.frameWidth();
             int frameHeight = frameSizeProvider.frameHeight();
 
-            shiftX = Double.valueOf((imageSize.width - frameHeight)/2.0).intValue();
-            shiftY = Double.valueOf((imageSize.height - frameWidth)/2.0).intValue();
+            shiftX = Double.valueOf((imageSize.width - frameHeight) / 2.0).intValue();
+            shiftY = Double.valueOf((imageSize.height - frameWidth) / 2.0).intValue();
             Rect rect = new Rect(shiftX, shiftY,
                     frameHeight, frameWidth);
             Mat cropped = new Mat(src, rect).clone();
@@ -92,25 +91,24 @@ public class PassportDetector extends Detector<Document> {
 
         CVProcessor.Quadrilateral quad = null;
 
-        if(isMRZBasedDetection){
+        if (isMRZBasedDetection) {
             List<MatOfPoint> contours = CVProcessor.findContoursForMRZ(src);
 
-            if(!contours.isEmpty()){
-                quad = CVProcessor.getQuadForPassport(contours, imageSize, frameSizeProvider != null? frameSizeProvider.frameWidth():0);
+            if (!contours.isEmpty()) {
+                quad = CVProcessor.getQuadForPassport(contours, imageSize, frameSizeProvider != null ? frameSizeProvider.frameWidth() : 0);
             }
-        }
-        else{
-            quad = CVProcessor.getQuadForPassport(src, frameSizeProvider != null? frameSizeProvider.frameWidth():0,
-                    frameSizeProvider != null? frameSizeProvider.frameHeight():0);
+        } else {
+            quad = CVProcessor.getQuadForPassport(src, frameSizeProvider != null ? frameSizeProvider.frameWidth() : 0,
+                    frameSizeProvider != null ? frameSizeProvider.frameHeight() : 0);
         }
 
         src.release();
 
-        if(quad != null && quad.points != null){
+        if (quad != null && quad.points != null) {
             quad.points = CVProcessor.getUpscaledPoints(quad.points, CVProcessor.getScaleRatio(imageSize));
 
             //shift back to old coordinates
-            for(int i = 0; i < quad.points.length; i++){
+            for (int i = 0; i < quad.points.length; i++) {
                 quad.points[i] = shiftPointToOld(quad.points[i], shiftX, shiftY);
             }
 
@@ -120,7 +118,7 @@ public class PassportDetector extends Detector<Document> {
         return null;
     }
 
-    Point shiftPointToOld(Point point, int sx, int sy){
+    Point shiftPointToOld(Point point, int sx, int sy) {
         point.x = point.x + sx;
         point.y = point.y + sy;
 

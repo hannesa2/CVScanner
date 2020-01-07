@@ -3,10 +3,8 @@ package info.hannes.cvscanner.sample
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-
 import org.opencv.android.OpenCVLoader
 
 class SystemInfoFragment : PreferenceFragmentCompat() {

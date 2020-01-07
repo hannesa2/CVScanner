@@ -7,16 +7,17 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.ColorRes;
-import androidx.annotation.DrawableRes;
-import androidx.annotation.Nullable;
-import androidx.core.graphics.drawable.DrawableCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.Nullable;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import org.opencv.core.Point;
 
@@ -29,33 +30,23 @@ import info.hannes.cvscanner.util.Util;
 
 
 public class ImageCropperFragment extends BaseFragment implements CropImageView.CropImageViewHost {
-    public interface ImageLoadingCallback {
-        void onImageLoaded();
-        void onFailedToLoadImage(Exception error);
-    }
-
     final static String ARG_SRC_IMAGE_URI = "source_image";
     final static String ARG_RT_LEFT_IMAGE_RES = "rotateLeft_imageRes";
     final static String ARG_SAVE_IMAGE_RES = "save_imageRes";
     final static String ARG_RT_RIGHT_IMAGE_RES = "rotateRight_imageRes";
-
     final static String ARG_SAVE_IMAGE_COLOR_RES = "save_imageColorRes";
     final static String ARG_RT_IMAGE_COLOR_RES = "rotate_imageColorRes";
-
     protected CropImageView mImageView;
     protected ImageButton mRotateLeft;
     protected ImageButton mRotateRight;
     protected ImageButton mSave;
-
     protected CropHighlightView mCrop;
-
     protected int mRotation = 0, mScaleFactor = 1;
     protected Bitmap mBitmap;
     protected Uri imageUri = null;
-
     protected ImageLoadingCallback mImageLoadingCallback = null;
 
-    public static ImageCropperFragment instantiate(Uri imageUri){
+    public static ImageCropperFragment instantiate(Uri imageUri) {
         ImageCropperFragment fragment = new ImageCropperFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SRC_IMAGE_URI, imageUri.toString());
@@ -66,7 +57,7 @@ public class ImageCropperFragment extends BaseFragment implements CropImageView.
 
     public static ImageCropperFragment instantiate(Uri imageUri, @ColorRes int buttonTint,
                                                    @ColorRes int buttonTintSecondary, @DrawableRes int rotateLeftRes,
-                                                   @DrawableRes int rotateRightRes, @DrawableRes int saveButtonRes){
+                                                   @DrawableRes int rotateRightRes, @DrawableRes int saveButtonRes) {
         ImageCropperFragment fragment = new ImageCropperFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SRC_IMAGE_URI, imageUri.toString());
@@ -84,7 +75,7 @@ public class ImageCropperFragment extends BaseFragment implements CropImageView.
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        if(context instanceof ImageLoadingCallback){
+        if (context instanceof ImageLoadingCallback) {
             mImageLoadingCallback = (ImageLoadingCallback) context;
         }
     }
@@ -99,7 +90,7 @@ public class ImageCropperFragment extends BaseFragment implements CropImageView.
         return view;
     }
 
-    private void initializeViews(View view){
+    private void initializeViews(View view) {
         mImageView = view.findViewById(R.id.cropImageView);
         mRotateLeft = view.findViewById(R.id.item_rotate_left);
         mRotateRight = view.findViewById(R.id.item_rotate_right);
@@ -109,7 +100,7 @@ public class ImageCropperFragment extends BaseFragment implements CropImageView.
 
         Bundle extras = getArguments();
 
-        if(extras.containsKey(ARG_SRC_IMAGE_URI)){
+        if (extras.containsKey(ARG_SRC_IMAGE_URI)) {
             imageUri = Uri.parse(extras.getString(ARG_SRC_IMAGE_URI));
         }
 
@@ -118,7 +109,7 @@ public class ImageCropperFragment extends BaseFragment implements CropImageView.
         Drawable saveBtnDrawable = getResources().getDrawable(extras.getInt(ARG_SAVE_IMAGE_RES, R.drawable.ic_check_circle));
         Drawable rotateLeftDrawable = getResources().getDrawable(extras.getInt(ARG_RT_LEFT_IMAGE_RES, R.drawable.ic_rotate_left));
         Drawable rotateRightDrawable = getResources().getDrawable(extras.getInt(ARG_RT_RIGHT_IMAGE_RES, R.drawable.ic_rotate_right));
-        
+
         DrawableCompat.setTint(rotateLeftDrawable, secondaryBtnTintColor);
         mRotateLeft.setImageDrawable(rotateLeftDrawable);
 
@@ -137,7 +128,7 @@ public class ImageCropperFragment extends BaseFragment implements CropImageView.
     @Override
     protected void onOpenCVConnectionFailed() {
         Toast.makeText(getContext(), "OpenCV failed to load", Toast.LENGTH_SHORT).show();
-        if(mCallback != null) mCallback.onImageProcessingFailed("OpenCV failed to load", null);
+        if (mCallback != null) mCallback.onImageProcessingFailed("OpenCV failed to load", null);
         else getActivity().finish();
     }
 
@@ -191,29 +182,30 @@ public class ImageCropperFragment extends BaseFragment implements CropImageView.
             @Override
             public void onGlobalLayout() {
                 Exception error = null;
-                if(imageUri != null){
+                if (imageUri != null) {
                     try {
                         mScaleFactor = Util.calculateBitmapSampleSize(getContext(), imageUri);
                         mBitmap = Util.loadBitmapFromUri(getContext(), mScaleFactor, imageUri);
 
                         int rotation = Util.getExifRotation(getContext(), imageUri);
-                        mRotation = rotation/90;
+                        mRotation = rotation / 90;
                     } catch (IOException e) {
                         error = e;
                     }
                 }
 
-                if(mBitmap != null){
+                if (mBitmap != null) {
                     mImageView.setImageBitmapResetBase(mBitmap, true, mRotation * 90);
                     adjustButtons();
                     showDefaultCroppingRectangle(mBitmap.getWidth(), mBitmap.getHeight());
 
-                    if(mImageLoadingCallback != null) mImageLoadingCallback.onImageLoaded();
-                }
-                else {
-                    if(mImageLoadingCallback != null) mImageLoadingCallback.onFailedToLoadImage(error != null?
-                            error:new IllegalArgumentException("failed to load bitmap from provided uri"));
-                    else throw (error != null? new IllegalStateException(error):new IllegalArgumentException("failed to load bitmap from provided uri"));
+                    if (mImageLoadingCallback != null) mImageLoadingCallback.onImageLoaded();
+                } else {
+                    if (mImageLoadingCallback != null)
+                        mImageLoadingCallback.onFailedToLoadImage(error != null ?
+                                error : new IllegalArgumentException("failed to load bitmap from provided uri"));
+                    else
+                        throw (error != null ? new IllegalStateException(error) : new IllegalArgumentException("failed to load bitmap from provided uri"));
                 }
 
                 mImageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
@@ -256,7 +248,7 @@ public class ImageCropperFragment extends BaseFragment implements CropImageView.
     }
 
     public void cropAndSave() {
-        if(mBitmap != null && !isBusy) {
+        if (mBitmap != null && !isBusy) {
             float[] points = mCrop.getTrapezoid();
             Point[] quadPoints = new Point[4];
 
@@ -269,8 +261,8 @@ public class ImageCropperFragment extends BaseFragment implements CropImageView.
         }
     }
 
-    protected void clearImages(){
-        if(mBitmap != null && !mBitmap.isRecycled()) mBitmap.recycle();
+    protected void clearImages() {
+        if (mBitmap != null && !mBitmap.isRecycled()) mBitmap.recycle();
         mImageView.clear();
     }
 
@@ -289,5 +281,11 @@ public class ImageCropperFragment extends BaseFragment implements CropImageView.
     @Override
     public boolean isBusy() {
         return isBusy;
+    }
+
+    public interface ImageLoadingCallback {
+        void onImageLoaded();
+
+        void onFailedToLoadImage(Exception error);
     }
 }

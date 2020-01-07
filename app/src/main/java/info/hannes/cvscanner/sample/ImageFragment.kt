@@ -2,7 +2,6 @@ package info.hannes.cvscanner.sample
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import java.io.File
-import java.net.URI
 
 
 class ImageFragment : Fragment() {

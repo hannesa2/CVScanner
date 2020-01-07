@@ -20,7 +20,6 @@ public interface HighLightView {
     Matrix getMatrix();
 
     /**
-     *
      * @return Drawing rect in screen space.
      */
     Rect getDrawRect();

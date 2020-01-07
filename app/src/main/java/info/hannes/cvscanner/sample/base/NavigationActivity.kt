@@ -105,7 +105,7 @@ abstract class NavigationActivity : AppCompatActivity(), NavigationView.OnNaviga
                             .commit()
                 }
                 Log.d("Scan", scannedDocumentPath)
-        } else if (requestCode == REQUEST_CODE_CAMERA) {
+            } else if (requestCode == REQUEST_CODE_CAMERA) {
                 uri?.let {
                     val x = uri.toString() //Uri.parse(it)
                     val imageFragment = ImageFragment.newInstance(x)
@@ -115,8 +115,8 @@ abstract class NavigationActivity : AppCompatActivity(), NavigationView.OnNaviga
                             .add(R.id.contentInfo, imageFragment)
                             .commit()
                 }
+            }
         }
-    }
     }
 
     fun showSnackbar(text: String) {

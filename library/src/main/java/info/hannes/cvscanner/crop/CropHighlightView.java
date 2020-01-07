@@ -39,8 +39,6 @@ class CropHighlightView implements HighLightView {
 
     @SuppressWarnings("unused")
     private static final String LOG_TAG = CropHighlightView.class.getSimpleName();
-    private View mContext; // The View displaying the image.
-
     /* used during onDraw */
     private final Rect mViewDrawingRect = new Rect();
     private final Rect mLeftRect = new Rect();
@@ -50,19 +48,17 @@ class CropHighlightView implements HighLightView {
     private final RectF mPathBounds = new RectF();
     private final Rect mPathBoundsRounded = new Rect();
     private final Rect mCanvasCLipRect = new Rect();
-
     private final CroppingTrapezoid mTrapezoid;
-    boolean mIsFocused;
-    boolean mHidden = false;
-
-    private Rect mDrawRect; // in screen space
-    private Matrix mMatrix;
-
     private final Paint mFocusPaint = new Paint();
     private final Paint mOutlinePaint = new Paint();
     private final int mCropCornerHandleRadius;
     private final int mCropEdgeHandleRadius;
     private final float mHysteresis;
+    boolean mIsFocused;
+    boolean mHidden = false;
+    private View mContext; // The View displaying the image.
+    private Rect mDrawRect; // in screen space
+    private Matrix mMatrix;
 
 
     public CropHighlightView(ImageView ctx, Rect imageRect, RectF cropRect) {

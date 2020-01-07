@@ -35,12 +35,12 @@ public class RotateBitmap {
         mRotation = rotation % 360;
     }
 
-    public void setRotation(int rotation) {
-        mRotation = rotation;
-    }
-
     public int getRotation() {
         return mRotation;
+    }
+
+    public void setRotation(int rotation) {
+        mRotation = rotation;
     }
 
     public Bitmap getBitmap() {
@@ -75,14 +75,14 @@ public class RotateBitmap {
         if (isOrientationChanged()) {
             return mBitmap.getWidth();
         }
-		return mBitmap.getHeight();
+        return mBitmap.getHeight();
     }
 
     public int getWidth() {
         if (isOrientationChanged()) {
             return mBitmap.getHeight();
         }
-		return mBitmap.getWidth();
+        return mBitmap.getWidth();
     }
 
     public void recycle() {

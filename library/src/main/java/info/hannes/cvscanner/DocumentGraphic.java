@@ -42,7 +42,7 @@ public class DocumentGraphic extends GraphicOverlay.Graphic {
         Id = id;
     }
 
-    void update(Document doc){
+    void update(Document doc) {
         scannedDoc = doc;
         postInvalidate();
     }
@@ -73,7 +73,7 @@ public class DocumentGraphic extends GraphicOverlay.Graphic {
     public void draw(Canvas canvas) {
         //TODO fix the coordinates see http://zhengrui.github.io/android-coordinates.html
 
-        if(scannedDoc != null && scannedDoc.detectedQuad != null){
+        if (scannedDoc != null && scannedDoc.detectedQuad != null) {
             //boolean isPortrait = Util.isPortraitMode(mOverlay.getContext());
             Path path = new Path();
 
@@ -106,10 +106,10 @@ public class DocumentGraphic extends GraphicOverlay.Graphic {
             */
             int frameWidth = scannedDoc.getImage().getMetadata().getHeight();
 
-            path.moveTo(((float)(frameWidth - scannedDoc.detectedQuad.points[0].y)), ((float)scannedDoc.detectedQuad.points[0].x));
-            path.lineTo(((float)(frameWidth - scannedDoc.detectedQuad.points[1].y)), ((float)scannedDoc.detectedQuad.points[1].x));
-            path.lineTo(((float)(frameWidth - scannedDoc.detectedQuad.points[2].y)), ((float)scannedDoc.detectedQuad.points[2].x));
-            path.lineTo(((float)(frameWidth - scannedDoc.detectedQuad.points[3].y)), ((float)scannedDoc.detectedQuad.points[3].x));
+            path.moveTo(((float) (frameWidth - scannedDoc.detectedQuad.points[0].y)), ((float) scannedDoc.detectedQuad.points[0].x));
+            path.lineTo(((float) (frameWidth - scannedDoc.detectedQuad.points[1].y)), ((float) scannedDoc.detectedQuad.points[1].x));
+            path.lineTo(((float) (frameWidth - scannedDoc.detectedQuad.points[2].y)), ((float) scannedDoc.detectedQuad.points[2].x));
+            path.lineTo(((float) (frameWidth - scannedDoc.detectedQuad.points[3].y)), ((float) scannedDoc.detectedQuad.points[3].x));
             path.close();
 
             PathShape shape = new PathShape(path, scannedDoc.getImage().getMetadata().getHeight(), scannedDoc.getImage().getMetadata().getWidth());
