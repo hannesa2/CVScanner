@@ -9,7 +9,8 @@ import online.devliving.mobilevisionpipeline.Util;
 
 
 public class BorderFrameGraphic extends FrameGraphic {
-    boolean isForPassport = false;
+
+    private boolean isForPassport;
 
     public BorderFrameGraphic(GraphicOverlay overlay, boolean forPassport) {
         super(overlay);

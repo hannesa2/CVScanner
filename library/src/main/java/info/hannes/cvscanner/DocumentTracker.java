@@ -7,9 +7,9 @@ import online.devliving.mobilevisionpipeline.GraphicOverlay;
 
 
 public class DocumentTracker extends Tracker<Document> {
-    GraphicOverlay<DocumentGraphic> mOverlay;
-    DocumentGraphic mGraphic;
-    DocumentDetectionListener mListener;
+    private GraphicOverlay<DocumentGraphic> mOverlay;
+    private DocumentGraphic mGraphic;
+    private DocumentDetectionListener mListener;
 
     public DocumentTracker(GraphicOverlay<DocumentGraphic> mOverlay, DocumentGraphic mGraphic, DocumentDetectionListener mListener) {
         this.mOverlay = mOverlay;

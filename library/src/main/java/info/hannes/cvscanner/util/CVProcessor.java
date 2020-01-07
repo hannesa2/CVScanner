@@ -27,8 +27,8 @@ import java.util.List;
 
 public class CVProcessor {
     public final static float PASSPORT_ASPECT_RATIO = 3.465f / 4.921f;
-    final static String TAG = "CV-PROCESSOR";
-    final static int FIXED_HEIGHT = 800;
+    private final static String TAG = "CV-PROCESSOR";
+    private final static int FIXED_HEIGHT = 800;
     private final static double COLOR_GAIN = 1.5;       // contrast
     private final static double COLOR_BIAS = 0;         // bright
     private final static int COLOR_THRESH = 110;        // threshold
@@ -444,7 +444,7 @@ public class CVProcessor {
         return null;
     }
 
-    static public Point getPointOnLine(Point origin, Point another, double distance) {
+    private static Point getPointOnLine(Point origin, Point another, double distance) {
         double dFactor = distance / new Line(origin, another).length();
         double X = ((1 - dFactor) * origin.x) + (dFactor * another.x);
         double Y = ((1 - dFactor) * origin.y) + (dFactor * another.y);
@@ -593,7 +593,7 @@ public class CVProcessor {
         Comparator<Point> sumComparator = new Comparator<Point>() {
             @Override
             public int compare(Point lhs, Point rhs) {
-                return Double.valueOf(lhs.y + lhs.x).compareTo(rhs.y + rhs.x);
+                return Double.compare(lhs.y + lhs.x, rhs.y + rhs.x);
             }
         };
 
@@ -601,7 +601,7 @@ public class CVProcessor {
 
             @Override
             public int compare(Point lhs, Point rhs) {
-                return Double.valueOf(lhs.y - lhs.x).compareTo(rhs.y - rhs.x);
+                return Double.compare(lhs.y - lhs.x, rhs.y - rhs.x);
             }
         };
 
@@ -680,7 +680,6 @@ public class CVProcessor {
     /**
      * @param src - actual image
      * @param pts - points scaled up with respect to actual image
-     * @return
      */
     public static Mat fourPointTransform(Mat src, Point[] pts) {
         Point tl = pts[0];
@@ -721,7 +720,7 @@ public class CVProcessor {
         double alpha, beta;
         double minGray, maxGray;
 
-        Mat gray = null;
+        Mat gray;
         if (src.type() == CvType.CV_8UC1) {
             gray = src.clone();
         } else {
@@ -779,7 +778,7 @@ public class CVProcessor {
         return result;
     }
 
-    public static Mat sharpenImage(Mat src) {
+    static Mat sharpenImage(Mat src) {
         Mat sharped = new Mat();
         Imgproc.GaussianBlur(src, sharped, new Size(0, 0), 3);
         Core.addWeighted(src, 1.5, sharped, -0.5, 0, sharped);
@@ -788,10 +787,10 @@ public class CVProcessor {
     }
 
     public static class Quadrilateral {
-        public MatOfPoint contour;
+        MatOfPoint contour;
         public Point[] points;
 
-        public Quadrilateral(MatOfPoint contour, Point[] points) {
+        Quadrilateral(MatOfPoint contour, Point[] points) {
             this.contour = contour;
             this.points = points;
         }

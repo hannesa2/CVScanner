@@ -23,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.DrawableCompat;
 
@@ -41,8 +42,7 @@ public class DocumentScannerFragment extends BaseFragment implements View.OnTouc
     private final static String ARG_DOC_BORDER_COLOR = "doc_border_color";
     private final static String ARG_DOC_BODY_COLOR = "doc_body_color";
 
-    final Object mLock = new Object();
-    Context mContext;
+    private final Object mLock = new Object();
 
     private int torchTintColor = Color.GRAY, torchTintColorLight = Color.YELLOW;
     private int documentBorderColor = -1,
@@ -89,7 +89,7 @@ public class DocumentScannerFragment extends BaseFragment implements View.OnTouc
     }
 
     @Override
-    public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
+    public void onInflate(@NonNull Context context,@NonNull AttributeSet attrs, Bundle savedInstanceState) {
         super.onInflate(context, attrs, savedInstanceState);
 
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.DocumentScannerFragment);
@@ -133,7 +133,7 @@ public class DocumentScannerFragment extends BaseFragment implements View.OnTouc
         mGraphicOverlay = view.findViewById(R.id.graphicOverlay);
         flashToggle = view.findViewById(R.id.flash);
 
-        gestureDetector = new GestureDetector(getActivity(), new CaptureGestureListener());
+        gestureDetector = new GestureDetector(requireActivity(), new CaptureGestureListener());
         view.setOnTouchListener(this);
     }
 
@@ -142,7 +142,7 @@ public class DocumentScannerFragment extends BaseFragment implements View.OnTouc
         Bundle args = getArguments();
         isPassport = args != null && args.getBoolean(DocumentScannerActivity.EXTRA_IS_PASSPORT, false);
 
-        Resources.Theme theme = getActivity().getTheme();
+        Resources.Theme theme = requireActivity().getTheme();
         TypedValue borderColor = new TypedValue();
         if (theme.resolveAttribute(android.R.attr.colorPrimary, borderColor, true)) {
             documentBorderColor = borderColor.resourceId > 0 ? getResources().getColor(borderColor.resourceId) : borderColor.data;
@@ -166,7 +166,7 @@ public class DocumentScannerFragment extends BaseFragment implements View.OnTouc
             @Override
             public void onClick(View v) {
                 if (mCameraSource != null) {
-                    if (mCameraSource.getFlashMode() == Camera.Parameters.FLASH_MODE_TORCH) {
+                    if (mCameraSource.getFlashMode().equals(Camera.Parameters.FLASH_MODE_TORCH)) {
                         mCameraSource.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
                     } else mCameraSource.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
 
@@ -176,17 +176,11 @@ public class DocumentScannerFragment extends BaseFragment implements View.OnTouc
         });
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = context.getApplicationContext();
-    }
-
     void updateFlashButtonColor() {
         if (mCameraSource != null) {
             int tintColor = torchTintColor;
 
-            if (mCameraSource.getFlashMode() == Camera.Parameters.FLASH_MODE_TORCH) {
+            if (mCameraSource.getFlashMode().equals(Camera.Parameters.FLASH_MODE_TORCH)) {
                 tintColor = torchTintColorLight;
             }
 
@@ -217,7 +211,8 @@ public class DocumentScannerFragment extends BaseFragment implements View.OnTouc
     private void createCameraSource() {
         if (isPassport) {
             IDDetector = new PassportDetector(mFrameSizeProvider);
-        } else IDDetector = new DocumentDetector(getContext());
+        } else
+            IDDetector = new DocumentDetector();
 
         /*
         DocumentTrackerFactory factory = new DocumentTrackerFactory(mGraphicOverlay, this);
@@ -234,7 +229,7 @@ public class DocumentScannerFragment extends BaseFragment implements View.OnTouc
         // Creates and starts the camera.  Note that this uses a higher resolution in comparison
         // to other detection examples to enable the barcode detector to detect small barcodes
         // at long distances.
-        mCameraSource = new CameraSource.Builder(getActivity().getApplicationContext(), IDDetector)
+        mCameraSource = new CameraSource.Builder(requireActivity().getApplicationContext(), IDDetector)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)
                 .setFlashMode(Camera.Parameters.FLASH_MODE_AUTO)
@@ -386,7 +381,7 @@ public class DocumentScannerFragment extends BaseFragment implements View.OnTouc
         public boolean onSingleTapConfirmed(MotionEvent e) {
             Log.d("SCANNER", "fragment got tap");
             if (!hasShownMsg) {
-                Toast.makeText(getActivity(), "Double tap to take a picture and force detection", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "Double tap to take a picture and force detection", Toast.LENGTH_SHORT).show();
                 hasShownMsg = true;
             }
             return false;

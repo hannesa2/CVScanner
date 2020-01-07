@@ -21,7 +21,7 @@ public abstract class BaseFragment extends Fragment implements ImageSaveTask.Sav
 
     protected boolean isBusy = false;
     protected CVScanner.ImageProcessorCallback mCallback = null;
-    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(getActivity()) {
+    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(requireActivity()) {
         @Override
         public void onManagerConnected(int status) {
             if (status == LoaderCallbackInterface.SUCCESS) {
@@ -34,7 +34,7 @@ public abstract class BaseFragment extends Fragment implements ImageSaveTask.Sav
 
     protected void loadOpenCV() {
         if (!OpenCVLoader.initDebug()) {
-            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_1_0, getActivity().getApplicationContext(), mLoaderCallback);
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_1_0, requireActivity().getApplicationContext(), mLoaderCallback);
         } else {
             mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
         }

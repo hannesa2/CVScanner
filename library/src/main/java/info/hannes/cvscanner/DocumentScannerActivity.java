@@ -89,7 +89,7 @@ public class DocumentScannerActivity extends AppCompatActivity implements CVScan
         Bundle extras = getIntent().getExtras();
         boolean isScanningPassport = extras != null && getIntent().getBooleanExtra(EXTRA_IS_PASSPORT, false);
 
-        DocumentScannerFragment fragment = null;
+        DocumentScannerFragment fragment;
 
         if (extras != null) {
             int borderColor = extras.getInt(EXTRA_DOCUMENT_BORDER_COLOR, -1);

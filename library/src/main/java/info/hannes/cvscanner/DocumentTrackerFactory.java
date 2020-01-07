@@ -7,8 +7,8 @@ import online.devliving.mobilevisionpipeline.GraphicOverlay;
 
 
 public class DocumentTrackerFactory implements MultiProcessor.Factory<Document> {
-    GraphicOverlay<DocumentGraphic> mOverlay;
-    DocumentTracker.DocumentDetectionListener mListener;
+    private GraphicOverlay<DocumentGraphic> mOverlay;
+    private DocumentTracker.DocumentDetectionListener mListener;
 
     public DocumentTrackerFactory(GraphicOverlay<DocumentGraphic> mOverlay, DocumentTracker.DocumentDetectionListener mListener) {
         this.mOverlay = mOverlay;

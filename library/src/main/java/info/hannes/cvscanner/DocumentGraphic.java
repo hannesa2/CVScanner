@@ -11,11 +11,14 @@ import online.devliving.mobilevisionpipeline.GraphicOverlay;
 
 
 public class DocumentGraphic extends GraphicOverlay.Graphic {
-    int Id;
-    Document scannedDoc;
-    Paint borderPaint, bodyPaint;
 
-    int borderColor = Color.parseColor("#41fa97"), fillColor = Color.parseColor("#69fbad");
+    private int Id;
+    private Document scannedDoc;
+    private Paint borderPaint;
+    private Paint bodyPaint;
+
+    private int borderColor = Color.parseColor("#41fa97");
+    private int fillColor = Color.parseColor("#69fbad");
 
     public DocumentGraphic(GraphicOverlay overlay, Document doc) {
         super(overlay);

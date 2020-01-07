@@ -31,7 +31,7 @@ public final class CVScanner {
         if (takePictureIntent.resolveActivity(context.getPackageManager()) != null) {
             // Create the File where the photo should go
             Uri photoUri = Util.createTempFile(context,
-                    "IMG_" + System.currentTimeMillis(), ".jpg",
+                    "SCAN_" + System.currentTimeMillis(), ".jpg",
                     true);
 
             // Continue only if the File was successfully created
@@ -50,9 +50,9 @@ public final class CVScanner {
     }
 
     public static void startScanner(Activity activity, boolean isPassport, int reqCode) {
-        Intent i = new Intent(activity, DocumentScannerActivity.class);
-        i.putExtra(DocumentScannerActivity.EXTRA_IS_PASSPORT, isPassport);
-        activity.startActivityForResult(i, reqCode);
+        Intent intent = new Intent(activity, DocumentScannerActivity.class);
+        intent.putExtra(DocumentScannerActivity.EXTRA_IS_PASSPORT, isPassport);
+        activity.startActivityForResult(intent, reqCode);
     }
 
     public static void startScanner(Activity activity, boolean isPassport, int reqCode,
@@ -61,14 +61,14 @@ public final class CVScanner {
                                     @ColorRes int torchColor,
                                     @ColorRes int torchColorLight
     ) {
-        Intent i = new Intent(activity, DocumentScannerActivity.class);
-        i.putExtra(DocumentScannerActivity.EXTRA_IS_PASSPORT, isPassport);
-        i.putExtra(DocumentScannerActivity.EXTRA_DOCUMENT_BODY_COLOR, docBodyColorRes);
-        i.putExtra(DocumentScannerActivity.EXTRA_DOCUMENT_BORDER_COLOR, docBorderColorRes);
-        i.putExtra(DocumentScannerActivity.EXTRA_TORCH_TINT_COLOR, torchColor);
-        i.putExtra(DocumentScannerActivity.EXTRA_TORCH_TINT_COLOR_LIGHT, torchColorLight);
+        Intent intent = new Intent(activity, DocumentScannerActivity.class);
+        intent.putExtra(DocumentScannerActivity.EXTRA_IS_PASSPORT, isPassport);
+        intent.putExtra(DocumentScannerActivity.EXTRA_DOCUMENT_BODY_COLOR, docBodyColorRes);
+        intent.putExtra(DocumentScannerActivity.EXTRA_DOCUMENT_BORDER_COLOR, docBorderColorRes);
+        intent.putExtra(DocumentScannerActivity.EXTRA_TORCH_TINT_COLOR, torchColor);
+        intent.putExtra(DocumentScannerActivity.EXTRA_TORCH_TINT_COLOR_LIGHT, torchColorLight);
 
-        activity.startActivityForResult(i, reqCode);
+        activity.startActivityForResult(intent, reqCode);
     }
 
     public static void startManualCropper(Activity activity, Uri inputImageUri, int reqCode) {

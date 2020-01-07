@@ -129,7 +129,7 @@ public class ImageCropperFragment extends BaseFragment implements CropImageView.
     protected void onOpenCVConnectionFailed() {
         Toast.makeText(getContext(), "OpenCV failed to load", Toast.LENGTH_SHORT).show();
         if (mCallback != null) mCallback.onImageProcessingFailed("OpenCV failed to load", null);
-        else getActivity().finish();
+        else requireActivity().finish();
     }
 
     @Override

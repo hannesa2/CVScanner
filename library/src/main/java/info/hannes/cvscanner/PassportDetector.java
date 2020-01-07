@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.os.Environment;
 import android.util.SparseArray;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.Frame;
 
@@ -25,10 +27,10 @@ import online.devliving.mobilevisionpipeline.Util;
 
 
 public class PassportDetector extends Detector<Document> {
-    final boolean isMRZBasedDetection = false;
-    Util.FrameSizeProvider frameSizeProvider = null;
 
-    public PassportDetector(Util.FrameSizeProvider sizeProvider) {
+    private Util.FrameSizeProvider frameSizeProvider;
+
+    public PassportDetector(@NonNull Util.FrameSizeProvider sizeProvider) {
         super();
         this.frameSizeProvider = sizeProvider;
     }
@@ -67,30 +69,28 @@ public class PassportDetector extends Detector<Document> {
         return null;
     }
 
-    Document detectDocument(Frame frame) {
+    private Document detectDocument(Frame frame) {
         Size imageSize = new Size(frame.getMetadata().getWidth(), frame.getMetadata().getHeight());
         Mat src = new Mat();
         Utils.bitmapToMat(frame.getBitmap(), src);
 
         int shiftX = 0, shiftY = 0;
 
-        if (frameSizeProvider != null) {
-            int frameWidth = frameSizeProvider.frameWidth();
-            int frameHeight = frameSizeProvider.frameHeight();
+        int frameWidth = frameSizeProvider.frameWidth();
+        int frameHeight = frameSizeProvider.frameHeight();
 
-            shiftX = Double.valueOf((imageSize.width - frameHeight) / 2.0).intValue();
-            shiftY = Double.valueOf((imageSize.height - frameWidth) / 2.0).intValue();
-            Rect rect = new Rect(shiftX, shiftY,
-                    frameHeight, frameWidth);
-            Mat cropped = new Mat(src, rect).clone();
-            src.release();
-            src = cropped;
+        shiftX = Double.valueOf((imageSize.width - frameHeight) / 2.0).intValue();
+        shiftY = Double.valueOf((imageSize.height - frameWidth) / 2.0).intValue();
+        Rect rect = new Rect(shiftX, shiftY, frameHeight, frameWidth);
+        Mat cropped = new Mat(src, rect).clone();
+        src.release();
+        src = cropped;
 
-            imageSize = new Size(src.cols(), src.rows());
-        }
+        imageSize = new Size(src.cols(), src.rows());
 
         CVProcessor.Quadrilateral quad = null;
 
+        boolean isMRZBasedDetection = false;
         if (isMRZBasedDetection) {
             List<MatOfPoint> contours = CVProcessor.findContoursForMRZ(src);
 
@@ -118,7 +118,7 @@ public class PassportDetector extends Detector<Document> {
         return null;
     }
 
-    Point shiftPointToOld(Point point, int sx, int sy) {
+    private Point shiftPointToOld(Point point, int sx, int sy) {
         point.x = point.x + sx;
         point.y = point.y + sy;
 

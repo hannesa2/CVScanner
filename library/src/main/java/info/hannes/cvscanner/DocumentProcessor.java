@@ -8,6 +8,7 @@ import com.google.android.gms.vision.Tracker;
 
 
 public class DocumentProcessor extends FocusingProcessor<Document> {
+
     public DocumentProcessor(Detector<Document> detector, Tracker<Document> tracker) {
         super(detector, tracker);
     }

@@ -10,7 +10,8 @@ import info.hannes.cvscanner.util.CVProcessor;
  * Holds the actual image data. Quad point are also scaled with respect to actual image.
  */
 public class Document {
-    Frame image;
+
+    private Frame image;
     CVProcessor.Quadrilateral detectedQuad;
 
     public Document(Frame image, CVProcessor.Quadrilateral detectedQuad) {

@@ -1,6 +1,5 @@
 package info.hannes.cvscanner;
 
-import android.content.Context;
 import android.util.SparseArray;
 
 import com.google.android.gms.vision.Detector;
@@ -18,11 +17,8 @@ import info.hannes.cvscanner.util.CVProcessor;
 
 public class DocumentDetector extends Detector<Document> {
 
-    Context mContext;
-
-    public DocumentDetector(Context context) {
+    public DocumentDetector() {
         super();
-        mContext = context;
     }
 
     @Override
