@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -21,18 +22,9 @@ public abstract class BaseFragment extends Fragment implements ImageSaveTask.Sav
 
     protected boolean isBusy = false;
     protected CVScanner.ImageProcessorCallback mCallback = null;
-    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(requireActivity()) {
-        @Override
-        public void onManagerConnected(int status) {
-            if (status == LoaderCallbackInterface.SUCCESS) {
-                onOpenCVConnected();
-            } else {
-                onOpenCVConnectionFailed();
-            }
-        }
-    };
+    private BaseLoaderCallback mLoaderCallback = null;
 
-    protected void loadOpenCV() {
+    private void loadOpenCV() {
         if (!OpenCVLoader.initDebug()) {
             OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_1_0, requireActivity().getApplicationContext(), mLoaderCallback);
         } else {
@@ -47,7 +39,7 @@ public abstract class BaseFragment extends Fragment implements ImageSaveTask.Sav
     protected abstract void onAfterViewCreated();
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         onAfterViewCreated();
@@ -55,8 +47,19 @@ public abstract class BaseFragment extends Fragment implements ImageSaveTask.Sav
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+
+        mLoaderCallback = new BaseLoaderCallback(context) {
+            @Override
+            public void onManagerConnected(int status) {
+                if (status == LoaderCallbackInterface.SUCCESS) {
+                    onOpenCVConnected();
+                } else {
+                    onOpenCVConnectionFailed();
+                }
+            }
+        };
 
         if (context instanceof CVScanner.ImageProcessorCallback) {
             mCallback = (CVScanner.ImageProcessorCallback) context;
@@ -71,20 +74,21 @@ public abstract class BaseFragment extends Fragment implements ImageSaveTask.Sav
     @Override
     public void onSaved(String path) {
         Log.d("BASE", "saved at: " + path);
-        if (mCallback != null) mCallback.onImageProcessed(path);
+        if (mCallback != null)
+            mCallback.onImageProcessed(path);
         isBusy = false;
     }
 
     @Override
     public void onSaveFailed(Exception error) {
-        if (mCallback != null) mCallback.onImageProcessingFailed("Failed to save image", error);
+        if (mCallback != null)
+            mCallback.onImageProcessingFailed("Failed to save image", error);
         isBusy = false;
     }
 
     protected synchronized void saveCroppedImage(Bitmap bitmap, int rotation, Point[] quadPoints) {
         if (!isBusy) {
-            new ImageSaveTask(getContext(), bitmap, rotation, quadPoints, this)
-                    .execute();
+            new ImageSaveTask(getContext(), bitmap, rotation, quadPoints, this).execute();
         }
     }
 }

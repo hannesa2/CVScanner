@@ -19,6 +19,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.DrawableCompat;
 
+import org.jetbrains.annotations.NotNull;
 import org.opencv.core.Point;
 
 import java.io.IOException;
@@ -72,7 +73,7 @@ public class ImageCropperFragment extends BaseFragment implements CropImageView.
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NotNull Context context) {
         super.onAttach(context);
 
         if (context instanceof ImageLoadingCallback) {
