@@ -19,7 +19,6 @@ import org.opencv.core.Rect;
 import org.opencv.core.Size;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -64,8 +63,6 @@ public class PassportDetector extends Detector<Document> {
             fOut.flush();
             fOut.close();
             return file.getAbsolutePath();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,7 +75,7 @@ public class PassportDetector extends Detector<Document> {
         Mat src = new Mat();
         Utils.bitmapToMat(frame.getBitmap(), src);
 
-        int shiftX = 0, shiftY = 0;
+        int shiftX, shiftY;
 
         int frameWidth = frameSizeProvider.frameWidth();
         int frameHeight = frameSizeProvider.frameHeight();

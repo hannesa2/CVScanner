@@ -1,6 +1,5 @@
 package info.hannes.cvscanner;
 
-import android.content.Context;
 import android.os.Vibrator;
 
 import com.google.android.gms.vision.Frame;
