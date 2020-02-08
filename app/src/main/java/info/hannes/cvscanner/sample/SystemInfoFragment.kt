@@ -26,7 +26,7 @@ class SystemInfoFragment : PreferenceFragmentCompat() {
         findPreference<Preference?>(PREFERENCE_ + "CPU_ABI")?.summary = Build.SUPPORTED_ABIS[0]
         findPreference<Preference?>(PREFERENCE_ + "DISPLAY")?.summary = Build.DISPLAY
         findPreference<Preference?>(PREFERENCE_ + "USER")?.summary = Build.USER
-        findPreference<Preference?>(PREFERENCE_ + "OpenCV_Version")?.summary = OpenCVLoader.OPENCV_VERSION
+        findPreference<Preference?>(PREFERENCE_ + "OpenCV_Version")?.summary = org.opencv.BuildConfig.VERSION_NAME
     }
 
     companion object {
