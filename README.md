@@ -1,4 +1,6 @@
-# CVScanner
+[![](https://jitpack.io/v/hannesa2/CVScanner.svg)](https://jitpack.io/#hannesa2/CVScanner)
+
+# OpenCV Scanner
 Library for Android to crop/scan Documents. Implemented using OpenCV.
 </br>
 ## To use this Library
@@ -17,13 +19,13 @@ allprojects {
 And following to app level build.gradle
 ```groovy
 dependencies {
-    implementation 'com.github.hannesa2:CVScanner:-SNAPSHOT'
+    implementation 'com.github.hannesa2:CVScanner:$latest'
 }
  ```
  
 ## License
 
-    Copyright (C) 2012-2019 hannesaa2
+    Copyright (C) 2012-2019 hannesa2
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
