@@ -11,6 +11,9 @@ import org.opencv.core.Point;
 import org.opencv.core.Size;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import timber.log.Timber;
 
@@ -67,8 +70,10 @@ public class ImageSaveTask extends AsyncTask<Void, Void, String> {
 
         String imagePath = null;
         try {
-            imagePath = Util.saveImage(mContext,
-                    "IMG_CVScanner_" + System.currentTimeMillis(), enhancedImage, false);
+            SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd_HHmmss", Locale.getDefault());
+            String filename = "IMG_CVScanner_" + sdf.format(new Date(System.currentTimeMillis()));
+
+            imagePath = Util.saveImage(mContext, filename, enhancedImage, false);
             enhancedImage.release();
         } catch (IOException e) {
             Timber.e(e, "saveImage");
