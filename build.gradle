@@ -23,7 +23,7 @@ allprojects {
         jcenter()
         maven { url 'https://jitpack.io' }
         maven {
-            url 'http://latitude:8084/artifactory/gradle-dev-local/'
+            url 'https://artifactory.mxtracks.info/artifactory/gradle-dev-local/'
 
             def artifactoryPW = project.hasProperty("artifactory_password") ? artifactory_password : System.getenv("ARTIFACTORY_USER_PASSWORD")
             if (artifactoryPW == null) {
