@@ -3,7 +3,6 @@ package info.hannes.cvscanner.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.opencv.android.Utils;
 import org.opencv.core.CvType;
@@ -12,6 +11,8 @@ import org.opencv.core.Point;
 import org.opencv.core.Size;
 
 import java.io.IOException;
+
+import timber.log.Timber;
 
 
 public class ImageSaveTask extends AsyncTask<Void, Void, String> {
@@ -70,13 +71,12 @@ public class ImageSaveTask extends AsyncTask<Void, Void, String> {
                     "IMG_CVScanner_" + System.currentTimeMillis(), enhancedImage, false);
             enhancedImage.release();
         } catch (IOException e) {
-            Log.e("saveImage", e.getMessage());
+            Timber.e(e, "saveImage");
         }
         try {
             Util.setExifRotation(mContext, Util.getUriFromPath(imagePath), rotation);
         } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("setExifRotation", e.getMessage());
+            Timber.e(e, "setExifRotation");
         }
 
         return imagePath;

@@ -19,7 +19,6 @@ package info.hannes.cvscanner.crop;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -29,6 +28,7 @@ import androidx.fragment.app.Fragment;
 
 import info.hannes.cvscanner.CVScanner;
 import info.hannes.cvscanner.R;
+import timber.log.Timber;
 
 /**
  * The activity can crop specific region of interest from an image.
@@ -108,14 +108,14 @@ public class CropImageActivity extends AppCompatActivity implements CVScanner.Im
 
     @Override
     public void onImageProcessingFailed(String reason, @Nullable Exception error) {
-        Log.d("CROP-ACTIVITY", "image processing failed: " + reason);
+        Timber.d("CROP-ACTIVITY image processing failed: %s", reason);
         setResult(RESULT_CANCELED);
         finish();
     }
 
     @Override
     public void onImageProcessed(String path) {
-        Log.d("CROP-ACTIVITY", "image processed");
+        Timber.d("CROP-ACTIVITY image processed");
         setResultAndExit(path);
     }
 }

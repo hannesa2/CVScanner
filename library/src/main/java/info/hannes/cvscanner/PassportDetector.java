@@ -25,6 +25,7 @@ import java.util.List;
 
 import info.hannes.cvscanner.util.CVProcessor;
 import online.devliving.mobilevisionpipeline.Util;
+import timber.log.Timber;
 
 
 public class PassportDetector extends Detector<Document> {
@@ -64,7 +65,7 @@ public class PassportDetector extends Detector<Document> {
             fOut.close();
             return file.getAbsolutePath();
         } catch (IOException e) {
-            e.printStackTrace();
+            Timber.e(e);
         }
 
         return null;

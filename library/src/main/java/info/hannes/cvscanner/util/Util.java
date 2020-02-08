@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.opengl.GLES10;
 import android.os.Environment;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.exifinterface.media.ExifInterface;
@@ -22,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import info.hannes.cvscanner.CVScanner;
+import timber.log.Timber;
 
 
 public final class Util {
@@ -54,7 +54,7 @@ public final class Util {
 
         // Save a file: path for use with ACTION_VIEW intents
         Uri currentPhotoUri = getUriForFile(context, image);
-        Log.d("MAIN", "photo-uri: " + currentPhotoUri);
+        Timber.d("photo-uri: %s", currentPhotoUri);
 
         return currentPhotoUri;
     }
@@ -197,7 +197,7 @@ public final class Util {
             imageStream = context.getContentResolver().openInputStream(imageUri);
             image = BitmapFactory.decodeStream(imageStream, null, options);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Timber.e(e);
         } finally {
             closeSilently(imageStream);
         }
