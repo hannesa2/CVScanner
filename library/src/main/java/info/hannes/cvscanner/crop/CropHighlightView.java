@@ -24,11 +24,11 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import info.hannes.cvscanner.R;
+import timber.log.Timber;
 
 
 // This class is used by CropImage to display a highlighted cropping mTrapezoid
@@ -37,9 +37,6 @@ import info.hannes.cvscanner.R;
 // space to screen space.
 class CropHighlightView implements HighLightView {
 
-    @SuppressWarnings("unused")
-    private static final String LOG_TAG = CropHighlightView.class.getSimpleName();
-    /* used during onDraw */
     private final Rect mViewDrawingRect = new Rect();
     private final Rect mLeftRect = new Rect();
     private final Rect mRightRect = new Rect();
@@ -69,7 +66,7 @@ class CropHighlightView implements HighLightView {
         mHysteresis = mContext.getResources().getDimensionPixelSize(R.dimen.crop_hit_hysteresis);
         final int edgeWidth = mContext.getResources().getDimensionPixelSize(R.dimen.crop_edge_width);
         mMatrix = new Matrix(ctx.getImageMatrix());
-        Log.i(LOG_TAG, "image = " + imageRect.toString() + " crop = " + cropRect.toString());
+        Timber.i("image = " + imageRect.toString() + " crop = " + cropRect.toString());
         mTrapezoid = new CroppingTrapezoid(cropRect, imageRect);
 
         mDrawRect = computeLayout();

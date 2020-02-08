@@ -3,7 +3,6 @@ package info.hannes.cvscanner.sample.base
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -23,6 +22,7 @@ import info.hannes.cvscanner.sample.ImageFragment
 import info.hannes.cvscanner.sample.R
 import kotlinx.android.synthetic.main.activity_main.*
 import org.opencv.android.OpenCVLoader
+import timber.log.Timber
 
 
 abstract class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -104,7 +104,7 @@ abstract class NavigationActivity : AppCompatActivity(), NavigationView.OnNaviga
                             .add(R.id.contentInfo, imageFragment)
                             .commit()
                 }
-                Log.d("Scan", scannedDocumentPath)
+                Timber.d("Scan $scannedDocumentPath")
             } else if (requestCode == REQUEST_CODE_CAMERA) {
                 uri?.let {
                     val x = uri.toString() //Uri.parse(it)

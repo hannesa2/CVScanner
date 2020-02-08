@@ -18,15 +18,14 @@
 package info.hannes.cvscanner.crop;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
-public abstract class MonitoredActivity extends AppCompatActivity {
+import timber.log.Timber;
 
-    private static final String LOG_TAG = MonitoredActivity.class.getSimpleName();
+public abstract class MonitoredActivity extends AppCompatActivity {
 
     private final ArrayList<LifeCycleListener> mListeners = new ArrayList<>();
 
@@ -99,7 +98,7 @@ public abstract class MonitoredActivity extends AppCompatActivity {
         for (LifeCycleListener listener : lifeCycleListeners) {
             listener.onActivityStopped(this);
         }
-        Log.i(LOG_TAG, "onStop: " + this.getClass());
+        Timber.i("onStop");
     }
 
     public interface LifeCycleListener {

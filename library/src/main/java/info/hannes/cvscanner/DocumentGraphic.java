@@ -5,9 +5,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.drawable.shapes.PathShape;
-import android.util.Log;
 
 import online.devliving.mobilevisionpipeline.GraphicOverlay;
+import timber.log.Timber;
 
 
 public class DocumentGraphic extends GraphicOverlay.Graphic {
@@ -81,30 +81,30 @@ public class DocumentGraphic extends GraphicOverlay.Graphic {
             Path path = new Path();
 
             /*
-            Log.d("DOC-GRAPHIC", "IsPortrait? " + isPortrait);
+            Timber.d("IsPortrait? " + isPortrait);
 
             float tlX = isPortrait? translateY((float) scannedDoc.detectedQuad.points[0].y):translateX((float) scannedDoc.detectedQuad.points[0].x);
             float tlY = isPortrait? translateX((float) scannedDoc.detectedQuad.points[0].x):translateY((float) scannedDoc.detectedQuad.points[0].y);
 
-            Log.d("DOC-GRAPHIC", "Top left: x: " + scannedDoc.detectedQuad.points[0].x + ", y: " + scannedDoc.detectedQuad.points[0].y
+            Timber.d("Top left: x: " + scannedDoc.detectedQuad.points[0].x + ", y: " + scannedDoc.detectedQuad.points[0].y
                     + " -> x: " + tlX + ", y: " + tlY);
 
             float blX = isPortrait? translateY((float) scannedDoc.detectedQuad.points[1].y):translateX((float) scannedDoc.detectedQuad.points[1].x);
             float blY = isPortrait? translateX((float) scannedDoc.detectedQuad.points[1].x):translateY((float) scannedDoc.detectedQuad.points[1].y);
 
-            Log.d("DOC-GRAPHIC", "Bottom left: x: " + scannedDoc.detectedQuad.points[1].x + ", y: " + scannedDoc.detectedQuad.points[1].y
+            Timber.d("Bottom left: x: " + scannedDoc.detectedQuad.points[1].x + ", y: " + scannedDoc.detectedQuad.points[1].y
                     + " -> x: " + blX + ", y: " + blY);
 
             float brX = isPortrait? translateY((float) scannedDoc.detectedQuad.points[2].y):translateX((float) scannedDoc.detectedQuad.points[2].x);
             float brY = isPortrait? translateX((float) scannedDoc.detectedQuad.points[2].x):translateY((float) scannedDoc.detectedQuad.points[2].y);
 
-            Log.d("DOC-GRAPHIC", "Bottom right: x: " + scannedDoc.detectedQuad.points[2].x + ", y: " + scannedDoc.detectedQuad.points[2].y
+            Timber.d("Bottom right: x: " + scannedDoc.detectedQuad.points[2].x + ", y: " + scannedDoc.detectedQuad.points[2].y
                     + " -> x: " + brX + ", y: " + brY);
 
             float trX = isPortrait? translateY((float) scannedDoc.detectedQuad.points[3].y):translateX((float) scannedDoc.detectedQuad.points[3].x);
             float trY = isPortrait? translateX((float) scannedDoc.detectedQuad.points[3].x):translateY((float) scannedDoc.detectedQuad.points[3].y);
 
-            Log.d("DOC-GRAPHIC", "Top right: x: " + scannedDoc.detectedQuad.points[3].x + ", y: " + scannedDoc.detectedQuad.points[3].y
+            Timber.d("Top right: x: " + scannedDoc.detectedQuad.points[3].x + ", y: " + scannedDoc.detectedQuad.points[3].y
                     + " -> x: " + trX + ", y: " + trY);
             */
             int frameWidth = scannedDoc.getImage().getMetadata().getHeight();
@@ -124,7 +124,7 @@ public class DocumentGraphic extends GraphicOverlay.Graphic {
             //canvas.drawPath(path, borderPaint);
             //canvas.drawPath(path, bodyPaint);
 
-            Log.d("DOC-GRAPHIC", "DONE DRAWING");
+            Timber.d("DONE DRAWING");
         }
     }
 }

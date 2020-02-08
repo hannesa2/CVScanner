@@ -19,7 +19,8 @@ import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.util.Log;
+
+import timber.log.Timber;
 
 import static info.hannes.cvscanner.crop.HighLightView.GROW_BOTTOM_EDGE;
 import static info.hannes.cvscanner.crop.HighLightView.GROW_LEFT_EDGE;
@@ -31,7 +32,6 @@ import static info.hannes.cvscanner.crop.HighLightView.MOVE;
 
 public class CroppingTrapezoid {
 
-    private final static String LOG_TAG = CroppingTrapezoid.class.getSimpleName();
     private final float[] mPoints = new float[8];
     private final float[] mMappedPoints = new float[8];
     private final Rect mImageRect;
@@ -239,43 +239,43 @@ public class CroppingTrapezoid {
 
         final boolean touchesTopLeft = calculateDistanceToPoint(mPoints[0], mPoints[1], x, y) <= hysteresis;
         if (touchesTopLeft) {
-            Log.i(LOG_TAG, "top left");
+            Timber.i("top left");
             return GROW_LEFT_EDGE | GROW_TOP_EDGE;
         }
         final boolean touchesTopRight = calculateDistanceToPoint(mPoints[2], mPoints[3], x, y) <= hysteresis;
         if (touchesTopRight) {
-            Log.i(LOG_TAG, "top right");
+            Timber.i("top right");
             return GROW_RIGHT_EDGE | GROW_TOP_EDGE;
         }
         final boolean touchesBottomRight = calculateDistanceToPoint(mPoints[4], mPoints[5], x, y) <= hysteresis;
         if (touchesBottomRight) {
-            Log.i(LOG_TAG, "bottom right");
+            Timber.i("bottom right");
             return GROW_RIGHT_EDGE | GROW_BOTTOM_EDGE;
         }
         final boolean touchesBottomLeft = calculateDistanceToPoint(mPoints[6], mPoints[7], x, y) <= hysteresis;
         if (touchesBottomLeft) {
-            Log.i(LOG_TAG, "bottom left");
+            Timber.i("bottom left");
             return GROW_LEFT_EDGE | GROW_BOTTOM_EDGE;
         }
 
         final double topDistance = calculateDistanceToLine(mPoints[0], mPoints[1], mPoints[2], mPoints[3], x, y);
         if (topDistance <= hysteresis) {
-            Log.i(LOG_TAG, "top");
+            Timber.i("top");
             retval |= GROW_TOP_EDGE;
         }
         final double rightDistance = calculateDistanceToLine(mPoints[2], mPoints[3], mPoints[4], mPoints[5], x, y);
         if (rightDistance <= hysteresis) {
-            Log.i(LOG_TAG, "right");
+            Timber.i("right");
             retval |= GROW_RIGHT_EDGE;
         }
         final double bottomDistance = calculateDistanceToLine(mPoints[6], mPoints[7], mPoints[4], mPoints[5], x, y);
         if (bottomDistance <= hysteresis) {
-            Log.i(LOG_TAG, "bottom");
+            Timber.i("bottom");
             retval |= GROW_BOTTOM_EDGE;
         }
         final double leftDistance = calculateDistanceToLine(mPoints[0], mPoints[1], mPoints[6], mPoints[7], x, y);
         if (leftDistance <= hysteresis) {
-            Log.i(LOG_TAG, "left");
+            Timber.i("left");
             retval |= GROW_LEFT_EDGE;
         }
 
@@ -302,7 +302,7 @@ public class CroppingTrapezoid {
                 //point is outside to the bottom of trapezoid
                 return retval;
             }
-            Log.i(LOG_TAG, "move");
+            Timber.i("move");
             retval = MOVE;
         }
 

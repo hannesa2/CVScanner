@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -21,6 +20,8 @@ import androidx.core.app.ActivityCompat;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
+import timber.log.Timber;
+
 
 public class DocumentScannerActivity extends AppCompatActivity implements CVScanner.ImageProcessorCallback {
     // constants used to pass extra data in the intent
@@ -29,7 +30,6 @@ public class DocumentScannerActivity extends AppCompatActivity implements CVScan
     public static final String EXTRA_TORCH_TINT_COLOR = "torch_tint_color";
     public static final String EXTRA_TORCH_TINT_COLOR_LIGHT = "torch_tint_color_light";
     public static final String EXTRA_IS_PASSPORT = "is_passport";
-    private static final String TAG = "ID-reader";
     // intent request code to handle updating play services if needed.
     private static final int RC_HANDLE_GMS = 9001;
     // permission request codes need to be < 256
@@ -113,7 +113,7 @@ public class DocumentScannerActivity extends AppCompatActivity implements CVScan
      * sending the request.
      */
     private void requestCameraPermission() {
-        Log.w(TAG, "Camera permission is not granted. Requesting permission");
+        Timber.w("Camera permission is not granted. Requesting permission");
 
         final String[] permissions = new String[]{Manifest.permission.CAMERA};
 
@@ -156,19 +156,19 @@ public class DocumentScannerActivity extends AppCompatActivity implements CVScan
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         if (requestCode != RC_HANDLE_CAMERA_PERM) {
-            Log.d(TAG, "Got unexpected permission result: " + requestCode);
+            Timber.d("Got unexpected permission result: " + requestCode);
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
             return;
         }
 
         if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, "Camera permission granted - initialize the camera source");
+            Timber.d("Camera permission granted - initialize the camera source");
             // we have permission, so create the camerasource
             checkPlayServices();
             return;
         }
 
-        Log.e(TAG, "Permission not granted: results len = " + grantResults.length +
+        Timber.e("Permission not granted: results len = " + grantResults.length +
                 " Result code = " + (grantResults.length > 0 ? grantResults[0] : "(empty)"));
 
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {

@@ -4,6 +4,7 @@
     package="info.hannes.cvscanner.sample">
 
     <application
+        android:name=".ScannerApplication"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.NoActionBar"
