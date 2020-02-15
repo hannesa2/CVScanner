@@ -7,9 +7,6 @@ import android.net.Uri;
 import android.opengl.GLES10;
 import android.os.Environment;
 
-import androidx.annotation.NonNull;
-import androidx.exifinterface.media.ExifInterface;
-
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 
@@ -20,6 +17,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import androidx.annotation.NonNull;
+import androidx.exifinterface.media.ExifInterface;
 import info.hannes.cvscanner.CVScanner;
 import timber.log.Timber;
 
@@ -28,12 +27,11 @@ public final class Util {
     private static final int SIZE_DEFAULT = 2048;
     private static final int SIZE_LIMIT = 4096;
 
-    public static void closeSilently(Closeable c) {
-        if (c == null) return;
+    public static void closeSilently(Closeable closeable) {
+        if (closeable == null) return;
         try {
-            c.close();
-        } catch (Throwable t) {
-            // Do nothing
+            closeable.close();
+        } catch (Throwable ignore) {
         }
     }
 
@@ -49,8 +47,7 @@ public final class Util {
                 storageDir.mkdirs();
         }
 
-        File image = File.createTempFile(fileName,
-                fileExtension, storageDir);
+        File image = File.createTempFile(fileName, fileExtension, storageDir);
 
         // Save a file: path for use with ACTION_VIEW intents
         Uri currentPhotoUri = getUriForFile(context, image);
@@ -64,8 +61,7 @@ public final class Util {
      * or 'context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)'
      */
     public static Uri getUriForFile(Context context, File file) {
-        return CVFileProvider.getUriForFile(context,
-                CVScanner.getFileproviderName(context), file);
+        return CVFileProvider.getUriForFile(context, CVScanner.getFileProviderName(context), file);
     }
 
     public static Uri getUriFromPath(String path) {
