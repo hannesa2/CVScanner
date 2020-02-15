@@ -9,6 +9,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import info.hannes.cvscanner.crop.CropImageActivity
 import info.hannes.cvscanner.util.Util
+import info.hannes.cvscanner.util.Util3
 import java.io.IOException
 
 object CVScanner {
@@ -23,7 +24,7 @@ object CVScanner {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(context.packageManager) != null) { // Create the File where the photo should go
-            val photoUri = Util.createTempFile(context,
+            val photoUri = Util3.createTempFile(context,
                     "SCAN_" + System.currentTimeMillis(), ".jpg",
                     true)
             // Continue only if the File was successfully created
@@ -44,7 +45,8 @@ object CVScanner {
         activity.startActivityForResult(intent, reqCode)
     }
 
-    fun startScanner(activity: Activity, isPassport: Boolean, reqCode: Int,
+    fun startScanner(activity: Activity,
+                     isPassport: Boolean, reqCode: Int,
                      @ColorRes docBorderColorRes: Int,
                      @ColorRes docBodyColorRes: Int,
                      @ColorRes torchColor: Int,

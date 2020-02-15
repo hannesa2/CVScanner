@@ -425,7 +425,7 @@ object CVProcessor {
 
     fun sortPoints(src: Array<Point>): Array<Point> {
         val srcPoints = ArrayList<Point>(listOf(*src))
-        val result : Array<Point> = src.clone()
+        val result: Array<Point> = src.clone()
         val sumComparator = Comparator<Point> { lhs, rhs -> (lhs.y + lhs.x).compareTo(rhs.y + rhs.x) }
         val diffComparator = Comparator<Point> { lhs, rhs -> (lhs.y - lhs.x).compareTo(rhs.y - rhs.x) }
         // top-left corner = minimal sum
