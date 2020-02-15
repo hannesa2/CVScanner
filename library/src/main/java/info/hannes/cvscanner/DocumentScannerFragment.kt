@@ -167,7 +167,7 @@ class DocumentScannerFragment : BaseFragment(), View.OnTouchListener, DocumentDe
      */
     override fun onDestroy() {
         super.onDestroy()
-        cameraSourcePreview.release()
+        cameraSourcePreview?.release()
         sound?.release()
     }
 
@@ -218,6 +218,7 @@ class DocumentScannerFragment : BaseFragment(), View.OnTouchListener, DocumentDe
                     val doc = docs[0]
                     requireActivity().runOnUiThread { processDocument(doc) }
                 } else {
+                    Timber.d("detected finish")
                     requireActivity().finish()
                 }
             }

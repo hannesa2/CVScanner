@@ -57,9 +57,11 @@ class ImageSaveTask(private val mContext: Context, private val image: Bitmap, pr
             Timber.e(e, "saveImage")
         }
         try {
-            Util.setExifRotation(mContext, Util.getUriFromPath(imagePath), rotation)
+            imagePath?.let {
+                Util.setExifRotation(mContext, Util.getUriFromPath(it), rotation)
+            }
         } catch (e: IOException) {
-            Timber.e(e, "setExifRotation")
+            Timber.e(e, "setExifRotation $imagePath $rotation")
         }
         return imagePath
     }
