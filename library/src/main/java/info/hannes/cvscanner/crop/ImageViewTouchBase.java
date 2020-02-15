@@ -135,18 +135,18 @@ public abstract class ImageViewTouchBase extends androidx.appcompat.widget.AppCo
                     BitmapDrawable layer1 = (BitmapDrawable) oldTransition.getDrawable(1);
                     layer1.getBitmap().recycle();
                 }
-                BitmapDrawable layers[] = new BitmapDrawable[]{new BitmapDrawable(getResources(), bitmap)};
+                BitmapDrawable[] layers = new BitmapDrawable[]{new BitmapDrawable(getResources(), bitmap)};
                 TransitionDrawable transitionDrawable = new TransitionDrawable(layers);
                 setImageDrawable(transitionDrawable);
             } else {
-                BitmapDrawable layers[] = new BitmapDrawable[]{new BitmapDrawable(getResources(), old), new BitmapDrawable(getResources(), bitmap)};
+                BitmapDrawable[] layers = new BitmapDrawable[]{new BitmapDrawable(getResources(), old), new BitmapDrawable(getResources(), bitmap)};
                 TransitionDrawable transitionDrawable = new TransitionDrawable(layers);
                 setImageDrawable(transitionDrawable);
                 transitionDrawable.startTransition(TRANSITION_DURATION);
             }
 
         } else {
-            BitmapDrawable layers[] = new BitmapDrawable[]{new BitmapDrawable(getResources(), bitmap)};
+            BitmapDrawable[] layers = new BitmapDrawable[]{new BitmapDrawable(getResources(), bitmap)};
             TransitionDrawable transitionDrawable = new TransitionDrawable(layers);
             setImageDrawable(transitionDrawable);
         }
@@ -156,12 +156,12 @@ public abstract class ImageViewTouchBase extends androidx.appcompat.widget.AppCo
 
     public void clear() {
         final Drawable drawable = getDrawable();
-        if (drawable != null && drawable instanceof BitmapDrawable) {
+        if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bd = (BitmapDrawable) getDrawable();
             if (bd.getBitmap() != null) {
                 bd.getBitmap().recycle();
             }
-        } else if (drawable != null && drawable instanceof TransitionDrawable) {
+        } else if (drawable instanceof TransitionDrawable) {
             for (int i = 0; i < ((TransitionDrawable) drawable).getNumberOfLayers(); i++) {
                 BitmapDrawable layer = (BitmapDrawable) ((TransitionDrawable) drawable).getDrawable(i);
                 if (layer.getBitmap() != null) {

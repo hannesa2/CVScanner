@@ -15,9 +15,7 @@ import timber.log.Timber
 
 abstract class BaseFragment : Fragment(), ImageSaveTask.SaveCallback {
 
-    @JvmField
-    protected var isBusy = false
-    @JvmField
+    protected open var isBusy = false
     protected var imageProcessorCallback: ImageProcessorCallback? = null
     private var loaderCallback: BaseLoaderCallback? = null
 

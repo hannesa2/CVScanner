@@ -33,8 +33,7 @@ import timber.log.Timber;
 
 // This class is used by CropImage to display a highlighted cropping mTrapezoid
 // overlayed with the image. There are two coordinate spaces in use. One is
-// image, another is screen. computeLayout() uses mMatrix to map from image
-// space to screen space.
+// image, another is screen. computeLayout() uses mMatrix to map from image space to screen space.
 class CropHighlightView implements HighLightView {
 
     private final Rect mViewDrawingRect = new Rect();
@@ -56,7 +55,6 @@ class CropHighlightView implements HighLightView {
     private View mContext; // The View displaying the image.
     private Rect mDrawRect; // in screen space
     private Matrix mMatrix;
-
 
     public CropHighlightView(ImageView ctx, Rect imageRect, RectF cropRect) {
         mContext = ctx;

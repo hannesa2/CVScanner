@@ -129,8 +129,8 @@ public class ImageCropperFragment extends BaseFragment implements CropImageView.
     @Override
     protected void onOpenCVConnectionFailed() {
         Toast.makeText(getContext(), "OpenCV failed to load", Toast.LENGTH_SHORT).show();
-        if (imageProcessorCallback != null)
-            imageProcessorCallback.onImageProcessingFailed("OpenCV failed to load", null);
+        if (getImageProcessorCallback() != null)
+            getImageProcessorCallback().onImageProcessingFailed("OpenCV failed to load", null);
         else requireActivity().finish();
     }
 
@@ -250,7 +250,7 @@ public class ImageCropperFragment extends BaseFragment implements CropImageView.
     }
 
     public void cropAndSave() {
-        if (mBitmap != null && !isBusy) {
+        if (mBitmap != null && !isBusy()) {
             float[] points = mCrop.getTrapezoid();
             Point[] quadPoints = new Point[4];
 
@@ -282,7 +282,7 @@ public class ImageCropperFragment extends BaseFragment implements CropImageView.
 
     @Override
     public boolean isBusy() {
-        return isBusy;
+        return super.isBusy();
     }
 
     public interface ImageLoadingCallback {

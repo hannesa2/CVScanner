@@ -128,18 +128,16 @@ class DocumentScannerFragment : BaseFragment(), View.OnTouchListener, DocumentDe
             PassportDetector(frameSizeProvider!!, requireContext())
         } else
             DocumentDetector(requireContext())
-        /*
-        val factory = DocumentTrackerFactory(mGraphicOverlay, this);
-        IDDetector.setProcessor(MultiProcessor.Builder<>(factory).build());*/
+
         val graphic = DocumentGraphic(graphicOverlay, null)
         if (documentBorderColor != -1) graphic.setBorderColor(documentBorderColor)
         if (documentBodyColor != -1) graphic.setFillColor(documentBodyColor)
         val processor = DocumentProcessor(detectorID,
                 DocumentTracker(graphicOverlay as GraphicOverlay<DocumentGraphic>, graphic, this))
         detectorID!!.setProcessor(processor)
+
         // Creates and starts the camera.  Note that this uses a higher resolution in comparison
-        // to other detection examples to enable the barcode detector to detect small barcodes
-        // at long distances.
+        // to other detection examples to enable the barcode detector to detect small barcodes at long distances.
         cameraSource = CameraSource.Builder(requireActivity().applicationContext, detectorID)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)
@@ -200,7 +198,8 @@ class DocumentScannerFragment : BaseFragment(), View.OnTouchListener, DocumentDe
     override fun onDocumentDetected(document: Document) {
         Timber.d("document detected")
         requireActivity().runOnUiThread {
-            if (cameraSource != null) cameraSource!!.stop()
+            if (cameraSource != null)
+                cameraSource!!.stop()
             processDocument(document)
         }
     }

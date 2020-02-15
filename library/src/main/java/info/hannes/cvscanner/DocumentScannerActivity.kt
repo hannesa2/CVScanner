@@ -11,10 +11,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import info.hannes.cvscanner.CVScanner.ImageProcessorCallback
-import info.hannes.cvscanner.DocumentScannerActivity
 import info.hannes.cvscanner.DocumentScannerFragment.Companion.instantiate
 import timber.log.Timber
 
@@ -62,15 +62,15 @@ class DocumentScannerActivity : AppCompatActivity(), ImageProcessorCallback {
         }
     }
 
-    fun addScannerFragment() {
+    private fun addScannerFragment() {
         val extras = intent.extras
         val isScanningPassport = extras != null && intent.getBooleanExtra(EXTRA_IS_PASSPORT, false)
         val fragment: DocumentScannerFragment
         fragment = if (extras != null) {
             val borderColor = extras.getInt(EXTRA_DOCUMENT_BORDER_COLOR, -1)
             val bodyColor = extras.getInt(EXTRA_DOCUMENT_BODY_COLOR, -1)
-            val torchTintColor = extras.getInt(EXTRA_TORCH_TINT_COLOR, resources.getColor(R.color.dark_gray))
-            val torchTintLightColor = extras.getInt(EXTRA_TORCH_TINT_COLOR_LIGHT, resources.getColor(R.color.torch_yellow))
+            val torchTintColor = extras.getInt(EXTRA_TORCH_TINT_COLOR, ContextCompat.getColor(this, R.color.dark_gray))
+            val torchTintLightColor = extras.getInt(EXTRA_TORCH_TINT_COLOR_LIGHT, ContextCompat.getColor(this, R.color.torch_yellow))
             instantiate(isScanningPassport, borderColor, bodyColor, torchTintColor, torchTintLightColor)
         } else {
             instantiate(isScanningPassport)
