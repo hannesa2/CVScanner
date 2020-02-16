@@ -8,8 +8,7 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.NoActionBar"
-        tools:ignore="AllowBackup,GoogleAppIndexingWarning"
-        tools:replace="android:icon,android:theme">
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
