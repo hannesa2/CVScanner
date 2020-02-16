@@ -33,7 +33,7 @@ android {
 
 dependencies {
     testImplementation 'junit:junit:4.13'
-    def openCV = "4.2.0.nightly-21-g7545f2e"
+    def openCV = "4.2.0.nightly-24-gfbf77e9"
     api "opencv_samples:opencv:$openCV"
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.exifinterface:exifinterface:1.1.0'
