@@ -33,7 +33,6 @@ public abstract class ImageViewTouchBase extends androidx.appcompat.widget.AppCo
     public static final int TRANSITION_DURATION = 500;
     static final float SCALE_RATE = 1.25F;
     @SuppressWarnings("unused")
-    private static final String TAG = "ImageViewTouchBase";
     // The current bitmap being displayed.
     final protected RotateBitmap mBitmapDisplayed = new RotateBitmap(null);
     // This is the final matrix which is computed as the concatenation
