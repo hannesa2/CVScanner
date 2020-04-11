@@ -36,7 +36,7 @@ dependencies {
     def openCV = "4.2.0.nightly-24-gfbf77e9"
     api "opencv_samples:opencv:$openCV"
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.exifinterface:exifinterface:1.1.0'
+    implementation 'androidx.exifinterface:exifinterface:1.2.0'
     implementation 'com.google.android.gms:play-services-basement:17.2.1'
     implementation 'com.google.android.gms:play-services-vision:19.0.0'
     implementation 'com.github.hannesa2:AndroidVisionPipeline:0.2'
