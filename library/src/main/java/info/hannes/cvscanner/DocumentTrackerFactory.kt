@@ -3,7 +3,7 @@ package info.hannes.cvscanner
 import com.google.android.gms.vision.MultiProcessor
 import com.google.android.gms.vision.Tracker
 import info.hannes.cvscanner.DocumentTracker.DocumentDetectionListener
-import online.devliving.mobilevisionpipeline.GraphicOverlay
+import info.hannes.visionpipeline.GraphicOverlay
 
 class DocumentTrackerFactory(private val graphicOverlay: GraphicOverlay<DocumentGraphic>, private val documentDetectionListener: DocumentDetectionListener) : MultiProcessor.Factory<Document> {
 

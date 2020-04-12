@@ -12,7 +12,7 @@ import info.hannes.cvscanner.util.CVProcessor.findContoursForMRZ
 import info.hannes.cvscanner.util.CVProcessor.getQuadForPassport
 import info.hannes.cvscanner.util.CVProcessor.getScaleRatio
 import info.hannes.cvscanner.util.CVProcessor.getUpScaledPoints
-import online.devliving.mobilevisionpipeline.Util.FrameSizeProvider
+import info.hannes.visionpipeline.Util.FrameSizeProvider
 import org.opencv.android.Utils
 import org.opencv.core.Mat
 import org.opencv.core.Point

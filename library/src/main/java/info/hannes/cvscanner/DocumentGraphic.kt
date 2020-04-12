@@ -5,8 +5,8 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.drawable.shapes.PathShape
-import online.devliving.mobilevisionpipeline.GraphicOverlay
-import online.devliving.mobilevisionpipeline.GraphicOverlay.Graphic
+import info.hannes.visionpipeline.GraphicOverlay
+import info.hannes.visionpipeline.GraphicOverlay.Graphic
 import timber.log.Timber
 
 class DocumentGraphic(overlay: GraphicOverlay<*>?, private var scannedDoc: Document?) : Graphic(overlay) {

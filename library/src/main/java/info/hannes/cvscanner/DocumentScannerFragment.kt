@@ -18,12 +18,13 @@ import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.Frame
 import info.hannes.cvscanner.DocumentTracker.DocumentDetectionListener
 import kotlinx.android.synthetic.main.scanner_content.*
-import online.devliving.mobilevisionpipeline.GraphicOverlay
-import online.devliving.mobilevisionpipeline.Util.FrameSizeProvider
-import online.devliving.mobilevisionpipeline.camera.CameraSource
+import info.hannes.visionpipeline.GraphicOverlay
+import info.hannes.visionpipeline.Util.FrameSizeProvider
+import info.hannes.visionpipeline.camera.CameraSource
 import timber.log.Timber
 
 class DocumentScannerFragment : BaseFragment(), View.OnTouchListener, DocumentDetectionListener {
+
     private val mLock = Any()
     private var torchTintColor = Color.GRAY
     private var torchTintColorLight = Color.YELLOW

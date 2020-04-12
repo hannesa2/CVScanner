@@ -2,9 +2,9 @@ package info.hannes.cvscanner
 
 import android.graphics.RectF
 import info.hannes.cvscanner.util.CVProcessor
-import online.devliving.mobilevisionpipeline.FrameGraphic
-import online.devliving.mobilevisionpipeline.GraphicOverlay
-import online.devliving.mobilevisionpipeline.Util
+import info.hannes.visionpipeline.FrameGraphic
+import info.hannes.visionpipeline.GraphicOverlay
+import info.hannes.visionpipeline.Util
 
 class BorderFrameGraphic(overlay: GraphicOverlay<*>?, private val isForPassport: Boolean) : FrameGraphic(overlay) {
 
