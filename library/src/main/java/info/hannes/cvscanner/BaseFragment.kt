@@ -58,12 +58,12 @@ abstract class BaseFragment : Fragment(), ImageSaveTask.SaveCallback {
 
     override fun onSaved(savedPath: String?) {
         Timber.d("saved at: %s", savedPath)
-        if (imageProcessorCallback != null) imageProcessorCallback!!.onImageProcessed(savedPath)
+        imageProcessorCallback?.onImageProcessed(savedPath)
         isBusy = false
     }
 
     override fun onSaveFailed(error: Exception?) {
-        if (imageProcessorCallback != null) imageProcessorCallback!!.onImageProcessingFailed("Failed to save image", error)
+        imageProcessorCallback?.onImageProcessingFailed("Failed to save image", error)
         isBusy = false
     }
 

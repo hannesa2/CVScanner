@@ -19,6 +19,7 @@ import info.hannes.cvscanner.DocumentScannerFragment.Companion.instantiate
 import timber.log.Timber
 
 class DocumentScannerActivity : AppCompatActivity(), ImageProcessorCallback {
+
     public override fun onCreate(icicle: Bundle?) {
         super.onCreate(icicle)
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN or
@@ -43,7 +44,7 @@ class DocumentScannerActivity : AppCompatActivity(), ImageProcessorCallback {
         }
     }
 
-    fun checkCameraPermission() {
+    private fun checkCameraPermission() {
         val rc = ActivityCompat.checkSelfPermission(this@DocumentScannerActivity, Manifest.permission.CAMERA)
         if (rc == PackageManager.PERMISSION_GRANTED) {
             checkPlayServices()
@@ -52,7 +53,7 @@ class DocumentScannerActivity : AppCompatActivity(), ImageProcessorCallback {
         }
     }
 
-    fun checkPlayServices() { // check that the device has play services available.
+    private fun checkPlayServices() { // check that the device has play services available.
         val code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(applicationContext)
         if (code != ConnectionResult.SUCCESS) {
             val dlg = GoogleApiAvailability.getInstance().getErrorDialog(this, code, RC_HANDLE_GMS)
@@ -65,8 +66,8 @@ class DocumentScannerActivity : AppCompatActivity(), ImageProcessorCallback {
     private fun addScannerFragment() {
         val extras = intent.extras
         val isScanningPassport = extras != null && intent.getBooleanExtra(EXTRA_IS_PASSPORT, false)
-        val fragment: DocumentScannerFragment
-        fragment = if (extras != null) {
+        val documentScannerFragment: DocumentScannerFragment
+        documentScannerFragment = if (extras != null) {
             val borderColor = extras.getInt(EXTRA_DOCUMENT_BORDER_COLOR, -1)
             val bodyColor = extras.getInt(EXTRA_DOCUMENT_BODY_COLOR, -1)
             val torchTintColor = extras.getInt(EXTRA_TORCH_TINT_COLOR, ContextCompat.getColor(this, R.color.dark_gray))
@@ -76,7 +77,7 @@ class DocumentScannerActivity : AppCompatActivity(), ImageProcessorCallback {
             instantiate(isScanningPassport)
         }
         supportFragmentManager.beginTransaction()
-                .add(R.id.container, fragment)
+                .add(R.id.container, documentScannerFragment)
                 .commitAllowingStateLoss()
     }
 
@@ -96,7 +97,7 @@ class DocumentScannerActivity : AppCompatActivity(), ImageProcessorCallback {
         AlertDialog.Builder(this)
                 .setTitle("Camera Permission Required")
                 .setMessage("access to device camera is required for scanning")
-                .setPositiveButton("OK") { dialog, which -> ActivityCompat.requestPermissions(thisActivity, permissions, RC_HANDLE_CAMERA_PERM) }.show()
+                .setPositiveButton("OK") { _, _ -> ActivityCompat.requestPermissions(thisActivity, permissions, RC_HANDLE_CAMERA_PERM) }.show()
     }
 
     /**
@@ -124,15 +125,15 @@ class DocumentScannerActivity : AppCompatActivity(), ImageProcessorCallback {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
             return
         }
-        if (grantResults.size != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Timber.d("Camera permission granted - initialize the camera source")
-            // we have permission, so create the camerasource
+            // we have permission, so create the camera source
             checkPlayServices()
             return
         }
-        Timber.e("Permission not granted: results len = " + grantResults.size +
-                " Result code = " + if (grantResults.size > 0) grantResults[0] else "(empty)")
-        val listener = DialogInterface.OnClickListener { dialog, id -> finish() }
+        val resultCode: String = if (grantResults.isNotEmpty()) grantResults[0].toString() else "(empty)"
+        Timber.e("Permission not granted: results len = ${grantResults.size} ResultCode=$resultCode")
+        val listener = DialogInterface.OnClickListener { _, _ -> finish() }
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Access to Camera Denied")
                 .setMessage("Cannot scan document without using the camera")
@@ -140,7 +141,7 @@ class DocumentScannerActivity : AppCompatActivity(), ImageProcessorCallback {
                 .show()
     }
 
-    fun setResultAndExit(path: String?) {
+    private fun setResultAndExit(path: String?) {
         val data = intent
         data.putExtra(CVScanner.RESULT_IMAGE_PATH, path)
         setResult(Activity.RESULT_OK, data)
@@ -165,8 +166,10 @@ class DocumentScannerActivity : AppCompatActivity(), ImageProcessorCallback {
         const val EXTRA_TORCH_TINT_COLOR = "torch_tint_color"
         const val EXTRA_TORCH_TINT_COLOR_LIGHT = "torch_tint_color_light"
         const val EXTRA_IS_PASSPORT = "is_passport"
+
         // intent request code to handle updating play services if needed.
         private const val RC_HANDLE_GMS = 9001
+
         // permission request codes need to be < 256
         private const val RC_HANDLE_CAMERA_PERM = 2
     }

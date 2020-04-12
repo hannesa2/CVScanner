@@ -18,12 +18,13 @@ import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.Frame
 import info.hannes.cvscanner.DocumentTracker.DocumentDetectionListener
 import kotlinx.android.synthetic.main.scanner_content.*
-import online.devliving.mobilevisionpipeline.GraphicOverlay
-import online.devliving.mobilevisionpipeline.Util.FrameSizeProvider
-import online.devliving.mobilevisionpipeline.camera.CameraSource
+import info.hannes.visionpipeline.GraphicOverlay
+import info.hannes.visionpipeline.Util.FrameSizeProvider
+import info.hannes.visionpipeline.camera.CameraSource
 import timber.log.Timber
 
 class DocumentScannerFragment : BaseFragment(), View.OnTouchListener, DocumentDetectionListener {
+
     private val mLock = Any()
     private var torchTintColor = Color.GRAY
     private var torchTintColorLight = Color.YELLOW
@@ -31,31 +32,36 @@ class DocumentScannerFragment : BaseFragment(), View.OnTouchListener, DocumentDe
     private var documentBodyColor = -1
     private var cameraSource: CameraSource? = null
     private var frameSizeProvider: FrameSizeProvider? = null
+
     // helper objects for detecting taps and pinches.
     private var gestureDetector: GestureDetector? = null
     private var detectorID: Detector<Document>? = null
     private val sound: MediaActionSound? = MediaActionSound()
     private var isPassport = false
+
     override fun onInflate(context: Context, attrs: AttributeSet, savedInstanceState: Bundle?) {
         super.onInflate(context, attrs, savedInstanceState)
         val array = context.obtainStyledAttributes(attrs, R.styleable.DocumentScannerFragment)
-        torchTintColor = array.getColor(R.styleable.DocumentScannerFragment_torchTint, torchTintColor)
-        torchTintColorLight = array.getColor(R.styleable.DocumentScannerFragment_torchTintLight, torchTintColorLight)
-        Timber.d("resolved torch tint colors")
-        val theme = context.theme
-        val borderColor = TypedValue()
-        if (theme.resolveAttribute(android.R.attr.colorPrimary, borderColor, true)) {
-            Timber.d("resolved border color from theme")
-            documentBorderColor = if (borderColor.resourceId > 0) ContextCompat.getColor(context, borderColor.resourceId) else borderColor.data
+        try {
+            torchTintColor = array.getColor(R.styleable.DocumentScannerFragment_torchTint, torchTintColor)
+            torchTintColorLight = array.getColor(R.styleable.DocumentScannerFragment_torchTintLight, torchTintColorLight)
+            Timber.d("resolved torch tint colors")
+            val theme = context.theme
+            val borderColor = TypedValue()
+            if (theme.resolveAttribute(android.R.attr.colorPrimary, borderColor, true)) {
+                Timber.d("resolved border color from theme")
+                documentBorderColor = if (borderColor.resourceId > 0) ContextCompat.getColor(context, borderColor.resourceId) else borderColor.data
+            }
+            documentBorderColor = array.getColor(R.styleable.DocumentScannerFragment_documentBorderColor, documentBorderColor)
+            val bodyColor = TypedValue()
+            if (theme.resolveAttribute(android.R.attr.colorPrimaryDark, bodyColor, true)) {
+                Timber.d("resolved body color from theme")
+                documentBodyColor = if (bodyColor.resourceId > 0) ContextCompat.getColor(context, bodyColor.resourceId) else bodyColor.data
+            }
+            documentBodyColor = array.getColor(R.styleable.DocumentScannerFragment_documentBodyColor, documentBodyColor)
+        } finally {
+            array.recycle()
         }
-        documentBorderColor = array.getColor(R.styleable.DocumentScannerFragment_documentBorderColor, documentBorderColor)
-        val bodyColor = TypedValue()
-        if (theme.resolveAttribute(android.R.attr.colorPrimaryDark, bodyColor, true)) {
-            Timber.d("resolved body color from theme")
-            documentBodyColor = if (bodyColor.resourceId > 0) ContextCompat.getColor(context, bodyColor.resourceId) else bodyColor.data
-        }
-        documentBodyColor = array.getColor(R.styleable.DocumentScannerFragment_documentBodyColor, documentBodyColor)
-        array.recycle()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -85,19 +91,20 @@ class DocumentScannerFragment : BaseFragment(), View.OnTouchListener, DocumentDe
         frameSizeProvider = frameGraphic
         graphicOverlay.addFrame(frameGraphic)
         flashToggle!!.setOnClickListener {
-            if (cameraSource != null) {
-                if (cameraSource!!.flashMode == Camera.Parameters.FLASH_MODE_TORCH) {
-                    cameraSource!!.setFlashMode(Camera.Parameters.FLASH_MODE_OFF)
-                } else cameraSource!!.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH)
+            cameraSource?.let {
+                if (it.flashMode == Camera.Parameters.FLASH_MODE_TORCH) {
+                    it.setFlashMode(Camera.Parameters.FLASH_MODE_OFF)
+                } else
+                    it.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH)
                 updateFlashButtonColor()
             }
         }
     }
 
     private fun updateFlashButtonColor() {
-        if (cameraSource != null) {
+        cameraSource?.let {
             var tintColor = torchTintColor
-            if (cameraSource!!.flashMode == Camera.Parameters.FLASH_MODE_TORCH) {
+            if (it.flashMode == Camera.Parameters.FLASH_MODE_TORCH) {
                 tintColor = torchTintColorLight
             }
             DrawableCompat.setTint(flashToggle!!.drawable, tintColor)
@@ -190,7 +197,7 @@ class DocumentScannerFragment : BaseFragment(), View.OnTouchListener, DocumentDe
 
     private fun processDocument(document: Document) {
         synchronized(mLock) {
-            saveCroppedImage(document.image.bitmap, document.image.metadata.rotation,                    document.detectedQuad.points)
+            saveCroppedImage(document.image.bitmap, document.image.metadata.rotation, document.detectedQuad.points)
             isBusy = true
         }
     }

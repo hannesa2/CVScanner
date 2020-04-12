@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ImageSaveTask(private val mContext: Context, private val image: Bitmap, private val rotation: Int, private val points: Array<Point>, private val mCallback: SaveCallback) : AsyncTask<Void?, Void?, String?>() {
+
     override fun onPreExecute() {
         mCallback.onSaveTaskStarted()
     }

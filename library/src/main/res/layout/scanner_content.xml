@@ -6,18 +6,18 @@
     android:layout_height="match_parent"
     android:keepScreenOn="true">
 
-    <online.devliving.mobilevisionpipeline.camera.CameraSourcePreview
+    <info.hannes.visionpipeline.camera.CameraSourcePreview
         android:id="@+id/cameraSourcePreview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center">
 
-        <online.devliving.mobilevisionpipeline.GraphicOverlay
+        <info.hannes.visionpipeline.GraphicOverlay
             android:id="@+id/graphicOverlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </online.devliving.mobilevisionpipeline.camera.CameraSourcePreview>
+    </info.hannes.visionpipeline.camera.CameraSourcePreview>
 
     <ImageButton
         android:id="@+id/flashToggle"

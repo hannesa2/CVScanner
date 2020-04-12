@@ -2,7 +2,7 @@ package info.hannes.cvscanner
 
 import com.google.android.gms.vision.Detector.Detections
 import com.google.android.gms.vision.Tracker
-import online.devliving.mobilevisionpipeline.GraphicOverlay
+import info.hannes.visionpipeline.GraphicOverlay
 
 class DocumentTracker(
         private val graphicOverlay: GraphicOverlay<DocumentGraphic>,
