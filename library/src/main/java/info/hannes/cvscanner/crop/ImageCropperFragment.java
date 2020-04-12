@@ -24,13 +24,13 @@ import org.opencv.core.Point;
 
 import java.io.IOException;
 
-import info.hannes.cvscanner.BaseFragment;
+import info.hannes.cvscanner.BaseCVFragment;
 import info.hannes.cvscanner.R;
 import info.hannes.cvscanner.util.CVProcessor;
 import info.hannes.cvscanner.util.Util;
 
 
-public class ImageCropperFragment extends BaseFragment implements CropImageView.CropImageViewHost {
+public class ImageCropperFragment extends BaseCVFragment implements CropImageView.CropImageViewHost {
     final static String ARG_SRC_IMAGE_URI = "source_image";
     final static String ARG_RT_LEFT_IMAGE_RES = "rotateLeft_imageRes";
     final static String ARG_SAVE_IMAGE_RES = "save_imageRes";
