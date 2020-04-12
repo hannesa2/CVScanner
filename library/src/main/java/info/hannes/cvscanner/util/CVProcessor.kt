@@ -331,10 +331,10 @@ object CVProcessor {
                     Timber.i("SCANNER found square inside and largeEnough")
                     return Quadrilateral(c, foundPoints)
                 } else { //showToast(context, "Try getting closer to the ID");
-                    Timber.i("SCANNER Not inside defined inside=$inside largeEnough=$largeEnough")
+                    Timber.v("SCANNER Not inside defined inside=$inside largeEnough=$largeEnough")
                 }
             } else
-                Timber.i("SCANNER approx size: ${points.size} do nothing, it's not squared")
+                Timber.v("SCANNER approx size: ${points.size} do nothing, it's not squared")
         }
         //showToast(context, "Make sure the ID is on a contrasting background");
         return null
