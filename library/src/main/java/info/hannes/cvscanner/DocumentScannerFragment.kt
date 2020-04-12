@@ -23,7 +23,7 @@ import info.hannes.visionpipeline.Util.FrameSizeProvider
 import info.hannes.visionpipeline.camera.CameraSource
 import timber.log.Timber
 
-class DocumentScannerFragment : BaseFragment(), View.OnTouchListener, DocumentDetectionListener {
+class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, DocumentDetectionListener {
 
     private val mLock = Any()
     private var torchTintColor = Color.GRAY
@@ -197,8 +197,9 @@ class DocumentScannerFragment : BaseFragment(), View.OnTouchListener, DocumentDe
 
     private fun processDocument(document: Document) {
         synchronized(mLock) {
-            saveCroppedImage(document.image.bitmap, document.image.metadata.rotation, document.detectedQuad.points)
             isBusy = true
+            saveCroppedImage(document.image.bitmap, document.image.metadata.rotation, document.detectedQuad.points)
+            isBusy = false
         }
     }
 
