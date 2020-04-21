@@ -11,6 +11,7 @@ android {
         applicationId "info.opencv.samples"
         minSdkVersion 21
         targetSdkVersion 28
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -42,4 +43,11 @@ dependencies {
     implementation project(':library')
     implementation 'androidx.core:core-ktx:1.2.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    androidTestImplementation "androidx.test.ext:junit:1.1.1"
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0' // RecyclerViewActions.actionOnItem
+    androidTestImplementation "androidx.test:rules:1.2.0" //    GrantPermissionRule
+    androidTestImplementation "androidx.test.espresso:espresso-intents:3.2.0"
 }

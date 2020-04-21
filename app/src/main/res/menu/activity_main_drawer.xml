@@ -7,11 +7,11 @@
         <item
             android:id="@+id/nav_simple_scan"
             android:icon="@drawable/ic_camera_iris"
-            android:title="Simple scan" />
+            android:title="@string/simple_scan" />
         <item
             android:id="@+id/nav_passport"
             android:icon="@drawable/ic_tag_faces"
-            android:title="Passport scan" />
+            android:title="@string/passport_scan" />
         <item
             android:id="@+id/nav_camera"
             android:icon="@drawable/ic_menu_camera"

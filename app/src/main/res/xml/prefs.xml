@@ -15,7 +15,7 @@
 
     <Preference
         android:key="preference_CPU_ABI"
-        android:title="CPU abi" />
+        android:title="@string/cpu_abi" />
 
     <Preference
         android:key="preference_DISPLAY"
