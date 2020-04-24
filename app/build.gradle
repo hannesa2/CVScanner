@@ -13,28 +13,10 @@ android {
         targetSdkVersion 28
     }
 
-    signingConfigs {
-        if (System.getenv("CI_SERVER")) { // gitlab
-            release {
-                storeFile file('../signing/release.keystore')
-                storePassword System.getenv("KEYSTORE_PASS")
-                keyAlias System.getenv("ALIAS_NAME")
-                keyPassword System.getenv("ALIAS_PASS")
-            }
-        } else {
-            release {
-                storePassword "android"
-                keyPassword "android"
-                keyAlias "androiddebugkey"
-            }
-        }
-    }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            signingConfig signingConfigs.release
         }
         debug {
             applicationIdSuffix ".debug"
