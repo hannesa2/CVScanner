@@ -16,7 +16,7 @@ class ImageFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         val rootView = inflater.inflate(R.layout.fragment_image, container, false)
-        val imagePath = arguments!!.getString(IMAGE_PATH, "")
+        val imagePath = requireArguments().getString(IMAGE_PATH, "")
 
         val imgFile = File(imagePath)
         if (imgFile.exists()) {
