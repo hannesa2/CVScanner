@@ -8,6 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.GrantPermissionRule
+import com.moka.utils.Screenshot
 import info.hannes.cvscanner.DocumentScannerActivity
 import org.junit.Rule
 import org.junit.Test
@@ -28,8 +29,10 @@ class DocumentScannerTest {
 
     @Test
     fun cameraTest() {
+        Screenshot.takeScreenshot("Start")
         onView(withId(R.id.graphicOverlay))
                 .check(matches(isDisplayed()))
+        Screenshot.takeScreenshot("End")
     }
 
 }

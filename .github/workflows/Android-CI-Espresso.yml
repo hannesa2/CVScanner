@@ -51,3 +51,10 @@ jobs:
         with:
           name: Lint-report
           path: app/build/reports/lint-results.html
+      - name: png-find
+        run: find screenshots -name '*.png'
+      - name: Archive screenshots
+        uses: actions/upload-artifact@v1
+        with:
+          name: Screenshots-CVScanner
+          path: screenshots/adb
