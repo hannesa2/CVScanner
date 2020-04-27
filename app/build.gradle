@@ -57,11 +57,6 @@ dependencies {
 def adbDirectory = '/storage/emulated/0/Download'
 def reportsDirectory = "$projectDir/../screenshots/adb"
 
-def rootTask = task('root', type: Exec) {
-    executable "${android.getAdbExe().toString()}"
-    args 'root'
-}
-
 def clearScreenshotsTask = task('clearScreenshots', type: Exec) {
     executable "${android.getAdbExe().toString()}"
     args 'shell', 'rm', '-r', adbDirectory
@@ -88,7 +83,6 @@ def fetchScreenshotsTask = task('fetchScreenshots', type: Exec, group: 'reportin
 tasks.whenTaskAdded { task ->
     if (task.name == 'connectedDebugAndroidTest') {
         task.mustRunAfter {
-            rootTask
             clearScreenshotsTask
         }
         task.finalizedBy {
