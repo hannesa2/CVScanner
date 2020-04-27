@@ -33,7 +33,7 @@ jobs:
       - name: Run tests
         run: ./gradlew test --stacktrace
       - name: Run instrumentation tests
-        uses: malinskiy/action-android/emulator-run-cmd@release/0.0.3
+        uses: malinskiy/action-android/emulator-run-cmd@release/0.0.5
         with:
           cmd: ./gradlew cAT --stacktrace --continue
           api: 28
