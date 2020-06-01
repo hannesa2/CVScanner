@@ -10,7 +10,33 @@ on:
 
 jobs:
   build:
-    name: JDK ${{ matrix.java_version }}
+    name: BuildJDK ${{ matrix.java_version }}
+    runs-on: macOS-latest
+    strategy:
+      matrix:
+        java_version: [1.8]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install JDK ${{ matrix.java_version }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java_version }}
+      - name: Install Android SDK
+        uses: malinskiy/action-android/install-sdk@release/0.0.5
+      - name: Build project
+        run: ./gradlew build --stacktrace
+      - name: Run tests
+        run: ./gradlew test --stacktrace
+      - name: Checks
+        run: ./gradlew check --stacktrace
+      - name: Archive Lint report
+        uses: actions/upload-artifact@v1
+        with:
+          name: Lint-report
+          path: app/build/reports/lint-results.html
+  Espresso:
+    name: BuildJDK ${{ matrix.java_version }}
     runs-on: macOS-latest
     strategy:
       matrix:
@@ -26,12 +52,6 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.java_version }}
-      - name: Install Android SDK
-        uses: malinskiy/action-android/install-sdk@release/0.0.5
-      - name: Build project
-        run: ./gradlew build --stacktrace
-      - name: Run tests
-        run: ./gradlew test --stacktrace
       - name: Run instrumentation tests
         uses: malinskiy/action-android/emulator-run-cmd@release/0.0.5
         with:
@@ -44,13 +64,6 @@ jobs:
         with:
           name: Espresso-report
           path: app/build/reports/androidTests/connected
-      - name: Final checks
-        run: ./gradlew check --stacktrace
-      - name: Archive Lint report
-        uses: actions/upload-artifact@v1
-        with:
-          name: Lint-report
-          path: app/build/reports/lint-results.html
       - name: png-find
         run: find screenshots -name '*.png'
       - name: Archive screenshots
