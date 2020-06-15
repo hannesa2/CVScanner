@@ -23,7 +23,7 @@ jobs:
         with:
           java-version: ${{ matrix.java_version }}
       - name: Install Android SDK
-        uses: malinskiy/action-android/install-sdk@release/0.0.5
+        uses: malinskiy/action-android/install-sdk@release/0.0.7
       - name: Build project
         run: ./gradlew build --stacktrace
       - name: Run tests
@@ -53,9 +53,9 @@ jobs:
         with:
           java-version: ${{ matrix.java_version }}
       - name: Install Android SDK
-        uses: malinskiy/action-android/install-sdk@release/0.0.5
+        uses: malinskiy/action-android/install-sdk@release/0.0.7
       - name: Run instrumentation tests
-        uses: malinskiy/action-android/emulator-run-cmd@release/0.0.5
+        uses: malinskiy/action-android/emulator-run-cmd@release/0.0.7
         with:
           cmd: ./gradlew cAT --stacktrace --continue
           api: 28
