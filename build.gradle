@@ -40,19 +40,19 @@ allprojects {
         maven {
             url 'https://artifactory.mxtracks.info/artifactory/gradle-dev-local/'
 
-            def artifactoryPW = project.hasProperty("artifactory_password") ? artifactory_password : System.getenv("ARTIFACTORY_USER_PASSWORD")
-            if (artifactoryPW == null) {
-                out.style(Style.Normal).text("Artifactory has no password eiter you add in gradle.properties ")
-                        .style(Style.Failure).text(" artifactory_password=<your secret>")
-                out.style(Style.Normal).text(" or specify an envirionment variable ")
-                        .style(Style.Failure).text("export ARTIFACTORY_USER_PASSWORD=<your secret>")
-            } else
-                out.style(Style.Normal).text("Artifactory password >${artifactoryPW.take(1)}..<")
-
-            credentials {
-                username = project.hasProperty("artifactory_user") ? project.artifactory_user : System.getenv("ARTIFACTORY_USER_NAME")
-                password = artifactoryPW
-            }
+//            def artifactoryPW = project.hasProperty("artifactory_password") ? artifactory_password : System.getenv("ARTIFACTORY_USER_PASSWORD")
+//            if (artifactoryPW == null) {
+//                out.style(Style.Normal).text("Artifactory has no password eiter you add in gradle.properties ")
+//                        .style(Style.Failure).text(" artifactory_password=<your secret>")
+//                out.style(Style.Normal).text(" or specify an envirionment variable ")
+//                        .style(Style.Failure).text("export ARTIFACTORY_USER_PASSWORD=<your secret>")
+//            } else
+//                out.style(Style.Normal).text("Artifactory password >${artifactoryPW.take(1)}..<")
+//
+//            credentials {
+//                username = project.hasProperty("artifactory_user") ? project.artifactory_user : System.getenv("ARTIFACTORY_USER_NAME")
+//                password = artifactoryPW
+//            }
         }
     }
 }
