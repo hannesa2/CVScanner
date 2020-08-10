@@ -48,7 +48,6 @@ public class CroppingTrapezoid {
         mPoints[7] = cropRect.bottom;
     }
 
-
     public Rect getBoundingRect() {
         return getBoundingRect(mPoints);
     }

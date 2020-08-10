@@ -28,7 +28,9 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 
-public abstract class ImageViewTouchBase extends androidx.appcompat.widget.AppCompatImageView {
+import androidx.appcompat.widget.AppCompatImageView;
+
+public abstract class ImageViewTouchBase extends AppCompatImageView {
 
     public static final int TRANSITION_DURATION = 500;
     static final float SCALE_RATE = 1.25F;
