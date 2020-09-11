@@ -5,8 +5,6 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 30
 
-    ndkVersion ndkSelectedVersion
-
     defaultConfig {
         applicationId "info.opencv.samples"
         minSdkVersion 21
