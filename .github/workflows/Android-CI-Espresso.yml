@@ -25,11 +25,11 @@ jobs:
       - name: Install Android SDK
         uses: malinskiy/action-android/install-sdk@release/0.1.0
       - name: Build project
-        run: ./gradlew build --stacktrace
+        run: ./gradlew build
       - name: Run tests
-        run: ./gradlew test --stacktrace
+        run: ./gradlew test
       - name: Checks
-        run: ./gradlew check --stacktrace
+        run: ./gradlew check
       - name: Archive Lint report
         uses: actions/upload-artifact@v1
         with:
