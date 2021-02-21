@@ -33,9 +33,7 @@ public class RecyclerViewMatcher {
                     try {
                         idDescription = this.resources.getResourceName(recyclerViewId);
                     } catch (Resources.NotFoundException var4) {
-                        idDescription = String.format("%s (resource name not found)",
-                                new Object[]{Integer.valueOf
-                                        (recyclerViewId)});
+                        idDescription = String.format("%s (resource name not found)", recyclerViewId);
                     }
                 }
 
@@ -48,7 +46,7 @@ public class RecyclerViewMatcher {
 
                 if (childView == null) {
                     RecyclerView recyclerView =
-                            (RecyclerView) view.getRootView().findViewById(recyclerViewId);
+                            view.getRootView().findViewById(recyclerViewId);
                     if (recyclerView != null && recyclerView.getId() == recyclerViewId) {
                         childView = recyclerView.findViewHolderForAdapterPosition(position).itemView;
                     } else {

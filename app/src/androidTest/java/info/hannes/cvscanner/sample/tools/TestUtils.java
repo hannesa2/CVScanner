@@ -24,9 +24,7 @@ public class TestUtils {
         private final ViewAction viewAction;
         private final int viewId;
 
-        private ActionOnItemViewAtPositionViewAction(int position,
-                                                     @IdRes int viewId,
-                                                     ViewAction viewAction) {
+        private ActionOnItemViewAtPositionViewAction(int position, @IdRes int viewId, ViewAction viewAction) {
             this.position = position;
             this.viewAction = viewAction;
             this.viewId = viewId;
@@ -54,14 +52,8 @@ public class TestUtils {
 
             if (targetView == null) {
                 throw (new PerformException.Builder()).withActionDescription(this.toString())
-                        .withViewDescription(
-
-                                HumanReadables.describe(view))
-                        .withCause(new IllegalStateException(
-                                "No view with id "
-                                        + this.viewId
-                                        + " found at position: "
-                                        + this.position))
+                        .withViewDescription(HumanReadables.describe(view))
+                        .withCause(new IllegalStateException("No view with id " + this.viewId + " found at position: " + this.position))
                         .build();
             } else {
                 this.viewAction.perform(uiController, targetView);
