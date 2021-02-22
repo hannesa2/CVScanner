@@ -25,7 +25,7 @@ jobs:
       - name: Install Android SDK
         uses: malinskiy/action-android/install-sdk@release/0.1.0
       - name: Build project
-        run: ./gradlew build
+        run: ./gradlew assemble
       - name: Run tests
         run: ./gradlew test
       - name: Checks
@@ -42,10 +42,6 @@ jobs:
       matrix:
         java_version: [1.8]
     steps:
-      # In order to have sha256sum on macOS, we need to install coreutils first
-      # Use this until coreutils or sha256sum are natively included in macOS on actions https://github.com/actions/virtual-environments/issues/90
-      - name: Install coreutils for macOS
-        run: brew install coreutils
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install JDK ${{ matrix.java_version }}
