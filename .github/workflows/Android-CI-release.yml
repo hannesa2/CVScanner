@@ -24,7 +24,7 @@ jobs:
         with:
           java-version: ${{ matrix.java_version }}
       - name: Install Android SDK
-        uses: malinskiy/action-android/install-sdk@release/0.1.0
+        uses: malinskiy/action-android/install-sdk@release/0.1.1
       - name: Build project
         run: ./gradlew clean assembleRelease
         env:
