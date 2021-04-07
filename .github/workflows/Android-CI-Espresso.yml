@@ -31,7 +31,7 @@ jobs:
       - name: Checks
         run: ./gradlew check
       - name: Archive Lint report
-        uses: actions/upload-artifact@v2.2.2
+        uses: actions/upload-artifact@v2.2.3
         with:
           name: Lint-report
           path: app/build/reports/lint-results.html
@@ -58,14 +58,14 @@ jobs:
           tag: default
           abi: x86
       - name: Archive Espresso results
-        uses: actions/upload-artifact@v2.2.2
+        uses: actions/upload-artifact@v2.2.3
         with:
           name: Espresso-report
           path: app/build/reports/androidTests/connected
       - name: png-find
         run: find screenshots -name '*.png'
       - name: Archive screenshots
-        uses: actions/upload-artifact@v2.2.2
+        uses: actions/upload-artifact@v2.2.3
         with:
           name: Screenshots-CVScanner
           path: screenshots/adb
