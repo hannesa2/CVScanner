@@ -14,13 +14,14 @@ jobs:
     runs-on: macOS-latest
     strategy:
       matrix:
-        java_version: [1.8]
+        java_version: [ 8,11 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install JDK ${{ matrix.java_version }}
         uses: actions/setup-java@v2
         with:
+          distribution: 'adopt'
           java-version: ${{ matrix.java_version }}
       - name: Install Android SDK
         uses: malinskiy/action-android/install-sdk@release/0.1.0
@@ -40,13 +41,14 @@ jobs:
     runs-on: macOS-latest
     strategy:
       matrix:
-        java_version: [1.8]
+        java_version: [ 8 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install JDK ${{ matrix.java_version }}
         uses: actions/setup-java@v2
         with:
+          distribution: 'adopt'
           java-version: ${{ matrix.java_version }}
       - name: Install Android SDK
         uses: malinskiy/action-android/install-sdk@release/0.1.1
