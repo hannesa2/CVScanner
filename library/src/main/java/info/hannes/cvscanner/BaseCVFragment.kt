@@ -110,7 +110,7 @@ abstract class BaseCVFragment : Fragment(), SaveCallback {
             croppedImage.release()
             enhancedImage = CVProcessor.sharpenImage(enhancedImage)
             try {
-                val sdf = SimpleDateFormat("YYYY-MM-dd_HHmmss", Locale.getDefault())
+                val sdf = SimpleDateFormat("yyyy-MM-dd_HHmmss", Locale.getDefault())
                 val filename = "IMG_CVScanner_" + sdf.format(Date(System.currentTimeMillis()))
                 imagePath = Util.saveImage(requireContext(), filename, enhancedImage, false)
                 enhancedImage.release()
