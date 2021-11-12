@@ -19,18 +19,15 @@ package info.hannes.cvscanner.crop
 import android.graphics.Bitmap
 import android.graphics.Matrix
 
-class RotateBitmap {
-    var bitmap: Bitmap
+class RotateBitmap(var bitmap: Bitmap?, initRotation: Int = 0) {
+
     var rotation: Int
 
-    constructor(bitmap: Bitmap) {
-        this.bitmap = bitmap
-        rotation = 0
-    }
-
-    constructor(bitmap: Bitmap, rotation: Int) {
-        this.bitmap = bitmap
-        this.rotation = rotation % 360
+    init {
+        if (initRotation == 0)
+            rotation = 0
+        else
+            this.rotation = initRotation % 360
     }
 
     // We want to do the rotation at origin, but since the bounding
@@ -46,11 +43,13 @@ class RotateBitmap {
                 // We want to do the rotation at origin, but since the bounding
                 // rectangle will be changed after rotation, so the delta values
                 // are based on old & new width/height respectively.
-                val cx = bitmap.width / 2
-                val cy = bitmap.height / 2
-                matrix.preTranslate(-cx.toFloat(), -cy.toFloat())
-                matrix.postRotate(rotation.toFloat())
-                matrix.postTranslate(width / 2.toFloat(), height / 2.toFloat())
+                bitmap?.let {
+                    val cx = it.width / 2
+                    val cy = it.height / 2
+                    matrix.preTranslate(-cx.toFloat(), -cy.toFloat())
+                    matrix.postRotate(rotation.toFloat())
+                    matrix.postTranslate(width / 2.toFloat(), height / 2.toFloat())
+                }
             }
             return matrix
         }
@@ -59,12 +58,14 @@ class RotateBitmap {
         get() = rotation / 90 % 2 != 0
 
     val height: Int
-        get() = if (isOrientationChanged) {
-            bitmap.width
-        } else bitmap.height
+        get() = if (isOrientationChanged)
+            bitmap?.width ?: 0
+        else
+            bitmap?.height ?: 0
 
     val width: Int
-        get() = if (isOrientationChanged) {
-            bitmap.height
-        } else bitmap.width
+        get() = if (isOrientationChanged)
+            bitmap?.height ?: 0
+        else
+            bitmap?.width ?: 0
 }

@@ -94,7 +94,7 @@ abstract class NavigationActivity : AppCompatActivity(), NavigationView.OnNaviga
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE_SIMPLE_SCAN) {
-                val scannedDocumentPath = data?.getParcelableArrayListExtra<>()getStringExtra(CVScanner.RESULT_IMAGE_PATH);
+                val scannedDocumentPath = data?.getStringExtra(CVScanner.RESULT_IMAGE_PATH);
                 scannedDocumentPath?.let {
                     showSnackbar(it)
                     val imageFragment = ImageFragment.newInstance(it)
