@@ -17,10 +17,10 @@ import androidx.core.graphics.drawable.DrawableCompat
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.Frame
 import info.hannes.cvscanner.DocumentTracker.DocumentDetectionListener
-import kotlinx.android.synthetic.main.scanner_content.*
 import info.hannes.visionpipeline.GraphicOverlay
 import info.hannes.visionpipeline.Util.FrameSizeProvider
 import info.hannes.visionpipeline.camera.CameraSource
+import kotlinx.android.synthetic.main.scanner_content.*
 import timber.log.Timber
 
 class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, DocumentDetectionListener {
@@ -43,28 +43,48 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
         super.onInflate(context, attrs, savedInstanceState)
         val array = context.obtainStyledAttributes(attrs, R.styleable.DocumentScannerFragment)
         try {
-            torchTintColor = array.getColor(R.styleable.DocumentScannerFragment_torchTint, torchTintColor)
-            torchTintColorLight = array.getColor(R.styleable.DocumentScannerFragment_torchTintLight, torchTintColorLight)
+            torchTintColor =
+                array.getColor(R.styleable.DocumentScannerFragment_torchTint, torchTintColor)
+            torchTintColorLight = array.getColor(
+                R.styleable.DocumentScannerFragment_torchTintLight,
+                torchTintColorLight
+            )
             Timber.d("resolved torch tint colors")
             val theme = context.theme
             val borderColor = TypedValue()
             if (theme.resolveAttribute(android.R.attr.colorPrimary, borderColor, true)) {
                 Timber.d("resolved border color from theme")
-                documentBorderColor = if (borderColor.resourceId > 0) ContextCompat.getColor(context, borderColor.resourceId) else borderColor.data
+                documentBorderColor = if (borderColor.resourceId > 0) ContextCompat.getColor(
+                    context,
+                    borderColor.resourceId
+                ) else borderColor.data
             }
-            documentBorderColor = array.getColor(R.styleable.DocumentScannerFragment_documentBorderColor, documentBorderColor)
+            documentBorderColor = array.getColor(
+                R.styleable.DocumentScannerFragment_documentBorderColor,
+                documentBorderColor
+            )
             val bodyColor = TypedValue()
             if (theme.resolveAttribute(android.R.attr.colorPrimaryDark, bodyColor, true)) {
                 Timber.d("resolved body color from theme")
-                documentBodyColor = if (bodyColor.resourceId > 0) ContextCompat.getColor(context, bodyColor.resourceId) else bodyColor.data
+                documentBodyColor = if (bodyColor.resourceId > 0) ContextCompat.getColor(
+                    context,
+                    bodyColor.resourceId
+                ) else bodyColor.data
             }
-            documentBodyColor = array.getColor(R.styleable.DocumentScannerFragment_documentBodyColor, documentBodyColor)
+            documentBodyColor = array.getColor(
+                R.styleable.DocumentScannerFragment_documentBodyColor,
+                documentBodyColor
+            )
         } finally {
             array.recycle()
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.scanner_content, container, false)
         gestureDetector = GestureDetector(requireActivity(), CaptureGestureListener())
         view.setOnTouchListener(this)
@@ -72,25 +92,30 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
     }
 
     override fun onAfterViewCreated() {
-        val args = arguments
-        isPassport = args != null && args.getBoolean(DocumentScannerActivity.EXTRA_IS_PASSPORT, false)
+        isPassport = requireArguments().getBoolean(DocumentScannerActivity.EXTRA_IS_PASSPORT, false)
         val theme = requireActivity().theme
         val borderColor = TypedValue()
         if (theme.resolveAttribute(android.R.attr.colorPrimary, borderColor, true)) {
-            documentBorderColor = if (borderColor.resourceId > 0) ContextCompat.getColor(requireContext(), borderColor.resourceId) else borderColor.data
+            documentBorderColor = if (borderColor.resourceId > 0) ContextCompat.getColor(
+                requireContext(),
+                borderColor.resourceId
+            ) else borderColor.data
         }
         val bodyColor = TypedValue()
         if (theme.resolveAttribute(android.R.attr.colorPrimaryDark, bodyColor, true)) {
-            documentBodyColor = if (bodyColor.resourceId > 0) ContextCompat.getColor(requireContext(), bodyColor.resourceId) else bodyColor.data
+            documentBodyColor = if (bodyColor.resourceId > 0) ContextCompat.getColor(
+                requireContext(),
+                bodyColor.resourceId
+            ) else bodyColor.data
         }
-        documentBodyColor = args!!.getInt(ARG_DOC_BODY_COLOR, documentBodyColor)
-        documentBorderColor = args.getInt(ARG_DOC_BORDER_COLOR, documentBorderColor)
-        torchTintColor = args.getInt(ARG_TORCH_COLOR, torchTintColor)
-        torchTintColorLight = args.getInt(ARG_TORCH_COLOR_LIGHT, torchTintColorLight)
+        documentBodyColor = requireArguments().getInt(ARG_DOC_BODY_COLOR, documentBodyColor)
+        documentBorderColor = requireArguments().getInt(ARG_DOC_BORDER_COLOR, documentBorderColor)
+        torchTintColor = requireArguments().getInt(ARG_TORCH_COLOR, torchTintColor)
+        torchTintColorLight = requireArguments().getInt(ARG_TORCH_COLOR_LIGHT, torchTintColorLight)
         val frameGraphic = BorderFrameGraphic(graphicOverlay, isPassport)
         frameSizeProvider = frameGraphic
         graphicOverlay.addFrame(frameGraphic)
-        flashToggle!!.setOnClickListener {
+        flashToggle?.setOnClickListener {
             cameraSource?.let {
                 if (it.flashMode == Camera.Parameters.FLASH_MODE_TORCH) {
                     it.setFlashMode(Camera.Parameters.FLASH_MODE_OFF)
@@ -139,18 +164,20 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
         val graphic = DocumentGraphic(graphicOverlay, null)
         if (documentBorderColor != -1) graphic.setBorderColor(documentBorderColor)
         if (documentBodyColor != -1) graphic.setFillColor(documentBodyColor)
-        val processor = DocumentProcessor(detectorID,
-                DocumentTracker(graphicOverlay as GraphicOverlay<DocumentGraphic>, graphic, this))
+        val processor = DocumentProcessor(
+            detectorID,
+            DocumentTracker(graphicOverlay as GraphicOverlay<DocumentGraphic>, graphic, this)
+        )
         detectorID!!.setProcessor(processor)
 
         // Creates and starts the camera.  Note that this uses a higher resolution in comparison
         // to other detection examples to enable the barcode detector to detect small barcodes at long distances.
         cameraSource = CameraSource.Builder(requireActivity().applicationContext, detectorID)
-                .setFacing(CameraSource.CAMERA_FACING_BACK)
-                .setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)
-                .setFlashMode(Camera.Parameters.FLASH_MODE_AUTO)
-                .setRequestedFps(15.0f)
-                .build()
+            .setFacing(CameraSource.CAMERA_FACING_BACK)
+            .setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)
+            .setFlashMode(Camera.Parameters.FLASH_MODE_AUTO)
+            .setRequestedFps(15.0f)
+            .build()
     }
 
     /**
@@ -198,7 +225,11 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
     private fun processDocument(document: Document) {
         synchronized(mLock) {
             isBusy = true
-            saveCroppedImage(document.image.bitmap, document.image.metadata.rotation, document.detectedQuad.points)
+            saveCroppedImage(
+                document.image.bitmap,
+                document.image.metadata.rotation,
+                document.detectedQuad.points
+            )
             isBusy = false
         }
     }
@@ -215,12 +246,13 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
     private fun detectDocumentManually(data: ByteArray) {
         Timber.d("detecting document manually")
         Thread(Runnable {
-            val image = BitmapFactory.decodeByteArray(data, 0, data.size)
-            if (image != null) {
-                val docs = detectorID!!.detect(Frame.Builder()
-                        .setBitmap(image)
-                        .build())
-                if (docs != null && docs.size() > 0) {
+            BitmapFactory.decodeByteArray(data, 0, data.size)?.let {
+                val docs = detectorID!!.detect(
+                    Frame.Builder()
+                        .setBitmap(it)
+                        .build()
+                )
+                if (docs.size() > 0) {
                     Timber.d("detected document manually")
                     val doc = docs[0]
                     requireActivity().runOnUiThread { processDocument(doc) }
@@ -234,7 +266,11 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
 
     fun takePicture() {
         if (cameraSource != null) {
-            cameraSource!!.takePicture({ sound!!.play(MediaActionSound.SHUTTER_CLICK) }) { data -> detectDocumentManually(data) }
+            cameraSource!!.takePicture({ sound!!.play(MediaActionSound.SHUTTER_CLICK) }) { data ->
+                detectDocumentManually(
+                    data
+                )
+            }
         }
     }
 
@@ -258,7 +294,11 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
         override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
             Timber.d("fragment got tap")
             if (!hasShownMsg) {
-                Toast.makeText(requireActivity(), "Double tap to take a picture and force detection", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireActivity(),
+                    "Double tap to take a picture and force detection",
+                    Toast.LENGTH_SHORT
+                ).show()
                 hasShownMsg = true
             }
             return false
@@ -284,16 +324,20 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
         }
 
         @JvmStatic
-        fun instantiate(isPassport: Boolean, @ColorRes docBorderColorRes: Int,
-                        @ColorRes docBodyColorRes: Int, @ColorRes torchColor: Int,
-                        @ColorRes torchColorLight: Int): DocumentScannerFragment {
+        fun instantiate(
+            isPassport: Boolean, @ColorRes docBorderColorRes: Int,
+            @ColorRes docBodyColorRes: Int, @ColorRes torchColor: Int,
+            @ColorRes torchColorLight: Int
+        ): DocumentScannerFragment {
             val fragment = DocumentScannerFragment()
-            val args = Bundle()
-            args.putBoolean(DocumentScannerActivity.EXTRA_IS_PASSPORT, isPassport)
-            args.putInt(ARG_DOC_BODY_COLOR, docBodyColorRes)
-            args.putInt(ARG_DOC_BORDER_COLOR, docBorderColorRes)
-            args.putInt(ARG_TORCH_COLOR, torchColor)
-            args.putInt(ARG_TORCH_COLOR_LIGHT, torchColorLight)
+            val args = Bundle().apply {
+                putBoolean(DocumentScannerActivity.EXTRA_IS_PASSPORT, isPassport)
+                putInt(ARG_DOC_BODY_COLOR, docBodyColorRes)
+                putInt(ARG_DOC_BORDER_COLOR, docBorderColorRes)
+                putInt(ARG_TORCH_COLOR, torchColor)
+                putInt(ARG_TORCH_COLOR_LIGHT, torchColorLight)
+            }
+
             fragment.arguments = args
             return fragment
         }
