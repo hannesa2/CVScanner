@@ -21,7 +21,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import info.hannes.cvscanner.CVScanner
 import info.hannes.cvscanner.CVScanner.ImageProcessorCallback
 import info.hannes.cvscanner.R
@@ -66,11 +65,10 @@ class CropImageActivity : AppCompatActivity(), ImageProcessorCallback {
             val saveImageResId = extras.getInt(EXTRA_SAVE_IMAGE_RES, R.drawable.ic_check_circle)
             val rtColorResId = extras.getInt(EXTRA_ROTATE_BTN_COLOR_RES, R.color.colorPrimary)
             val saveColorResId = extras.getInt(EXTRA_SAVE_BTN_COLOR_RES, R.color.colorAccent)
-            val fragment: Fragment = ImageCropperFragment.instantiate(imageUri, saveColorResId, rtColorResId, rtlImageResId,
-                    rtrImageResId, saveImageResId)
+            val fragment = ImageCropperFragment.instantiate(imageUri, saveColorResId, rtColorResId, rtlImageResId, rtrImageResId, saveImageResId)
             supportFragmentManager.beginTransaction()
-                    .add(R.id.container, fragment)
-                    .commitAllowingStateLoss()
+                .add(R.id.container, fragment)
+                .commitAllowingStateLoss()
         }
     }
 

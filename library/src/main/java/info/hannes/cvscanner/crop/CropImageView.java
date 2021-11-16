@@ -38,7 +38,8 @@ public class CropImageView extends ImageViewTouchBase {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        if (mBitmapDisplayed.getBitmap() != null && mCropHighlightView != null) {
+        mBitmapDisplayed.getBitmap();
+        if (mCropHighlightView != null) {
             mCropHighlightView.getMatrix().set(getImageMatrix());
             centerBasedOnHighlightView(mCropHighlightView);
         }

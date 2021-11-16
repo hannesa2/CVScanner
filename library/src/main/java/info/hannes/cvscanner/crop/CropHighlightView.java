@@ -52,9 +52,9 @@ class CropHighlightView implements HighLightView {
     private final float mHysteresis;
     boolean mIsFocused;
     boolean mHidden = false;
-    private View mContext; // The View displaying the image.
+    private final View mContext; // The View displaying the image.
     private Rect mDrawRect; // in screen space
-    private Matrix mMatrix;
+    private final Matrix mMatrix;
 
     public CropHighlightView(ImageView ctx, Rect imageRect, RectF cropRect) {
         mContext = ctx;

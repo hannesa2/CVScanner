@@ -8,7 +8,6 @@ import android.provider.MediaStore
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import info.hannes.cvscanner.crop.CropImageActivity
-import info.hannes.cvscanner.util.Util
 import info.hannes.cvscanner.util.Util3
 import java.io.IOException
 
@@ -24,9 +23,11 @@ object CVScanner {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(context.packageManager) != null) { // Create the File where the photo should go
-            val photoUri = Util3.createTempFile(context,
-                    "SCAN_" + System.currentTimeMillis(), ".jpg",
-                    true)
+            val photoUri = Util3.createTempFile(
+                context,
+                "SCAN_" + System.currentTimeMillis(), ".jpg",
+                true
+            )
             // Continue only if the File was successfully created
             if (photoUri != null) {
                 takePictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
@@ -45,12 +46,13 @@ object CVScanner {
         activity.startActivityForResult(intent, reqCode)
     }
 
-    fun startScanner(activity: Activity,
-                     isPassport: Boolean, reqCode: Int,
-                     @ColorRes docBorderColorRes: Int,
-                     @ColorRes docBodyColorRes: Int,
-                     @ColorRes torchColor: Int,
-                     @ColorRes torchColorLight: Int
+    fun startScanner(
+        activity: Activity,
+        isPassport: Boolean, reqCode: Int,
+        @ColorRes docBorderColorRes: Int,
+        @ColorRes docBodyColorRes: Int,
+        @ColorRes torchColor: Int,
+        @ColorRes torchColorLight: Int
     ) {
         val intent = Intent(activity, DocumentScannerActivity::class.java)
         intent.putExtra(DocumentScannerActivity.EXTRA_IS_PASSPORT, isPassport)
@@ -67,9 +69,11 @@ object CVScanner {
         activity.startActivityForResult(intent, reqCode)
     }
 
-    fun startManualCropper(activity: Activity, imageUri: Uri, reqCode: Int, @ColorRes buttonTint: Int,
-                           @ColorRes buttonTintSecondary: Int, @DrawableRes rotateLeftIconRes: Int,
-                           @DrawableRes rotateRightIconRes: Int, @DrawableRes saveButtonIconRes: Int) {
+    fun startManualCropper(
+        activity: Activity, imageUri: Uri, reqCode: Int, @ColorRes buttonTint: Int,
+        @ColorRes buttonTintSecondary: Int, @DrawableRes rotateLeftIconRes: Int,
+        @DrawableRes rotateRightIconRes: Int, @DrawableRes saveButtonIconRes: Int
+    ) {
         val intent = Intent(activity, CropImageActivity::class.java)
         intent.putExtra(CropImageActivity.EXTRA_IMAGE_URI, imageUri.toString())
         intent.putExtra(CropImageActivity.EXTRA_ROTATE_BTN_COLOR_RES, buttonTintSecondary)
