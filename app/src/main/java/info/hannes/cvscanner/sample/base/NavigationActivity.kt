@@ -73,13 +73,6 @@ abstract class NavigationActivity : AppCompatActivity(), NavigationView.OnNaviga
         return true
     }
 
-    protected fun openActivity(clazz: Class<*>) {
-        startActivity(Intent(this, clazz))
-        if (clazz.isInstance(NavigationActivity::class.java)) {
-            finish()
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean { // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
         return true
@@ -94,7 +87,7 @@ abstract class NavigationActivity : AppCompatActivity(), NavigationView.OnNaviga
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE_SIMPLE_SCAN) {
-                val scannedDocumentPath = data?.getStringExtra(CVScanner.RESULT_IMAGE_PATH);
+                val scannedDocumentPath = data?.getStringExtra(CVScanner.RESULT_IMAGE_PATH)
                 scannedDocumentPath?.let {
                     showSnackbar(it)
                     val imageFragment = ImageFragment.newInstance(it)
