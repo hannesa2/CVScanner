@@ -30,17 +30,18 @@ class MenuTest {
 
     @get:Rule
     val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-            Manifest.permission.CAMERA,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE)
+        Manifest.permission.CAMERA,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_EXTERNAL_STORAGE
+    )
 
     @Before
     fun setup() {
         Intents.init()
         // Open Drawer to click on navigation.
         onView(withId(R.id.drawer_layout))
-                .check(matches(isClosed(Gravity.LEFT))) // Left Drawer should be closed.
-                .perform(DrawerActions.open()) // Open Drawer
+            .check(matches(isClosed(Gravity.LEFT))) // Left Drawer should be closed.
+            .perform(DrawerActions.open()) // Open Drawer
     }
 
     @After
@@ -52,7 +53,7 @@ class MenuTest {
     fun clickOnYourNavigationItem_ShowsYourScreen() {
         Screenshot.takeScreenshot("1")
         onView(withId(R.id.nav_view))
-                .perform(NavigationViewActions.navigateTo(R.id.nav_simple_scan))
+            .perform(NavigationViewActions.navigateTo(R.id.nav_simple_scan))
         Screenshot.takeScreenshot("2")
 
         Intents.intended(hasComponent(DocumentScannerActivity::class.java.name))

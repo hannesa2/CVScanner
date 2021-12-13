@@ -14,17 +14,15 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.annotation.ColorRes;
-import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.graphics.drawable.DrawableCompat;
-
 import org.jetbrains.annotations.NotNull;
 import org.opencv.core.Point;
 
 import java.io.IOException;
 
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.Nullable;
+import androidx.core.graphics.drawable.DrawableCompat;
 import info.hannes.cvscanner.BaseCVFragment;
 import info.hannes.cvscanner.R;
 import info.hannes.cvscanner.util.CVProcessor;
@@ -61,7 +59,7 @@ public class ImageCropperFragment extends BaseCVFragment implements CropImageVie
 
     public static ImageCropperFragment instantiate(Uri imageUri, @ColorRes int buttonTint,
                                                    @ColorRes int buttonTintSecondary, @DrawableRes int rotateLeftRes,
-                                                   @DrawableRes int rotateRightRes, @DrawableRes int saveButtonRes,Boolean rtIconsVisibility) {
+                                                   @DrawableRes int rotateRightRes, @DrawableRes int saveButtonRes, Boolean rtIconsVisibility) {
         ImageCropperFragment fragment = new ImageCropperFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SRC_IMAGE_URI, imageUri.toString());
@@ -89,7 +87,7 @@ public class ImageCropperFragment extends BaseCVFragment implements CropImageVie
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.imagecropper_content, container, false);
-        
+
         initializeViews(view);
 
         return view;
@@ -223,7 +221,7 @@ public class ImageCropperFragment extends BaseCVFragment implements CropImageVie
 
     private void adjustButtons() {
         if (mBitmap != null) {
-            if(!rtIconsVisibility){
+            if (!rtIconsVisibility) {
                 mRotateLeft.setVisibility(View.VISIBLE);
                 mRotateRight.setVisibility(View.VISIBLE);
             }

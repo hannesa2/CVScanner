@@ -25,19 +25,22 @@ class InfoTest {
 
     @get:Rule
     val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-            Manifest.permission.CAMERA,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE)
+        Manifest.permission.CAMERA,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_EXTERNAL_STORAGE
+    )
 
     @Test
     fun architectureTest() {
         Screenshot.takeScreenshot("Start")
         onView(withId(androidx.preference.R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText(R.string.cpu_abi)), click()))
+            .perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText(R.string.cpu_abi)), click()))
 
-        onView(withRecyclerView(R.id.recycler_view)
-                .atPositionOnView(3, android.R.id.summary))
-                .check(matches(withText("x86")))
+        onView(
+            withRecyclerView(R.id.recycler_view)
+                .atPositionOnView(3, android.R.id.summary)
+        )
+            .check(matches(withText("x86")))
         Screenshot.takeScreenshot("End")
     }
 

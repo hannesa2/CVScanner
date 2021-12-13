@@ -84,13 +84,14 @@ object CVScanner {
         activity.startActivityForResult(intent, reqCode)
     }
 
-    fun startManualCropper(activity: Activity, inputImageUri: Uri, reqCode: Int, isVisibleRotateIcons:Boolean, orientationPortrait:Boolean) {
+    fun startManualCropper(activity: Activity, inputImageUri: Uri, reqCode: Int, isVisibleRotateIcons: Boolean, orientationPortrait: Boolean) {
         val intent = Intent(activity, CropImageActivity::class.java)
         intent.putExtra(CropImageActivity.EXTRA_IMAGE_URI, inputImageUri.toString())
         intent.putExtra(CropImageActivity.EXTRA_ROTATE_ICONS_VISIBILITY, isVisibleRotateIcons)
         intent.putExtra(CropImageActivity.EXTRA_ORIENTATION_PORTRAIT, orientationPortrait)
         activity.startActivityForResult(intent, reqCode)
     }
+
     interface ImageProcessorCallback {
         fun onImageProcessingFailed(reason: String?, error: Exception?)
         fun onImageProcessed(imagePath: String?)

@@ -99,8 +99,10 @@ object Util {
     }
 
     @Throws(FileNotFoundException::class)
-    fun calculateInSampleSize(context: Context, imageUri: Uri, reqWidth: Int,
-                              reqHeightIn: Int, keepAspectRatio: Boolean): Int {
+    fun calculateInSampleSize(
+        context: Context, imageUri: Uri, reqWidth: Int,
+        reqHeightIn: Int, keepAspectRatio: Boolean
+    ): Int {
         var reqHeight = reqHeightIn
         val options = decodeImageForSize(context, imageUri)
         // Raw height and width of image

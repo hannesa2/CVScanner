@@ -5,9 +5,10 @@ import com.google.android.gms.vision.Tracker
 import info.hannes.visionpipeline.GraphicOverlay
 
 class DocumentTracker(
-        private val graphicOverlay: GraphicOverlay<DocumentGraphic>,
-        private val documentGraphic: DocumentGraphic,
-        private val documentDetectionListener: DocumentDetectionListener) : Tracker<Document>() {
+    private val graphicOverlay: GraphicOverlay<DocumentGraphic>,
+    private val documentGraphic: DocumentGraphic,
+    private val documentDetectionListener: DocumentDetectionListener
+) : Tracker<Document>() {
 
     override fun onNewItem(i: Int, document: Document) {
         documentGraphic.id = i

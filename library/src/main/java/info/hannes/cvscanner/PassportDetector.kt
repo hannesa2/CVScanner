@@ -76,8 +76,10 @@ class PassportDetector(sizeProvider: FrameSizeProvider, context: Context) : Dete
                 quad = getQuadForPassport(contours, imageSize, frameSizeProvider.frameWidth())
             }
         } else {
-            quad = getQuadForPassport(src, frameSizeProvider.frameWidth().toDouble(),
-                    frameSizeProvider.frameHeight().toDouble())
+            quad = getQuadForPassport(
+                src, frameSizeProvider.frameWidth().toDouble(),
+                frameSizeProvider.frameHeight().toDouble()
+            )
         }
         src.release()
         if (quad != null) {

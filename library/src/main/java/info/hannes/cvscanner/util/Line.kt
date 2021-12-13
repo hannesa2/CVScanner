@@ -8,7 +8,7 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 
 class Line(val start: Point, val end: Point) {
-    
+
     private var slope = INFINITE_SLOPE.toDouble()
 
     constructor(x1: Double, y1: Double, x2: Double, y2: Double) : this(Point(x1, y1), Point(x2, y2))
@@ -18,7 +18,7 @@ class Line(val start: Point, val end: Point) {
     }
 
     private fun findSlope() {
-        if (start.x == end.x) 
+        if (start.x == end.x)
             return
         slope = abs((end.y - start.y) / (end.x - start.x))
     }
@@ -38,8 +38,10 @@ class Line(val start: Point, val end: Point) {
     fun intersect(line: Line): Point? {
         val denominator = (start.x - end.x) * (line.start.y - line.end.y) - (line.start.x - line.end.x) * (start.y - end.y)
         if (denominator > THRESHOLD) {
-            val x = ((start.x * end.y - start.y * end.x) * (line.start.x - line.end.x) - (line.start.x * line.end.y - line.start.y * line.end.x) * (start.x - end.x)) / denominator
-            val y = ((start.x * end.y - start.y * end.x) * (line.start.y - line.end.y) - (line.start.x * line.end.y - line.start.y * line.end.x) * (start.y - end.y)) / denominator
+            val x =
+                ((start.x * end.y - start.y * end.x) * (line.start.x - line.end.x) - (line.start.x * line.end.y - line.start.y * line.end.x) * (start.x - end.x)) / denominator
+            val y =
+                ((start.x * end.y - start.y * end.x) * (line.start.y - line.end.y) - (line.start.x * line.end.y - line.start.y * line.end.x) * (start.y - end.y)) / denominator
             return Point(x, y)
         }
         return null
@@ -54,7 +56,12 @@ class Line(val start: Point, val end: Point) {
                 fLine = line
                 sLine = this
             }
-            val yDiff = Math.abs(Math.min(Math.min(fLine.start.y - sLine.start.y, fLine.start.y - sLine.end.y), Math.min(fLine.end.y - sLine.end.y, fLine.end.y - sLine.start.y)))
+            val yDiff = Math.abs(
+                Math.min(
+                    Math.min(fLine.start.y - sLine.start.y, fLine.start.y - sLine.end.y),
+                    Math.min(fLine.end.y - sLine.end.y, fLine.end.y - sLine.start.y)
+                )
+            )
             if (yDiff < DIFF_THRESHOLD) {
                 return merge(Arrays.asList(fLine.start, fLine.end, sLine.start, sLine.end), true)
             }
@@ -66,7 +73,8 @@ class Line(val start: Point, val end: Point) {
                 sLine = this
             }
             //double slopeDiff = Math.abs(fLine.slope - sLine.slope);
-            val xDiff = abs(min(min(fLine.start.x - sLine.start.x, fLine.start.x - sLine.end.x), min(fLine.end.x - sLine.end.x, fLine.end.x - sLine.start.x)))
+            val xDiff =
+                abs(min(min(fLine.start.x - sLine.start.x, fLine.start.x - sLine.end.x), min(fLine.end.x - sLine.end.x, fLine.end.x - sLine.start.x)))
             if (xDiff < DIFF_THRESHOLD) {
                 return merge(listOf(fLine.start, fLine.end, sLine.start, sLine.end), false)
             }

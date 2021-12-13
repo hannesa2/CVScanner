@@ -138,8 +138,10 @@ object CVProcessor {
         dilatedImg.release()
         Core.convertScaleAbs(gradX, gradX, 1.0, 0.0)
         val minMax = Core.minMaxLoc(gradX)
-        Core.convertScaleAbs(gradX, gradX, 255 / (minMax.maxVal - minMax.minVal),
-                -(minMax.minVal * 255 / (minMax.maxVal - minMax.minVal)))
+        Core.convertScaleAbs(
+            gradX, gradX, 255 / (minMax.maxVal - minMax.minVal),
+            -(minMax.minVal * 255 / (minMax.maxVal - minMax.minVal))
+        )
         Imgproc.morphologyEx(gradX, gradX, Imgproc.MORPH_CLOSE, morph)
         val thresh = Mat()
         Imgproc.threshold(gradX, thresh, 0.0, 255.0, Imgproc.THRESH_OTSU)
@@ -375,7 +377,8 @@ object CVProcessor {
                         val ar = (box1.size.width / box2.size.width).toFloat()
                         if (box1.size.width > 0 && box2.size.width > 0 && 0.5 < ar && ar < 2.0) {
                             if (abs(box1.angle - box2.angle) <= 0.1 ||
-                                    abs(Math.PI - (box1.angle - box2.angle)) <= 0.1) {
+                                abs(Math.PI - (box1.angle - box2.angle)) <= 0.1
+                            ) {
                                 val minAngle = Math.min(box1.angle, box2.angle)
                                 val relX = box1.center.x - box2.center.x
                                 val rely = box1.center.y - box2.center.y
@@ -452,7 +455,8 @@ object CVProcessor {
     private fun isInside(points: Array<Point>, size: Size): Boolean {
         val width = java.lang.Double.valueOf(size.width).toInt()
         val height = java.lang.Double.valueOf(size.height).toInt()
-        val isInside = points[0].x >= 0 && points[0].y >= 0 && points[1].x <= width && points[1].y >= 0 && points[2].x <= width && points[2].y <= height && points[3].x >= 0 && points[3].y <= height
+        val isInside =
+            points[0].x >= 0 && points[0].y >= 0 && points[1].x <= width && points[1].y >= 0 && points[2].x <= width && points[2].y <= height && points[3].x >= 0 && points[3].y <= height
         Timber.d("w: " + width + ", h: " + height + "Points: " + points[0] + ", " + points[1] + ", " + points[2] + ", " + points[3] + ", result: " + isInside)
         return isInside
     }

@@ -93,9 +93,9 @@ abstract class NavigationActivity : AppCompatActivity(), NavigationView.OnNaviga
                     val imageFragment = ImageFragment.newInstance(it)
 
                     supportFragmentManager
-                            .beginTransaction()
-                            .add(R.id.contentInfo, imageFragment)
-                            .commit()
+                        .beginTransaction()
+                        .add(R.id.contentInfo, imageFragment)
+                        .commit()
                 }
                 Timber.d("Scan $scannedDocumentPath")
             } else if (requestCode == REQUEST_CODE_CAMERA) {
@@ -104,9 +104,9 @@ abstract class NavigationActivity : AppCompatActivity(), NavigationView.OnNaviga
                     val imageFragment = ImageFragment.newInstance(x)
 
                     supportFragmentManager
-                            .beginTransaction()
-                            .add(R.id.contentInfo, imageFragment)
-                            .commit()
+                        .beginTransaction()
+                        .add(R.id.contentInfo, imageFragment)
+                        .commit()
                 }
             }
         }

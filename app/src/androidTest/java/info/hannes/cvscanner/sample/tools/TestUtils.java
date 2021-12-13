@@ -2,6 +2,9 @@ package info.hannes.cvscanner.sample.tools;
 
 import android.view.View;
 
+import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
+
 import androidx.annotation.IdRes;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.PerformException;
@@ -9,9 +12,6 @@ import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.espresso.util.HumanReadables;
-
-import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 
 public class TestUtils {
 

@@ -69,10 +69,18 @@ class CropImageActivity : AppCompatActivity(), ImageProcessorCallback {
             val rtIconsVisibility = extras.getBoolean(EXTRA_ROTATE_ICONS_VISIBILITY)
             val orientationPortrait = extras.getBoolean(EXTRA_ORIENTATION_PORTRAIT)
 
-            if(orientationPortrait){
+            if (orientationPortrait) {
                 requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
             }
-            val fragment = ImageCropperFragment.instantiate(imageUri, saveColorResId, rtColorResId, rtlImageResId, rtrImageResId, saveImageResId, rtIconsVisibility)
+            val fragment = ImageCropperFragment.instantiate(
+                imageUri,
+                saveColorResId,
+                rtColorResId,
+                rtlImageResId,
+                rtrImageResId,
+                saveImageResId,
+                rtIconsVisibility
+            )
             supportFragmentManager.beginTransaction()
                 .add(R.id.container, fragment)
                 .commitAllowingStateLoss()
@@ -97,7 +105,7 @@ class CropImageActivity : AppCompatActivity(), ImageProcessorCallback {
         const val EXTRA_ROTATE_RIGHT_IMAGE_RES = "rotateRight_imageRes"
         const val EXTRA_SAVE_BTN_COLOR_RES = "save_imageColorRes"
         const val EXTRA_ROTATE_BTN_COLOR_RES = "rotate_imageColorRes"
-        const val EXTRA_ROTATE_ICONS_VISIBILITY= "rotate_icons_visibility"
+        const val EXTRA_ROTATE_ICONS_VISIBILITY = "rotate_icons_visibility"
         const val EXTRA_ORIENTATION_PORTRAIT = "orientation_portrait"
         private fun setResultAndExit(cropImageActivity: CropImageActivity, imagePath: String?) {
             val data = cropImageActivity.intent

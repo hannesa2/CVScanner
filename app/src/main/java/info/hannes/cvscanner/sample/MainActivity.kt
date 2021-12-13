@@ -8,8 +8,8 @@ class MainActivity : NavigationActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportFragmentManager
-                .beginTransaction()
-                .add(R.id.contentInfo, SystemInfoFragment())
-                .commit()
+            .beginTransaction()
+            .add(R.id.contentInfo, SystemInfoFragment())
+            .commit()
     }
 }

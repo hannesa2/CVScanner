@@ -22,8 +22,10 @@ class DocumentScannerActivity : AppCompatActivity(), ImageProcessorCallback {
 
     public override fun onCreate(icicle: Bundle?) {
         super.onCreate(icicle)
-        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN or
-                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        window.addFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN or
+                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+        )
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN
                 or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -77,8 +79,8 @@ class DocumentScannerActivity : AppCompatActivity(), ImageProcessorCallback {
             instantiate(isScanningPassport)
         }
         supportFragmentManager.beginTransaction()
-                .add(R.id.container, documentScannerFragment)
-                .commitAllowingStateLoss()
+            .add(R.id.container, documentScannerFragment)
+            .commitAllowingStateLoss()
     }
 
     /**
@@ -95,9 +97,9 @@ class DocumentScannerActivity : AppCompatActivity(), ImageProcessorCallback {
         }
         val thisActivity: Activity = this
         AlertDialog.Builder(this)
-                .setTitle("Camera Permission Required")
-                .setMessage("access to device camera is required for scanning")
-                .setPositiveButton("OK") { _, _ -> ActivityCompat.requestPermissions(thisActivity, permissions, RC_HANDLE_CAMERA_PERM) }.show()
+            .setTitle("Camera Permission Required")
+            .setMessage("access to device camera is required for scanning")
+            .setPositiveButton("OK") { _, _ -> ActivityCompat.requestPermissions(thisActivity, permissions, RC_HANDLE_CAMERA_PERM) }.show()
     }
 
     /**
@@ -117,9 +119,11 @@ class DocumentScannerActivity : AppCompatActivity(), ImageProcessorCallback {
      * or [PackageManager.PERMISSION_DENIED]. Never null.
      * @see .requestPermissions
      */
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>,
-                                            grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         if (requestCode != RC_HANDLE_CAMERA_PERM) {
             Timber.d("Got unexpected permission result: %s", requestCode)
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -136,9 +140,9 @@ class DocumentScannerActivity : AppCompatActivity(), ImageProcessorCallback {
         val listener = DialogInterface.OnClickListener { _, _ -> finish() }
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Access to Camera Denied")
-                .setMessage("Cannot scan document without using the camera")
-                .setPositiveButton("OK", listener)
-                .show()
+            .setMessage("Cannot scan document without using the camera")
+            .setPositiveButton("OK", listener)
+            .show()
     }
 
     private fun setResultAndExit(path: String?) {
