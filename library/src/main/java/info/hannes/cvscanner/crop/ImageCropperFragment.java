@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.DrawableCompat;
 
@@ -37,6 +38,7 @@ public class ImageCropperFragment extends BaseCVFragment implements CropImageVie
     final static String ARG_RT_RIGHT_IMAGE_RES = "rotateRight_imageRes";
     final static String ARG_SAVE_IMAGE_COLOR_RES = "save_imageColorRes";
     final static String ARG_RT_IMAGE_COLOR_RES = "rotate_imageColorRes";
+    final static String ARG_RT_ICONS_VISIBILITY = "rotate_icons_visibility";
     protected CropImageView mImageView;
     protected ImageButton mRotateLeft;
     protected ImageButton mRotateRight;
@@ -46,6 +48,7 @@ public class ImageCropperFragment extends BaseCVFragment implements CropImageVie
     protected Bitmap mBitmap;
     protected Uri imageUri = null;
     protected ImageLoadingCallback mImageLoadingCallback = null;
+    protected Boolean rtIconsVisibility;
 
     public static ImageCropperFragment instantiate(Uri imageUri) {
         ImageCropperFragment fragment = new ImageCropperFragment();
@@ -58,7 +61,7 @@ public class ImageCropperFragment extends BaseCVFragment implements CropImageVie
 
     public static ImageCropperFragment instantiate(Uri imageUri, @ColorRes int buttonTint,
                                                    @ColorRes int buttonTintSecondary, @DrawableRes int rotateLeftRes,
-                                                   @DrawableRes int rotateRightRes, @DrawableRes int saveButtonRes) {
+                                                   @DrawableRes int rotateRightRes, @DrawableRes int saveButtonRes,Boolean rtIconsVisibility) {
         ImageCropperFragment fragment = new ImageCropperFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SRC_IMAGE_URI, imageUri.toString());
@@ -67,6 +70,7 @@ public class ImageCropperFragment extends BaseCVFragment implements CropImageVie
         args.putInt(ARG_RT_LEFT_IMAGE_RES, rotateLeftRes);
         args.putInt(ARG_RT_RIGHT_IMAGE_RES, rotateRightRes);
         args.putInt(ARG_SAVE_IMAGE_RES, saveButtonRes);
+        args.putBoolean(ARG_RT_ICONS_VISIBILITY, rtIconsVisibility);
         fragment.setArguments(args);
 
         return fragment;
@@ -85,7 +89,7 @@ public class ImageCropperFragment extends BaseCVFragment implements CropImageVie
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.imagecropper_content, container, false);
-
+        
         initializeViews(view);
 
         return view;
@@ -110,6 +114,7 @@ public class ImageCropperFragment extends BaseCVFragment implements CropImageVie
         Drawable saveBtnDrawable = getResources().getDrawable(extras.getInt(ARG_SAVE_IMAGE_RES, R.drawable.ic_check_circle));
         Drawable rotateLeftDrawable = getResources().getDrawable(extras.getInt(ARG_RT_LEFT_IMAGE_RES, R.drawable.ic_rotate_left));
         Drawable rotateRightDrawable = getResources().getDrawable(extras.getInt(ARG_RT_RIGHT_IMAGE_RES, R.drawable.ic_rotate_right));
+        rtIconsVisibility = extras.getBoolean(ARG_RT_ICONS_VISIBILITY);
 
         DrawableCompat.setTint(rotateLeftDrawable, secondaryBtnTintColor);
         mRotateLeft.setImageDrawable(rotateLeftDrawable);
@@ -218,8 +223,10 @@ public class ImageCropperFragment extends BaseCVFragment implements CropImageVie
 
     private void adjustButtons() {
         if (mBitmap != null) {
-            mRotateLeft.setVisibility(View.VISIBLE);
-            mRotateRight.setVisibility(View.VISIBLE);
+            if(!rtIconsVisibility){
+                mRotateLeft.setVisibility(View.VISIBLE);
+                mRotateRight.setVisibility(View.VISIBLE);
+            }
             mSave.setVisibility(View.VISIBLE);
         } else {
             mRotateLeft.setVisibility(View.GONE);
