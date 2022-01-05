@@ -1,0 +1,3 @@
+[submodule "AndroidVisionPipeline"]
+	path = AndroidVisionPipeline
+	url = git@github.com:hannesa2/AndroidVisionPipeline.git
