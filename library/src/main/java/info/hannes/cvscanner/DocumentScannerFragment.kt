@@ -17,10 +17,10 @@ import androidx.core.graphics.drawable.DrawableCompat
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.Frame
 import info.hannes.cvscanner.DocumentTracker.DocumentDetectionListener
+import info.hannes.cvscanner.databinding.ScannerContentBinding
 import info.hannes.visionpipeline.GraphicOverlay
 import info.hannes.visionpipeline.Util.FrameSizeProvider
 import info.hannes.visionpipeline.camera.CameraSource
-import kotlinx.android.synthetic.main.scanner_content.*
 import timber.log.Timber
 
 class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, DocumentDetectionListener {
@@ -36,8 +36,14 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
     // helper objects for detecting taps and pinches.
     private var gestureDetector: GestureDetector? = null
     private var detectorID: Detector<Document>? = null
-    private val sound: MediaActionSound? = MediaActionSound()
+    private val sound: MediaActionSound = MediaActionSound()
     private var isPassport = false
+
+    private var _binding: ScannerContentBinding? = null
+
+    // This property is only valid between onCreateView and onDestroyView.
+    private val binding get() = _binding!!
+
 
     override fun onInflate(context: Context, attrs: AttributeSet, savedInstanceState: Bundle?) {
         super.onInflate(context, attrs, savedInstanceState)
@@ -80,15 +86,17 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.scanner_content, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = ScannerContentBinding.inflate(inflater, container, false)
+        val view = binding.root
         gestureDetector = GestureDetector(requireActivity(), CaptureGestureListener())
         view.setOnTouchListener(this)
         return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onAfterViewCreated() {
@@ -112,10 +120,10 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
         documentBorderColor = requireArguments().getInt(ARG_DOC_BORDER_COLOR, documentBorderColor)
         torchTintColor = requireArguments().getInt(ARG_TORCH_COLOR, torchTintColor)
         torchTintColorLight = requireArguments().getInt(ARG_TORCH_COLOR_LIGHT, torchTintColorLight)
-        val frameGraphic = BorderFrameGraphic(graphicOverlay, isPassport)
+        val frameGraphic = BorderFrameGraphic(binding.graphicOverlay, isPassport)
         frameSizeProvider = frameGraphic
-        graphicOverlay.addFrame(frameGraphic)
-        flashToggle?.setOnClickListener {
+        binding.graphicOverlay.addFrame(frameGraphic)
+        binding.flashToggle.setOnClickListener {
             cameraSource?.let {
                 if (it.flashMode == Camera.Parameters.FLASH_MODE_TORCH) {
                     it.setFlashMode(Camera.Parameters.FLASH_MODE_OFF)
@@ -132,7 +140,7 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
             if (it.flashMode == Camera.Parameters.FLASH_MODE_TORCH) {
                 tintColor = torchTintColorLight
             }
-            DrawableCompat.setTint(flashToggle!!.drawable, tintColor)
+            DrawableCompat.setTint(binding.flashToggle.drawable, tintColor)
         }
     }
 
@@ -161,12 +169,12 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
         } else
             DocumentDetector(requireContext())
 
-        val graphic = DocumentGraphic(graphicOverlay, null)
+        val graphic = DocumentGraphic(binding.graphicOverlay, null)
         if (documentBorderColor != -1) graphic.setBorderColor(documentBorderColor)
         if (documentBodyColor != -1) graphic.setFillColor(documentBodyColor)
         val processor = DocumentProcessor(
             detectorID,
-            DocumentTracker(graphicOverlay as GraphicOverlay<DocumentGraphic>, graphic, this)
+            DocumentTracker(binding.graphicOverlay as GraphicOverlay<DocumentGraphic>, graphic, this)
         )
         detectorID!!.setProcessor(processor)
 
@@ -190,7 +198,7 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
 
     override fun onPause() {
         super.onPause()
-        cameraSourcePreview.stop()
+        binding.cameraSourcePreview.stop()
     }
 
     /**
@@ -199,8 +207,8 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
      */
     override fun onDestroy() {
         super.onDestroy()
-        cameraSourcePreview?.release()
-        sound?.release()
+        binding.cameraSourcePreview.release()
+        sound.release()
     }
 
     /**
@@ -212,7 +220,7 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
     private fun startCameraSource() {
         if (cameraSource != null) {
             try {
-                cameraSourcePreview.start(cameraSource, graphicOverlay)
+                binding.cameraSourcePreview.start(cameraSource, binding.graphicOverlay)
             } catch (e: Exception) {
                 Timber.e(e, "Unable to start camera source.")
                 Toast.makeText(requireActivity(), e.message, Toast.LENGTH_LONG).show()
@@ -245,7 +253,7 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
 
     private fun detectDocumentManually(data: ByteArray) {
         Timber.d("detecting document manually")
-        Thread(Runnable {
+        Thread {
             BitmapFactory.decodeByteArray(data, 0, data.size)?.let {
                 val docs = detectorID!!.detect(
                     Frame.Builder()
@@ -261,12 +269,12 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
                     requireActivity().finish()
                 }
             }
-        }).start()
+        }.start()
     }
 
     fun takePicture() {
         if (cameraSource != null) {
-            cameraSource!!.takePicture({ sound!!.play(MediaActionSound.SHUTTER_CLICK) }) { data ->
+            cameraSource!!.takePicture({ sound.play(MediaActionSound.SHUTTER_CLICK) }) { data ->
                 detectDocumentManually(
                     data
                 )
