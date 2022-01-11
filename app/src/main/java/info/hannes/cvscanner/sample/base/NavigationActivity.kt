@@ -112,7 +112,7 @@ abstract class NavigationActivity : AppCompatActivity(), NavigationView.OnNaviga
         }
     }
 
-    fun showSnackbar(text: String) {
+    private fun showSnackbar(text: String) {
         val viewPos = findViewById<View>(android.R.id.content)
         val snackbar = Snackbar.make(viewPos, text, Snackbar.LENGTH_LONG)
         val view = snackbar.view
