@@ -24,7 +24,7 @@ jobs:
           distribution: 'adopt'
           java-version: ${{ matrix.java_version }}
       - name: Install Android SDK
-        uses: malinskiy/action-android/install-sdk@release/0.1.4
+        uses: hannesa2/action-android/install-sdk@0.1.4.10
       - name: Decrypt keystore
         run: ./signing/decrypt.sh
         env:
@@ -54,6 +54,11 @@ jobs:
         os: [ macOS-latest ] # macos-11
         abi: [ x86_64 ]
         api: [ 28 ]
+        include:
+          - os: ARM64
+            abi: arm64-v8a
+            api: 31
+            java_version: 11
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -63,7 +68,7 @@ jobs:
           distribution: 'adopt'
           java-version: ${{ matrix.java_version }}
       - name: Install Android SDK
-        uses: malinskiy/action-android/install-sdk@release/0.1.4
+        uses: hannesa2/action-android/install-sdk@0.1.4.10
       - name: Debug keystore
         run: keytool -genkey -v -keystore app/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "C=US, O=Android, CN=Android Debug"
       - name: Decrypt keystore
@@ -71,7 +76,7 @@ jobs:
         env:
           CRYPT_PASS: ${{ secrets.CRYPT_PASS }}
       - name: Run instrumentation tests
-        uses: malinskiy/action-android/emulator-run-cmd@release/0.1.4
+        uses: hannesa2/action-android/emulator-run-cmd@0.1.4.10
         with:
           cmd: ./gradlew cAT --continue
           api: ${{ matrix.api }}
