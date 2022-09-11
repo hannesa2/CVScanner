@@ -25,8 +25,14 @@ jobs:
           java-version: ${{ matrix.java_version }}
       - name: Install Android SDK
         uses: malinskiy/action-android/install-sdk@release/0.1.4
+      - name: Decrypt keystore
+        run: ./signing/decrypt.sh
+        env:
+          CRYPT_PASS: ${{ secrets.CRYPT_PASS }}
+      - name: Debug keystore
+        run: keytool -genkey -v -keystore app/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "C=US, O=Android, CN=Android Debug"
       - name: Build project
-        run: ./gradlew assemble
+        run: ./gradlew assembleDebug
       - name: Run tests
         run: ./gradlew test
       - name: Checks
@@ -36,6 +42,8 @@ jobs:
         with:
           name: Lint-report
           path: app/build/reports/lint-results.html
+      - name: cleanup keystore
+        run: ./signing/cleanup.sh
   Espresso:
     name: Espresso ${{ matrix.os }} ${{ matrix.abi }} ${{ matrix.api }}
     runs-on: ${{ matrix.os }}
@@ -56,6 +64,12 @@ jobs:
           java-version: ${{ matrix.java_version }}
       - name: Install Android SDK
         uses: malinskiy/action-android/install-sdk@release/0.1.4
+      - name: Debug keystore
+        run: keytool -genkey -v -keystore app/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "C=US, O=Android, CN=Android Debug"
+      - name: Decrypt keystore
+        run: ./signing/decrypt.sh
+        env:
+          CRYPT_PASS: ${{ secrets.CRYPT_PASS }}
       - name: Run instrumentation tests
         uses: malinskiy/action-android/emulator-run-cmd@release/0.1.4
         with:
@@ -76,3 +90,5 @@ jobs:
         with:
           name: Screenshots-CVScanner
           path: screenshots/adb
+      - name: cleanup keystore
+        run: ./signing/cleanup.sh

@@ -1,3 +1,7 @@
+import org.gradle.internal.logging.text.StyledTextOutputFactory
+
+import static org.gradle.internal.logging.text.StyledTextOutput.Style
+
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
@@ -14,16 +18,60 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        def out = services.get(StyledTextOutputFactory).create("")
+        if (System.env.USER == "hannes") {
+            release {
+                def keystore = "${project.gradle.gradleUserHomeDir}/../.android/debug.keystore"
+                out.style(Style.Normal).text("I run with user hannes using ")
+                        .style(Style.SuccessHeader).println(keystore)
+                storePassword "android"
+                keyPassword "android"
+                keyAlias "androiddebugkey"
+                storeFile file(keystore)
+            }
+        } else if (System.getenv("TRAVIS")) {
+            release {
+                out.style(Style.Normal).text("I run on TRAVIS")
+                storeFile file('../signing/release.keystore')
+                storePassword System.getenv("KEYSTORE_PASS")
+                keyAlias System.getenv("ALIAS_NAME")
+                keyPassword System.getenv("ALIAS_PASS")
+            }
+        } else {
+            release {
+                out.style(Style.Normal).text("I run on Github actions")
+                storeFile file('../signing/release.keystore')
+                storePassword System.getenv("KEYSTORE_PASS")
+                keyAlias System.getenv("ALIAS_NAME")
+                keyPassword System.getenv("ALIAS_PASS")
+            }
+        }
+        debugCI {
+            storeFile file('./debug.keystore')
+            storePassword "android"
+            keyPassword "android"
+            keyAlias "androiddebugkey"
+        }
+    }
+
     buildTypes {
         release {
+            if (!System.getenv("JITPACK")) {
+                signingConfig signingConfigs.release
+            }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
         debug {
+            if (System.getenv("CI") == "true") { // Github action
+                signingConfig signingConfigs.debugCI
+            }
             applicationIdSuffix ".debug"
             versionNameSuffix ".debug"
         }
     }
+
 }
 
 dependencies {
