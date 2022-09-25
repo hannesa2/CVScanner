@@ -71,6 +71,7 @@ android {
             versionNameSuffix ".debug"
         }
     }
+    namespace 'info.hannes.cvscanner.sample'
 
 }
 
