@@ -52,7 +52,7 @@ jobs:
       matrix:
         java_version: [ 11 ]
         os: [ macOS-latest ] # macos-11
-        abi: [ x86 ]
+        abi: [ x86_64 ]
         api: [ 28 ]
     steps:
       - name: Checkout
@@ -75,7 +75,7 @@ jobs:
         with:
           cmd: ./gradlew cAT --continue
           api: ${{ matrix.api }}
-          tag: default
+          tag: 'default'
           abi: ${{ matrix.abi }}
           cmdOptions: -noaudio -no-boot-anim -no-window
       - name: Archive Espresso results
