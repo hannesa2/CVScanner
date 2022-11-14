@@ -40,7 +40,7 @@ class InfoTest {
             withRecyclerView(R.id.recycler_view)
                 .atPositionOnView(3, android.R.id.summary)
         )
-            .check(matches(withText("x86")))
+            .check(matches(withText("x86_64")))
         Screenshot.takeScreenshot("End")
     }
 
