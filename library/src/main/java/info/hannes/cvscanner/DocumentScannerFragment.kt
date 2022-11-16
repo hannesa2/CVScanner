@@ -44,7 +44,6 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
-
     override fun onInflate(context: Context, attrs: AttributeSet, savedInstanceState: Bundle?) {
         super.onInflate(context, attrs, savedInstanceState)
         val array = context.obtainStyledAttributes(attrs, R.styleable.DocumentScannerFragment)
@@ -96,6 +95,7 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
 
     override fun onDestroyView() {
         super.onDestroyView()
+        sound.release()
         _binding = null
     }
 
@@ -199,16 +199,6 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
     override fun onPause() {
         super.onPause()
         binding.cameraSourcePreview.stop()
-    }
-
-    /**
-     * Releases the resources associated with the camera source, the associated detectors, and the
-     * rest of the processing pipeline.
-     */
-    override fun onDestroy() {
-        super.onDestroy()
-        binding.cameraSourcePreview.release()
-        sound.release()
     }
 
     /**
