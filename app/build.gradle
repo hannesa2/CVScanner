@@ -83,7 +83,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.preference:preference-ktx:1.2.0'
-    implementation 'com.github.AppDevNext.Logcat:LogcatCoreLib:2.11.3'
+    implementation 'com.github.AppDevNext.Logcat:LogcatCoreLib:2.12'
 
     implementation project(':library')
     implementation 'androidx.core:core-ktx:1.9.0'
