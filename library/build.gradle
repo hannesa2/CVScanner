@@ -37,7 +37,7 @@ android {
 }
 
 dependencies {
-    api "OpenCV_all_together_samples:opencv:4.6.0.0"
+    api "OpenCV_all_together_samples:opencv:4.7.0-48-g2f524bb"
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     implementation 'androidx.exifinterface:exifinterface:1.3.5'
