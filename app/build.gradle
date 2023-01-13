@@ -88,7 +88,7 @@ dependencies {
     implementation project(':library')
     implementation 'androidx.core:core-ktx:1.9.0'
 
-    androidTestImplementation "androidx.test.ext:junit-ktx:1.1.4"
+    androidTestImplementation "androidx.test.ext:junit-ktx:1.1.5"
     androidTestUtil "androidx.test.services:test-services:1.4.2"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.0"
 
