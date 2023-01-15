@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -20,7 +21,6 @@ import com.google.android.material.snackbar.Snackbar
 import info.hannes.cvscanner.CVScanner
 import info.hannes.cvscanner.sample.ImageFragment
 import info.hannes.cvscanner.sample.R
-import kotlinx.android.synthetic.main.activity_main.*
 import org.opencv.android.OpenCVLoader
 import timber.log.Timber
 
@@ -31,6 +31,7 @@ abstract class NavigationActivity : AppCompatActivity(), NavigationView.OnNaviga
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
         val toggle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)

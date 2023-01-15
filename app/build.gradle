@@ -5,7 +5,6 @@ import static org.gradle.internal.logging.text.StyledTextOutput.Style
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
 }
 
 android {
@@ -17,6 +16,10 @@ android {
         targetSdkVersion 33
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments useTestStorageService: 'true'
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 
     signingConfigs {
