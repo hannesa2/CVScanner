@@ -89,7 +89,7 @@ dependencies {
     implementation 'com.github.AppDevNext.Logcat:LogcatCoreLib:2.12'
 
     implementation project(':library')
-    implementation 'androidx.core:core-ktx:1.10.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
 
     androidTestImplementation "androidx.test.ext:junit-ktx:1.1.5"
     androidTestUtil "androidx.test.services:test-services:1.4.2"
