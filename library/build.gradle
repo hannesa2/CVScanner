@@ -57,10 +57,10 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
 }
 
-project.afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
+publishing {
+    publications {
+        release(MavenPublication) {
+            afterEvaluate {
                 from components.release
             }
         }
