@@ -5,11 +5,10 @@ plugins {
 }
 
 android {
-    compileSdkVersion 33
-
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 33
+        compileSdk 34
+        targetSdkVersion 34
         renderscriptTargetApi 24
         multiDexEnabled true
     }
