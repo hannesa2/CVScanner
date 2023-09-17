@@ -173,7 +173,7 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
         if (documentBorderColor != -1) graphic.setBorderColor(documentBorderColor)
         if (documentBodyColor != -1) graphic.setFillColor(documentBodyColor)
         val processor = DocumentProcessor(
-            detectorID,
+            detectorID!!,
             DocumentTracker(binding.graphicOverlay as GraphicOverlay<DocumentGraphic>, graphic, this)
         )
         detectorID!!.setProcessor(processor)
