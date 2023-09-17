@@ -6,7 +6,7 @@ import com.google.android.gms.vision.Detector.Detections
 import com.google.android.gms.vision.FocusingProcessor
 import com.google.android.gms.vision.Tracker
 
-class DocumentProcessor(detector: Detector<Document>?, tracker: Tracker<Document>?) : FocusingProcessor<Document>(detector, tracker) {
+class DocumentProcessor(detector: Detector<Document>, tracker: Tracker<Document>) : FocusingProcessor<Document>(detector, tracker) {
 
     override fun selectFocus(detections: Detections<Document>): Int {
         var detectedItems: SparseArray<Document>
