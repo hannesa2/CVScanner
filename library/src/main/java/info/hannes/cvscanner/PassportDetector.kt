@@ -26,6 +26,12 @@ import java.io.IOException
 class PassportDetector(sizeProvider: FrameSizeProvider, context: Context) : Detector<Document>() {
     private val mHapticFeedback: Vibrator
     private val frameSizeProvider: FrameSizeProvider?
+
+    init {
+        frameSizeProvider = sizeProvider
+        mHapticFeedback = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    }
+
     override fun detect(frame: Frame): SparseArray<Document> {
         val detections = SparseArray<Document>()
         val doc = detectDocument(frame)
@@ -99,8 +105,4 @@ class PassportDetector(sizeProvider: FrameSizeProvider, context: Context) : Dete
         return point
     }
 
-    init {
-        frameSizeProvider = sizeProvider
-        mHapticFeedback = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-    }
 }
