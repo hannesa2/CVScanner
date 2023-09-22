@@ -41,19 +41,21 @@ jobs:
       - name: cleanup keystore
         run: ./signing/cleanup.sh
   Espresso:
-    name: Espresso ${{ matrix.os }} ${{ matrix.abi }} ${{ matrix.api }}
+    name: Espresso ${{ matrix.os }} ${{ matrix.abi }} ${{ matrix.api }} ${{ matrix.tag }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         java_version: [ 17 ]
-        os: [ macOS-latest ] # macos-11
+        os: [ macOS-latest ]
         abi: [ x86_64 ]
         api: [ 28 ]
+        tag: [ 'default' ]
         include:
           - os: ARM64
             abi: arm64-v8a
-            api: 31
+            api: 34
+            tag: 'google_apis'
             java_version: 17
     steps:
       - name: Checkout
@@ -76,7 +78,7 @@ jobs:
         with:
           cmd: ./gradlew cAT --continue
           api: ${{ matrix.api }}
-          tag: 'default'
+          tag: ${{ matrix.tag }}
           abi: ${{ matrix.abi }}
           cmdOptions: -noaudio -no-boot-anim -no-window
       - name: Archive Espresso results
