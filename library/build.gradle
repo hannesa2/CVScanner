@@ -46,7 +46,7 @@ dependencies {
     implementation 'androidx.exifinterface:exifinterface:1.3.6'
     implementation 'com.google.android.gms:play-services-basement:18.2.0'
     implementation 'com.google.android.gms:play-services-vision:20.1.3'
-    api 'com.github.hannesa2:AndroidVisionPipeline:1.3'
+    api 'com.github.hannesa2:AndroidVisionPipeline:1.4-beta1'
 
     implementation "androidx.core:core-ktx:1.10.1"
     implementation "androidx.collection:collection-ktx:1.2.0"
