@@ -9,20 +9,17 @@ jobs:
   build:
     name: Publish aar
     runs-on: macOS-latest
-    strategy:
-      matrix:
-        java_version: [ 17 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Install JDK ${{ matrix.java_version }}
+      - name: Install JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
-          java-version: ${{ matrix.java_version }}
+          java-version: 17
       - name: Install Android SDK
         uses: hannesa2/action-android/install-sdk@0.1.4.10
       - name: Decrypt keystore
