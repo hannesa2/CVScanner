@@ -53,7 +53,7 @@ jobs:
         include:
           - os: ARM64
             abi: arm64-v8a
-            api: 31
+            api: 34
             java_version: 17
     steps:
       - name: Checkout
