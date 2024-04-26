@@ -47,15 +47,15 @@ jobs:
       fail-fast: false
       matrix:
         java_version: [ 17 ]
-        os: [ macOS-latest ]
-        abi: [ x86_64 ]
-        api: [ 28 ]
-        tag: [ 'default' ]
+        os: [ ARM64 ]
+        abi: [ arm64-v8a ]
+        api: [ 34 ]
+        tag: [ 'google_apis' ]
         include:
-          - os: ARM64
-            abi: arm64-v8a
-            api: 34
-            tag: 'google_apis'
+          - os: macOS-latest
+            abi: x86_64
+            api: 28
+            tag: 'default'
             java_version: 17
     steps:
       - name: Checkout
