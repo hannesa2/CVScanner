@@ -2,7 +2,7 @@ name: Update Gradle Wrapper
 
 on:
   schedule:
-    - cron: "20 8 * * FRI"
+    - cron: "10 8-13 * * MON-FRI"  # Every 10 mins from 8:30AM to 1:30PM weekdays
 
 jobs:
   update-gradle-wrapper:
