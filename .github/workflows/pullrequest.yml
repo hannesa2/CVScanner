@@ -8,8 +8,13 @@ on:
 
 jobs:
   build:
-    name: Build JDK ${{ matrix.java_version }}
-    runs-on: macOS-latest
+    name: Build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ macOS-14 ]
+        java_version: [ 17 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -18,7 +23,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'adopt'
-          java-version: 17
+          java-version: ${{ matrix.java_version }}
       - name: Install Android SDK
         uses: hannesa2/action-android/install-sdk@0.1.16.7
       - name: Decrypt keystore
@@ -41,16 +46,16 @@ jobs:
       - name: cleanup keystore
         run: ./signing/cleanup.sh
   Espresso:
-    name: Espresso ${{ matrix.os }} ${{ matrix.abi }} ${{ matrix.api }} ${{ matrix.tag }}
+    name: Espresso
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        java_version: [ 17 ]
         os: [ ARM64 ]
         abi: [ arm64-v8a ]
         api: [ 34 ]
         tag: [ 'google_apis' ]
+        java_version: [ 17 ]
 #        include:
 #          - os: macOS-latest
 #            abi: x86_64
