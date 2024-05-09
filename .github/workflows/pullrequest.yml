@@ -20,7 +20,7 @@ jobs:
           distribution: 'adopt'
           java-version: 17
       - name: Install Android SDK
-        uses: hannesa2/action-android/install-sdk@0.1.16.5
+        uses: hannesa2/action-android/install-sdk@0.1.16.7
       - name: Decrypt keystore
         run: ./signing/decrypt.sh
         env:
@@ -66,7 +66,7 @@ jobs:
           distribution: 'adopt'
           java-version: ${{ matrix.java_version }}
       - name: Install Android SDK
-        uses: hannesa2/action-android/install-sdk@0.1.16.5
+        uses: hannesa2/action-android/install-sdk@0.1.16.7
       - name: Debug keystore
         run: keytool -genkey -v -keystore app/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "C=US, O=Android, CN=Android Debug"
       - name: Decrypt keystore
@@ -74,7 +74,7 @@ jobs:
         env:
           CRYPT_PASS: ${{ secrets.CRYPT_PASS }}
       - name: Run instrumentation tests
-        uses: hannesa2/action-android/emulator-run-cmd@0.1.16.5
+        uses: hannesa2/action-android/emulator-run-cmd@0.1.16.7
         with:
           cmd: ./gradlew cAT --continue
           api: ${{ matrix.api }}
