@@ -52,7 +52,7 @@ dependencies {
     implementation "androidx.collection:collection-ktx:1.4.0"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.8.2"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.8.3"
 
     testImplementation 'junit:junit:4.13.2'
 }
