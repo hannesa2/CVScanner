@@ -105,5 +105,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.1'
     // RecyclerViewActions.actionOnItem
     androidTestImplementation "androidx.test:rules:1.6.1" //    GrantPermissionRule
-    androidTestImplementation "androidx.test.espresso:espresso-intents:3.5.1"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:3.6.1"
 }
