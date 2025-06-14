@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 import org.opencv.core.Point;
@@ -81,6 +80,7 @@ public class ImageCropperFragment extends BaseCVFragment implements CropImageVie
         if (context instanceof ImageLoadingCallback) {
             mImageLoadingCallback = (ImageLoadingCallback) context;
         }
+        startCropping();
     }
 
     @Nullable
@@ -122,19 +122,6 @@ public class ImageCropperFragment extends BaseCVFragment implements CropImageVie
 
         DrawableCompat.setTint(saveBtnDrawable, buttonTintColor);
         mSave.setImageDrawable(saveBtnDrawable);
-    }
-
-    @Override
-    protected void onOpenCVConnected() {
-        startCropping();
-    }
-
-    @Override
-    protected void onOpenCVConnectionFailed() {
-        Toast.makeText(getContext(), "OpenCV failed to load", Toast.LENGTH_SHORT).show();
-        if (getImageProcessorCallback() != null)
-            getImageProcessorCallback().onImageProcessingFailed("OpenCV failed to load", null);
-        else requireActivity().finish();
     }
 
     @Override
