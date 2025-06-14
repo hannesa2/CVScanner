@@ -13,9 +13,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.opencv.android.BaseLoaderCallback
-import org.opencv.android.LoaderCallbackInterface
-import org.opencv.android.OpenCVLoader
 import org.opencv.android.Utils
 import org.opencv.core.CvType
 import org.opencv.core.Mat
@@ -30,39 +27,18 @@ abstract class BaseCVFragment : Fragment(), SaveCallback {
 
     protected open var isBusy = false
     protected var imageProcessorCallback: ImageProcessorCallback? = null
-    private var loaderCallback: BaseLoaderCallback? = null
 
     // any coroutines launched inside this scope will run on the main thread unless stated otherwise
     private val uiScope = CoroutineScope(Dispatchers.Main)
 
-    private fun loadOpenCV() {
-        if (!OpenCVLoader.initDebug()) {
-            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION, requireActivity().applicationContext, loaderCallback)
-        } else {
-            loaderCallback!!.onManagerConnected(LoaderCallbackInterface.SUCCESS)
-        }
-    }
-
-    protected abstract fun onOpenCVConnected()
-    protected abstract fun onOpenCVConnectionFailed()
     protected abstract fun onAfterViewCreated()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onAfterViewCreated()
-        loadOpenCV()
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        loaderCallback = object : BaseLoaderCallback(context) {
-            override fun onManagerConnected(status: Int) {
-                if (status == LoaderCallbackInterface.SUCCESS) {
-                    onOpenCVConnected()
-                } else {
-                    onOpenCVConnectionFailed()
-                }
-            }
-        }
         if (context is ImageProcessorCallback) {
             imageProcessorCallback = context
         }
@@ -133,4 +109,9 @@ abstract class BaseCVFragment : Fragment(), SaveCallback {
         return imagePath
     }
 
+    companion object {
+        init {
+            System.loadLibrary("opencv_java4")
+        }
+    }
 }

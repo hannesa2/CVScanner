@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import org.opencv.android.OpenCVLoader
 
 class SystemInfoFragment : PreferenceFragmentCompat() {
 
@@ -25,7 +26,7 @@ class SystemInfoFragment : PreferenceFragmentCompat() {
         findPreference<Preference?>(PREFERENCE_ + "CPU_ABI")?.summary = Build.SUPPORTED_ABIS[0]
         findPreference<Preference?>(PREFERENCE_ + "DISPLAY")?.summary = Build.DISPLAY
         findPreference<Preference?>(PREFERENCE_ + "USER")?.summary = Build.USER
-        findPreference<Preference?>(PREFERENCE_ + "OpenCV_Version")?.summary = org.opencv.BuildConfig.VERSION_NAME
+        findPreference<Preference?>(PREFERENCE_ + "OpenCV_Version")?.summary = OpenCVLoader.OPENCV_VERSION
     }
 
     companion object {

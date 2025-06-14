@@ -132,6 +132,9 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
                 updateFlashButtonColor()
             }
         }
+
+        createCameraSource()
+        startCameraSource()
     }
 
     private fun updateFlashButtonColor() {
@@ -142,15 +145,6 @@ class DocumentScannerFragment : BaseCVFragment(), View.OnTouchListener, Document
             }
             DrawableCompat.setTint(binding.flashToggle.drawable, tintColor)
         }
-    }
-
-    override fun onOpenCVConnected() {
-        createCameraSource()
-        startCameraSource()
-    }
-
-    override fun onOpenCVConnectionFailed() {
-        imageProcessorCallback?.onImageProcessingFailed("Could not load OpenCV", null)
     }
 
     /**
