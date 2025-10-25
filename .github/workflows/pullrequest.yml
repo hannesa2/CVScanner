@@ -39,7 +39,7 @@ jobs:
       - name: Checks
         run: ./gradlew check
       - name: Archive Lint report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: Lint-report
           path: app/build/reports/lint-results.html
@@ -94,12 +94,12 @@ jobs:
           abi: ${{ matrix.abi }}
           cmdOptions: -noaudio -no-boot-anim -no-window -metrics-to-console
       - name: Archive Espresso results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: Espresso-report
           path: app/build/reports/androidTests/connected
       - name: Archive screenshots
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: Screenshots-CVScanner
           path: |
